@@ -7,8 +7,22 @@
     </url>
     
     <url>
+        <loc>http://yydcdut.github.io//404.html</loc>
+        <lastmod>2016-02-27T09:08:17.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://yydcdut.github.io/about/index.html</loc>
+        <lastmod>2016-02-27T09:02:31.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
         <loc>http://yydcdut.github.io/tags/index.html</loc>
-        <lastmod>2016-02-21T16:40:28.000Z</lastmod>
+        <lastmod>2016-02-27T08:50:36.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
