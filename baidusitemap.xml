@@ -4,7 +4,7 @@
     
   <url>
     <loc>http://yydcdut.github.io/2016/02/28/listview-optimize/</loc>
-    <lastmod>2016-02-28T06:00:05.000Z</lastmod>
+    <lastmod>2016-02-28T06:00:09.000Z</lastmod>
     <data>
         <display>
         <title>ListView优化总结</title>
@@ -26,24 +26,4 @@
     
     
     
-    
-  <url>
-    <loc>http://yydcdut.github.io/2016/02/22/hello-world/</loc>
-    <lastmod>2016-02-21T16:38:43.000Z</lastmod>
-    <data>
-        <display>
-        <title>Hello World</title>
-        <pubTime>2016-02-21T16:38:43.000Z</pubTime>
-        
-        <tag>Android </tag>
-         
-         
-           
-             
-              <breadCrumb title="Android" url="http://yydcdut.github.io/categories/Android/"/>
-          
-        </display>
-    </data>
-    </url>
-
 </urlset>
