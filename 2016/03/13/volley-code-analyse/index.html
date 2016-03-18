@@ -11,13 +11,13 @@
 <meta property="og:url" content="http://yydcdut.com/2016/03/13/volley-code-analyse/index.html">
 <meta property="og:site_name" content="Android杂文 - yydcdut">
 <meta property="og:description" content="在2013年 Google I/O 大会上推出了一个网络通信框架 —— Volley ，基于 Android 系统中主要提供了两种方式来进行 HTTP 通信，HttpURLConnection 和 HttpClient (Android M 之后已经删除了 HttpClient )。">
-<meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/yydcdut/799243/o_volley_framework_flow.jpg">
-<meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/yydcdut/799243/o_volley_requestqueue.jpg">
-<meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/yydcdut/799243/o_volley_networkdispacher_flow.jpg">
-<meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/yydcdut/799243/o_volley_cacheddispatcher_flow.jpg">
-<meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/yydcdut/799243/o_volley_delivery_flow.jpg">
-<meta property="og:image" content="http://images.cnblogs.com/cnblogs_com/yydcdut/799243/o_volley_requestqueue_add.jpg">
-<meta property="og:updated_time" content="2016-03-13T15:36:12.000Z">
+<meta property="og:image" content="http://7xs03u.com1.z0.glb.clouddn.com/o_volley_framework_flow.jpg">
+<meta property="og:image" content="http://7xs03u.com1.z0.glb.clouddn.com/volley_requestqueue.jpg">
+<meta property="og:image" content="http://7xs03u.com1.z0.glb.clouddn.com/volley_networkdispacher_flow.jpg">
+<meta property="og:image" content="http://7xs03u.com1.z0.glb.clouddn.com/volley_cacheddispatcher_flow.jpg">
+<meta property="og:image" content="http://7xs03u.com1.z0.glb.clouddn.com/volley_delivery_flow.jpg">
+<meta property="og:image" content="http://7xs03u.com1.z0.glb.clouddn.com/volley_requestqueue_add.jpg">
+<meta property="og:updated_time" content="2016-03-18T03:05:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Volley源码解析">
 <meta name="twitter:description" content="在2013年 Google I/O 大会上推出了一个网络通信框架 —— Volley ，基于 Android 系统中主要提供了两种方式来进行 HTTP 通信，HttpURLConnection 和 HttpClient (Android M 之后已经删除了 HttpClient )。">
@@ -372,12 +372,12 @@
 <p>这里就解决了上面那个问题，是因为目前已经有相同 cacheKey 的 <code>Request</code> 在 dispatcher 了，所以加到了等待列表中。</p>
 <p><a href="./#RequestQueue-add-request">查看 RequestQueue.add(request) 流程图</a></p>
 <p>至此，<code>Volley</code> 的解析就结束了。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="总体框架流程图"><a href="#总体框架流程图" class="headerlink" title="总体框架流程图"></a>总体框架流程图</h3><p><img src="http://images.cnblogs.com/cnblogs_com/yydcdut/799243/o_volley_framework_flow.jpg" alt="总体框架流程图"></p>
-<h3 id="Volley-newRequestQueue-context"><a href="#Volley-newRequestQueue-context" class="headerlink" title="Volley.newRequestQueue(context)"></a>Volley.newRequestQueue(context)</h3><p><img src="http://images.cnblogs.com/cnblogs_com/yydcdut/799243/o_volley_requestqueue.jpg" alt="Volley.newRequestQueue(context)"></p>
-<h3 id="NetworkDispatcher流程图"><a href="#NetworkDispatcher流程图" class="headerlink" title="NetworkDispatcher流程图"></a>NetworkDispatcher流程图</h3><p><img src="http://images.cnblogs.com/cnblogs_com/yydcdut/799243/o_volley_networkdispacher_flow.jpg" alt="NetworkDispatcher"></p>
-<h3 id="CacheDispatcher流程图"><a href="#CacheDispatcher流程图" class="headerlink" title="CacheDispatcher流程图"></a>CacheDispatcher流程图</h3><p><img src="http://images.cnblogs.com/cnblogs_com/yydcdut/799243/o_volley_cacheddispatcher_flow.jpg" alt="CacheDispatcher"></p>
-<h3 id="ResponseDelivery流程图"><a href="#ResponseDelivery流程图" class="headerlink" title="ResponseDelivery流程图"></a>ResponseDelivery流程图</h3><p><img src="http://images.cnblogs.com/cnblogs_com/yydcdut/799243/o_volley_delivery_flow.jpg" alt="ResponseDelivery"></p>
-<h3 id="RequestQueue-add-request"><a href="#RequestQueue-add-request" class="headerlink" title="RequestQueue.add(request)"></a>RequestQueue.add(request)</h3><p><img src="http://images.cnblogs.com/cnblogs_com/yydcdut/799243/o_volley_requestqueue_add.jpg" alt="RequestQueue.add(Request)"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="总体框架流程图"><a href="#总体框架流程图" class="headerlink" title="总体框架流程图"></a>总体框架流程图</h3><p><img src="http://7xs03u.com1.z0.glb.clouddn.com/o_volley_framework_flow.jpg" alt="总体框架流程图"></p>
+<h3 id="Volley-newRequestQueue-context"><a href="#Volley-newRequestQueue-context" class="headerlink" title="Volley.newRequestQueue(context)"></a>Volley.newRequestQueue(context)</h3><p><img src="http://7xs03u.com1.z0.glb.clouddn.com/volley_requestqueue.jpg" alt="Volley.newRequestQueue(context)"></p>
+<h3 id="NetworkDispatcher流程图"><a href="#NetworkDispatcher流程图" class="headerlink" title="NetworkDispatcher流程图"></a>NetworkDispatcher流程图</h3><p><img src="http://7xs03u.com1.z0.glb.clouddn.com/volley_networkdispacher_flow.jpg" alt="NetworkDispatcher"></p>
+<h3 id="CacheDispatcher流程图"><a href="#CacheDispatcher流程图" class="headerlink" title="CacheDispatcher流程图"></a>CacheDispatcher流程图</h3><p><img src="http://7xs03u.com1.z0.glb.clouddn.com/volley_cacheddispatcher_flow.jpg" alt="CacheDispatcher"></p>
+<h3 id="ResponseDelivery流程图"><a href="#ResponseDelivery流程图" class="headerlink" title="ResponseDelivery流程图"></a>ResponseDelivery流程图</h3><p><img src="http://7xs03u.com1.z0.glb.clouddn.com/volley_delivery_flow.jpg" alt="ResponseDelivery"></p>
+<h3 id="RequestQueue-add-request"><a href="#RequestQueue-add-request" class="headerlink" title="RequestQueue.add(request)"></a>RequestQueue.add(request)</h3><p><img src="http://7xs03u.com1.z0.glb.clouddn.com/volley_requestqueue_add.jpg" alt="RequestQueue.add(Request)"></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="http://a.codekk.com/detail/Android/grumoon/Volley%20%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90" target="_blank" rel="external">Volley 源码解析</a></li>
 <li><a href="http://blog.csdn.net/guolin_blog/article/details/17656437" target="_blank" rel="external">Android Volley完全解析(四)，带你从源码的角度理解Volley</a></li>
@@ -395,7 +395,7 @@
         <p><span>本文标题:</span><a href="/2016/03/13/volley-code-analyse/">Volley源码解析</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 yydcdut 的个人博客">yydcdut</a></p>
         <p><span>发布时间:</span>2016年03月13日 - 22时48分</p>
-        <p><span>最后更新:</span>2016年03月13日 - 23时36分</p>
+        <p><span>最后更新:</span>2016年03月18日 - 11时05分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/03/13/volley-code-analyse/" title="Volley源码解析">http://yydcdut.com/2016/03/13/volley-code-analyse/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yydcdut.com/2016/03/13/volley-code-analyse/　　作者: yydcdut" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
