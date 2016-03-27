@@ -23,15 +23,29 @@
     </url>
 
     <url>
-        <loc>http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/</loc>
-        <lastmod>2016-03-18T03:05:25.000Z</lastmod>
+        <loc>http://yydcdut.com/tags/Dex/</loc>
+        <lastmod>2016-03-21T03:08:12.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://yydcdut.com/tags/Dex/</loc>
-        <lastmod>2016-03-21T03:08:12.000Z</lastmod>
+        <loc>http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/</loc>
+        <lastmod>2016-03-27T14:35:28.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/</loc>
+        <lastmod>2016-03-27T14:35:28.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yydcdut.com/tags/ElasticScrollView/</loc>
+        <lastmod>2016-03-27T14:35:28.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

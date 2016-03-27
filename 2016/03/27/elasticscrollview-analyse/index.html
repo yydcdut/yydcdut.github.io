@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ElasticScrollView源码解析 | Android杂文 - yydcdut</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="网上有很多下拉放大 HeaderView 的 ListView 或者 ScrollView ，这里将分析一下下拉放大的 ScrollView –  ElasticScrollView 。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ElasticScrollView源码解析">
+<meta property="og:url" content="http://yydcdut.com/2016/03/27/elasticscrollview-analyse/index.html">
+<meta property="og:site_name" content="Android杂文 - yydcdut">
+<meta property="og:description" content="网上有很多下拉放大 HeaderView 的 ListView 或者 ScrollView ，这里将分析一下下拉放大的 ScrollView –  ElasticScrollView 。">
+<meta property="og:image" content="http://7xs03u.com1.z0.glb.clouddn.com/elasticscrollview_sample.gif">
+<meta property="og:updated_time" content="2016-03-27T14:35:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ElasticScrollView源码解析">
+<meta name="twitter:description" content="网上有很多下拉放大 HeaderView 的 ListView 或者 ScrollView ，这里将分析一下下拉放大的 ScrollView –  ElasticScrollView 。">
+  
+    <link rel="alternative" href="/atom.xml" title="Android杂文 - yydcdut" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css" type="text/css">
+  
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: true
+      }
+  </script>
+  
+      <script>
+          var _hmt = _hmt || [];
+          (function() {
+              var hm = document.createElement("script");
+              hm.src = "//hm.baidu.com/hm.js?ca0d2d2e8c8246e6ac0e8f9cb04e5833";
+              var s = document.getElementsByTagName("script")[0]; 
+              s.parentNode.insertBefore(hm, s);
+          })();
+      </script>
+  
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/avatar.png" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">yydcdut</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">每周一篇好文章</p>
+        
+                
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/me/">关于我</a></li>
+                        
+                            <li><a href="/note/">开源App</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <li id="Email"><a class="Email" target="_blank" href="/yuyidong2015@gmail.com" title="Email"></a></li>
+                            
+                                <li id="新浪微博"><a class="新浪微博" target="_blank" href="http://weibo.com/yydcdut" title="新浪微博"></a></li>
+                            
+                                <li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/yydcdut" title="GitHub"></a></li>
+                            
+                                <li id="StackOverflow"><a class="StackOverflow" target="_blank" href="http://stackoverflow.com/users/4364595/yydcdut" title="StackOverflow"></a></li>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Dex/" style="font-size: 10px;">Dex</a> <a href="/tags/ElasticScrollView/" style="font-size: 10px;">ElasticScrollView</a> <a href="/tags/EventBus/" style="font-size: 10px;">EventBus</a> <a href="/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/tags/Volley/" style="font-size: 10px;">Volley</a> <a href="/tags/源码/" style="font-size: 20px;">源码</a> <a href="/tags/自定义控件/" style="font-size: 10px;">自定义控件</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">关于我</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">yydcdut</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/avatar.png" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">yydcdut</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">每周一篇好文章</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/me/">关于我</a></li>
+                
+                    <li><a href="/note/">开源App</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <li id="Email"><a class="Email" target="_blank" href="/yuyidong2015@gmail.com" title="Email"></a></li>
+                            
+                                <li id="新浪微博"><a class="新浪微博" target="_blank" href="http://weibo.com/yydcdut" title="新浪微博"></a></li>
+                            
+                                <li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/yydcdut" title="GitHub"></a></li>
+                            
+                                <li id="StackOverflow"><a class="StackOverflow" target="_blank" href="http://stackoverflow.com/users/4364595/yydcdut" title="StackOverflow"></a></li>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-elasticscrollview-analyse" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/03/27/elasticscrollview-analyse/" class="article-date">
+      <time datetime="2016-03-27T14:33:59.000Z" itemprop="datePublished">2016-03-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ElasticScrollView源码解析
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ElasticScrollView/">ElasticScrollView</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/源码/">源码</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自定义控件/">自定义控件</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>网上有很多下拉放大 <code>HeaderView</code> 的 <code>ListView</code> 或者 <code>ScrollView</code> ，这里将分析一下下拉放大的 <code>ScrollView</code> –  <strong>ElasticScrollView</strong> 。</p>
+<a id="more"></a>
+<h2 id="ElasticScrollView"><a href="#ElasticScrollView" class="headerlink" title="ElasticScrollView"></a>ElasticScrollView</h2><p><code>ElasticScrollView</code> 是一个比较简洁的下拉放大 <code>HeaderView</code> 的自定义 <code>ScrollView</code> ，先看效果图：</p>
+<p><img src="http://7xs03u.com1.z0.glb.clouddn.com/elasticscrollview_sample.gif" alt="ElasticScrollView"></p>
+<p>展示效果分两种情况，一种是放大 <code>HeaderView</code> ，一种是整体都往下拉，另外还可以发现一个 <code>Damk</code> 的参数，功能是设置阻力，当值越大的时候下拉效果越“吃力”。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>直接在 layout布局中使用便可，该布局便是上面 gif 中展示出来的布局：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">org.kitdroid.widget.ElasticScrollView</span></span><br><span class="line">    <span class="attribute">android:id</span>=<span class="value">"@+id/sv"</span></span><br><span class="line">    <span class="attribute">xmlns:android</span>=<span class="value">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attribute">xmlns:app</span>=<span class="value">"http://schemas.android.com/apk/res-auto"</span></span><br><span class="line">    <span class="attribute">xmlns:tools</span>=<span class="value">"http://schemas.android.com/tools"</span></span><br><span class="line">    <span class="attribute">android:layout_width</span>=<span class="value">"match_parent"</span></span><br><span class="line">    <span class="attribute">android:layout_height</span>=<span class="value">"match_parent"</span></span><br><span class="line">    <span class="attribute">android:background</span>=<span class="value">"@android:color/transparent"</span></span><br><span class="line">    <span class="attribute">app:elasticId</span>=<span class="value">"@+id/iv"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">LinearLayout</span></span><br><span class="line">        <span class="attribute">android:layout_width</span>=<span class="value">"match_parent"</span></span><br><span class="line">        <span class="attribute">android:layout_height</span>=<span class="value">"wrap_content"</span></span><br><span class="line">        <span class="attribute">android:layout_margin</span>=<span class="value">"@dimen/activity_horizontal_margin"</span></span><br><span class="line">        <span class="attribute">android:background</span>=<span class="value">"#ffffff"</span></span><br><span class="line">        <span class="attribute">android:orientation</span>=<span class="value">"vertical"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="title">ImageView</span></span><br><span class="line">            <span class="attribute">android:id</span>=<span class="value">"@+id/iv"</span></span><br><span class="line">            <span class="attribute">android:layout_width</span>=<span class="value">"match_parent"</span></span><br><span class="line">            <span class="attribute">android:layout_height</span>=<span class="value">"300dp"</span></span><br><span class="line">            <span class="attribute">android:scaleType</span>=<span class="value">"centerCrop"</span></span><br><span class="line">            <span class="attribute">android:src</span>=<span class="value">"@drawable/bg_md_0"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="title">TextView</span></span><br><span class="line">            <span class="attribute">android:id</span>=<span class="value">"@+id/text_elastic_type"</span></span><br><span class="line">            <span class="attribute">android:layout_width</span>=<span class="value">"wrap_content"</span></span><br><span class="line">            <span class="attribute">android:layout_height</span>=<span class="value">"wrap_content"</span></span><br><span class="line">            <span class="attribute">android:layout_margin</span>=<span class="value">"@dimen/activity_vertical_margin"</span></span><br><span class="line">            <span class="attribute">android:text</span>=<span class="value">"Elastic Type: ALL"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="title">TextView</span></span><br><span class="line">            <span class="attribute">android:layout_width</span>=<span class="value">"wrap_content"</span></span><br><span class="line">            <span class="attribute">android:layout_height</span>=<span class="value">"wrap_content"</span></span><br><span class="line">            <span class="attribute">android:layout_marginLeft</span>=<span class="value">"@dimen/activity_horizontal_margin"</span></span><br><span class="line">            <span class="attribute">android:text</span>=<span class="value">"Damk"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="title">SeekBar</span></span><br><span class="line">            <span class="attribute">android:id</span>=<span class="value">"@+id/seekBar1"</span></span><br><span class="line">            <span class="attribute">android:layout_width</span>=<span class="value">"match_parent"</span></span><br><span class="line">            <span class="attribute">android:layout_height</span>=<span class="value">"wrap_content"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="title">LinearLayout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">org.kitdroid.widget.ElasticScrollView</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>分析自定义控件，我们先从构造函数入手：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ElasticScrollView</span> <span class="keyword">extends</span> <span class="title">ScrollView</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> elasticId;<span class="comment">//弹性View的Id</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ElasticScrollView</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs);</span><br><span class="line">        readStyleAttributes(context, attrs, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ElasticScrollView</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">        readStyleAttributes(context, attrs, defStyleAttr);</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">  	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">readStyleAttributes</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyle)</span> </span>&#123;</span><br><span class="line">        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.elastic_scroll, <span class="number">0</span>, defStyle);</span><br><span class="line">        elasticId = a.getResourceId(R.styleable.elastic_scroll_elasticId, <span class="number">0</span>);</span><br><span class="line">        a.recycle();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>构造函数中主要将弹性 View 的 id 值从 <code>AttributeSet</code> 中取出，那么取出这个 id 之后应该去找这个 id 在哪个地方被 <code>findViewById()</code> ：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ElasticScrollView</span> <span class="keyword">extends</span> <span class="title">ScrollView</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> View mInnerView;<span class="comment">//ScrollView里面的View(ViewGroup)</span></span><br><span class="line">    <span class="keyword">private</span> View elasticView;<span class="comment">//弹性View</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> originHeight;</span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onFinishInflate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onFinishInflate();</span><br><span class="line">        <span class="keyword">if</span> (getChildCount() == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        mInnerView = getChildAt(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (elasticId != <span class="number">0</span>) &#123;</span><br><span class="line">            View viewById = findViewById(elasticId);</span><br><span class="line">            setElasticView(viewById);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">  	<span class="comment">/**</span><br><span class="line">     * 设置弹性View</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> view</span><br><span class="line">     */</span></span><br><span class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setElasticView</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        refreshOriginHeight(view);</span><br><span class="line">        elasticView = view;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">  	<span class="comment">/**</span><br><span class="line">     * 更新弹性View的高度</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> view</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">refreshOriginHeight</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (elasticView != <span class="keyword">null</span>) &#123;</span><br><span class="line">            android.view.ViewGroup.LayoutParams layoutParams = elasticView.getLayoutParams();</span><br><span class="line">            layoutParams.height = originHeight;</span><br><span class="line">            elasticView.setLayoutParams(layoutParams);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != view) &#123;</span><br><span class="line">            originHeight = view.getLayoutParams().height;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>mInnerView</code> 是 <code>ScrollView</code> 的子 View ，因为 <code>ScrollView</code> 只能有一个子 View，所以这里的 <code>mInnerView</code> 就是 layout 布局中的 <code>LinearLayout</code> 。接下来如果 <code>elasticId</code> 不为0，也就是在 layout 布局中设置了的话，那么就去 <code>findViewById()</code> ，之后将找到的 View 赋值给成员变量 <code>elasticView</code> ，并且得到当前的高度，高度的获取是通过 <code>LayoutParams.height</code> 获取的。</p>
+<p>那么初始化的流程看完了，就看主要关心的手势事件：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ElasticScrollView</span> <span class="keyword">extends</span> <span class="title">ScrollView</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SHAKE_THRESHOLD_VALUE = <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> startY;</span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onInterceptTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> action = ev.getAction();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">switch</span> (action) &#123;</span><br><span class="line">            <span class="keyword">case</span> MotionEvent.ACTION_DOWN: &#123;</span><br><span class="line">                startY = ev.getY();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> MotionEvent.ACTION_MOVE: &#123;</span><br><span class="line">                <span class="keyword">float</span> currentY = ev.getY();</span><br><span class="line">                <span class="keyword">float</span> scrollY = currentY - startY;</span><br><span class="line">                <span class="keyword">return</span> Math.abs(scrollY) &gt; SHAKE_THRESHOLD_VALUE;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onInterceptTouchEvent(ev);</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">  	<span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mInnerView != <span class="keyword">null</span>) &#123;</span><br><span class="line">            computeMove(ev);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onTouchEvent(ev);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>先看 <code>onInterceptTouchEvent()</code> 方法，该方法若是返回 <code>true</code> ，则表明拦截事件，直接进到 <code>onTouchEvent</code> 里面，如果返回 <code>false</code> 的话，继续将事件传递给子 View 。那么在 <code>ACTION_DOWN</code> 的时候记录下当前的 Y 坐标赋值给 <code>startY</code> ，在 <code>ACTION_MOVE</code> 的时候得到当前的 Y 坐标，与 <code>startY</code> 比对判断手势在 Y 轴上是否超过了 <code>SHAKE_THRESHOLD_VALUE</code> 的值，如果超过了则 <code>onInterceptTouchEvent</code> 返回 <code>true</code> ，说明手势应该是在滑动 <code>ScrollView</code> ，如果不是的话说明应该要去操作 <code>ScrollView</code> 中的子 View 事件。再看 <code>onTouchEvent</code> 方法，如果该控件有子 View 的话，进行 <code>computeMove</code> 操作。</p>
+<p>好了，这个 <code>computeMove</code> 便是这个自定义控件的关键了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ElasticScrollView</span> <span class="keyword">extends</span> <span class="title">ScrollView</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Rect normalRect = <span class="keyword">new</span> Rect();</span><br><span class="line">  	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DAMP_COEFFICIENT = <span class="number">2</span>;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">float</span> damk = DAMP_COEFFICIENT;<span class="comment">//阻力</span></span><br><span class="line">  </span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TOP_Y = <span class="number">0</span>;</span><br><span class="line">  	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">computeMove</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> action = event.getAction();</span><br><span class="line">        <span class="keyword">switch</span> (action) &#123;</span><br><span class="line">            <span class="keyword">case</span> MotionEvent.ACTION_UP: &#123;</span><br><span class="line">                doReset();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> MotionEvent.ACTION_MOVE: &#123;</span><br><span class="line">                doMove(event);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doMove</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> deltaY = computeDeltaY(event);<span class="comment">//计算出手势在Y轴上的距离</span></span><br><span class="line">        <span class="keyword">if</span> (!isNeedMove(deltaY)) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        refreshNormalRect();</span><br><span class="line">        <span class="keyword">if</span> (elasticView != <span class="keyword">null</span>) &#123;</span><br><span class="line">            moveElasticView(deltaY);<span class="comment">//移动弹性View</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            moveInnerView(deltaY);<span class="comment">//移动整个子View</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">	<span class="comment">/**</span><br><span class="line">     * 保存正常的布局位置，给InnerView用的</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">refreshNormalRect</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!normalRect.isEmpty()) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        normalRect.set(mInnerView.getLeft(), mInnerView.getTop(), mInnerView.getRight(), mInnerView.getBottom());</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">	<span class="comment">/**</span><br><span class="line">     * 计算Y轴上面的差值</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> event</span><br><span class="line">     * <span class="doctag">@return</span> deltaY &lt; 0 ScrollView往上滑动，deltaY &gt; 0 ScrollView往下滑动</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">computeDeltaY</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">float</span> currentY = event.getY();</span><br><span class="line">        <span class="keyword">int</span> deltaY = (<span class="keyword">int</span>) ((startY - currentY) / damk);<span class="comment">//计算出差值，真正的差值除以阻力</span></span><br><span class="line">        startY = currentY;</span><br><span class="line">        <span class="keyword">return</span> deltaY;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 是否需要移动布局</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> deltaY deltaY &lt; 0 ScrollView往上滑动，deltaY &gt; 0 ScrollView往下滑动</span><br><span class="line">     * <span class="doctag">@return</span> </span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isNeedMove</span><span class="params">(<span class="keyword">int</span> deltaY)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> deltaY == <span class="number">0</span> ? <span class="keyword">false</span> : (deltaY &lt; <span class="number">0</span> ? isTop() : isBottom());</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">	<span class="comment">/**</span><br><span class="line">     * 通过getScrollY()来判断是否到顶部了</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@return</span> true 到顶部了</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isTop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> scrollY = getScrollY();</span><br><span class="line">        <span class="keyword">return</span> (scrollY == TOP_Y);</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">	<span class="comment">/**</span><br><span class="line">     * 判断是否在底部了</span><br><span class="line">     * 当innerView有marginBottom的时候这个永远返回false，因为mInnerView.getMeasuredHeight() + marginBottom == getHeight()</span><br><span class="line">     * 但是当没有的时候在滑动到最下面的时候再往下滑，弹性View会改变</span><br><span class="line">     * 当ScrollView的内容没有充满整个屏幕的时候，这个很好看，但是充满了，尤其是弹性View已经看不见了，个人觉得也就没有必要再做这个操作了</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@return</span></span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isBottom</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> offset = mInnerView.getMeasuredHeight() - getHeight();</span><br><span class="line">        offset = (offset &lt; <span class="number">0</span>) ? <span class="number">0</span> : offset;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> scrollY = getScrollY();</span><br><span class="line">        <span class="keyword">return</span> (scrollY == offset);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>doMove</code> 方法中分了情况，一种是有弹性 View 的时候去改变弹性 View，一种是没有设置弹性 View 的时候去改变 InnerView ，那么我们分开来看：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ElasticScrollView</span> <span class="keyword">extends</span> <span class="title">ScrollView</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 移动弹性View，就是改变弹性View的高度</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> deltaY deltaY &lt; 0 ScrollView往上滑动，deltaY &gt; 0 ScrollView往下滑动</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">moveElasticView</span><span class="params">(<span class="keyword">int</span> deltaY)</span> </span>&#123;</span><br><span class="line">        android.view.ViewGroup.LayoutParams layoutParams = elasticView.getLayoutParams();</span><br><span class="line">        layoutParams.height = Math.max(<span class="number">0</span>, layoutParams.height - deltaY);</span><br><span class="line">        elasticView.setLayoutParams(layoutParams);</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过修改 <code>elasticView</code> 的高度，使之变大变小。当 <code>ScrollView</code> 往上滑动，也就是 <code>deltaY</code> 为负值的时候，<code>height</code> 会越来越大，当 <code>ScrollView</code> 往下滑动，也就是 <code>deltaY</code> 为正值的时候，<code>height</code> 会越来越小，最小的时候为 0 。</p>
+<p><strong>注意：demo 里面的 <code>elasticView</code> 是一个 <code>ImageView</code> ，而这个 <code>ImageView</code> 的 <code>scaleType</code> 为 <code>centerCrop</code> 。</strong></p>
+<p>现在来看看滑动 <code>InnerView</code> 的情况：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ElasticScrollView</span> <span class="keyword">extends</span> <span class="title">ScrollView</span> </span>&#123;</span><br><span class="line">	<span class="comment">/**</span><br><span class="line">     * 移动ScrollView中的View(ViewGroup)</span><br><span class="line">     * 就是改变位置</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> deltaY</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">moveInnerView</span><span class="params">(<span class="keyword">int</span> deltaY)</span> </span>&#123;</span><br><span class="line">        mInnerView.layout(mInnerView.getLeft(), mInnerView.getTop() - deltaY, mInnerView.getRight(), mInnerView.getBottom() - deltaY);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过 <code>InnerView</code> 的 <code>layout</code> 去改变位置。</p>
+<p>到此下拉放大的功能分析完了，那么看下拉放大之后放手缩回去的过程是怎么样的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ElasticScrollView</span> <span class="keyword">extends</span> <span class="title">ScrollView</span> </span>&#123;</span><br><span class="line">	<span class="comment">/**</span><br><span class="line">     * 复原</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doReset</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> needReset = isNeedReset();</span><br><span class="line">        <span class="keyword">if</span> (!needReset) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (elasticView != <span class="keyword">null</span>) &#123;</span><br><span class="line">            resetElasticView();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            resetInnerView();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="comment">/**</span><br><span class="line">     * 是否需要还原</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@return</span></span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isNeedReset</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (elasticView == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> !normalRect.isEmpty();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> originHeight != elasticView.getLayoutParams().height;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同样在还原的时候也要分情况，那么先看有 <code>elasticView</code> 的情况：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ElasticScrollView</span> <span class="keyword">extends</span> <span class="title">ScrollView</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ELASTIC_DELAY = <span class="number">500</span>;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> resetDelay = ELASTIC_DELAY;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">resetElasticView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        ValueAnimator animator = ObjectAnimator.ofInt(elasticView.getLayoutParams().height, originHeight);<span class="comment">//从当前的elasticView.getLayoutParams().height 变到 原来的originHeight 高度</span></span><br><span class="line">        animator.setDuration(resetDelay);</span><br><span class="line">        animator.setInterpolator(<span class="keyword">new</span> OvershootInterpolator());<span class="comment">//使用OvershootInterpolator插值器，有一种回弹效果</span></span><br><span class="line">        animator.addUpdateListener(<span class="keyword">new</span> AnimatorUpdateListener() &#123;</span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationUpdate</span><span class="params">(ValueAnimator animation)</span> </span>&#123;</span><br><span class="line">              	<span class="comment">//将值拿到之后赋值给elasticView的height</span></span><br><span class="line">                <span class="keyword">int</span> value = (Integer) animation.getAnimatedValue();</span><br><span class="line">                android.view.ViewGroup.LayoutParams layoutParams = elasticView.getLayoutParams();</span><br><span class="line">                layoutParams.height = value;</span><br><span class="line">                elasticView.setLayoutParams(layoutParams);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        animator.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里用的是 <code>NindOldAndroid</code> 动画库。再看看 <code>InnerView</code> ：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ElasticScrollView</span> <span class="keyword">extends</span> <span class="title">ScrollView</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">resetInnerView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> moveY = mInnerView.getTop() - normalRect.top;<span class="comment">//计算差值</span></span><br><span class="line">        ValueAnimator animator = ObjectAnimator.ofInt(moveY, <span class="number">0</span>);<span class="comment">//将值从差值变为0</span></span><br><span class="line">        animator.setDuration(resetDelay);</span><br><span class="line">        animator.setInterpolator(<span class="keyword">new</span> OvershootInterpolator());</span><br><span class="line"></span><br><span class="line">        animator.addUpdateListener(<span class="keyword">new</span> AnimatorUpdateListener() &#123;</span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationUpdate</span><span class="params">(ValueAnimator animation)</span> </span>&#123;</span><br><span class="line">              	<span class="comment">//将值拿到之后重新layout</span></span><br><span class="line">                <span class="keyword">int</span> value = (Integer) animation.getAnimatedValue();</span><br><span class="line">                mInnerView.layout(normalRect.left, normalRect.top + value, normalRect.right, normalRect.bottom + value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        animator.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至此，<code>ElasticScrollView</code> 分析完了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>下拉变大的效果是 <code>elasticView</code> 的高度不断变大；</li>
+<li><code>elasticView</code> 是 <code>ImageView</code> ，<code>scaleType</code> 为 <code>centerCrop</code> ；</li>
+<li>当没有 <code>elasticView</code> 的时候，改变的是 <code>InnerView</code> 的位置；</li>
+<li>当放手缩回原来大小的时候设置了一个插值器，所以有回弹效果；</li>
+</ul>
+<h2 id="Github"><a href="#Github" class="headerlink" title="Github"></a>Github</h2><p><a href="https://github.com/Kitdroid/ElasticScrollView" target="_blank" rel="external">ElasticScrollView</a></p>
+
+        
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/03/27/elasticscrollview-analyse/">ElasticScrollView源码解析</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 yydcdut 的个人博客">yydcdut</a></p>
+        <p><span>发布时间:</span>2016年03月27日 - 22时33分</p>
+        <p><span>最后更新:</span>2016年03月27日 - 22时35分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/03/27/elasticscrollview-analyse/" title="ElasticScrollView源码解析">http://yydcdut.com/2016/03/27/elasticscrollview-analyse/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yydcdut.com/2016/03/27/elasticscrollview-analyse/　　作者: yydcdut" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/03/20/split-dex/">
+                    Android Dex分包之旅
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ElasticScrollView"><span class="toc-number">1.</span> <span class="toc-text">ElasticScrollView</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-number">2.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码分析"><span class="toc-number">3.</span> <span class="toc-text">源码分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Github"><span class="toc-number">5.</span> <span class="toc-text">Github</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+    <div class="share">
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+    <a href="#" class="bds_copy" data-cmd="copy" title="复制网址"></a>
+    <a href="#" class="bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+    </div>
+    <script>
+        window._bd_share_config={
+            "common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+</div>
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/03/27/elasticscrollview-analyse/" data-title="ElasticScrollView源码解析" data-url="http://yydcdut.com/2016/03/27/elasticscrollview-analyse/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yydcdut"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/03/20/split-dex/" title="下一篇: Android Dex分包之旅">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/03/27/elasticscrollview-analyse/">ElasticScrollView源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/20/split-dex/">Android Dex分包之旅</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/13/volley-code-analyse/">Volley源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/eventbus3-code-analyse/">EventBus3.0源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/28/listview-optimize/">ListView优化总结</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 yydcdut
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的静态博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减双栏 Hexo 博客主题">Yelee</a> by MOxFIVE
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >本站到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+    <style>
+        body {
+          background: lightgray;
+        }
+        #container .left-col {
+          background: white;
+        }
+        .article-inner {
+          background: white;
+          margin-bottom: 1em;
+        }
+        .post-nav-button {
+          background: #ececec;
+        }
+        #header .header-nav .social #GitHub {
+          background-color: #bfd3ec;
+        }
+        #post-nav-button a {
+          background: rgba(215, 216, 215, .2);
+        }
+        .post-list {
+          background: white;
+        }
+    </style>
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
