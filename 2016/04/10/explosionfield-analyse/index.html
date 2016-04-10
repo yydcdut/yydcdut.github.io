@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ExplosionField源码解析 | Android杂文 - yydcdut</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Github: ExplosionField      分析版本：3122cb6
+
+一个粒子爆炸效果的 UI 开源控件。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ExplosionField源码解析">
+<meta property="og:url" content="http://yydcdut.com/2016/04/10/explosionfield-analyse/index.html">
+<meta property="og:site_name" content="Android杂文 - yydcdut">
+<meta property="og:description" content="Github: ExplosionField      分析版本：3122cb6
+
+一个粒子爆炸效果的 UI 开源控件。">
+<meta property="og:image" content="http://7xs03u.com1.z0.glb.clouddn.com/explosionfield.gif">
+<meta property="og:updated_time" content="2016-04-10T05:49:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ExplosionField源码解析">
+<meta name="twitter:description" content="Github: ExplosionField      分析版本：3122cb6
+
+一个粒子爆炸效果的 UI 开源控件。">
+  
+    <link rel="alternative" href="/atom.xml" title="Android杂文 - yydcdut" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css" type="text/css">
+  
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: true
+      }
+  </script>
+  
+      <script>
+          var _hmt = _hmt || [];
+          (function() {
+              var hm = document.createElement("script");
+              hm.src = "//hm.baidu.com/hm.js?ca0d2d2e8c8246e6ac0e8f9cb04e5833";
+              var s = document.getElementsByTagName("script")[0]; 
+              s.parentNode.insertBefore(hm, s);
+          })();
+      </script>
+  
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/avatar.png" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">yydcdut</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">每周一篇好文章</p>
+        
+                
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/me/">关于我</a></li>
+                        
+                            <li><a href="/note/">开源App</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <li id="Email"><a class="Email" target="_blank" href="/yuyidong2015@gmail.com" title="Email"></a></li>
+                            
+                                <li id="新浪微博"><a class="新浪微博" target="_blank" href="http://weibo.com/yydcdut" title="新浪微博"></a></li>
+                            
+                                <li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/yydcdut" title="GitHub"></a></li>
+                            
+                                <li id="StackOverflow"><a class="StackOverflow" target="_blank" href="http://stackoverflow.com/users/4364595/yydcdut" title="StackOverflow"></a></li>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Dex/" style="font-size: 10px;">Dex</a> <a href="/tags/ElasticScrollView/" style="font-size: 10px;">ElasticScrollView</a> <a href="/tags/EventBus/" style="font-size: 10px;">EventBus</a> <a href="/tags/ExplosionField/" style="font-size: 10px;">ExplosionField</a> <a href="/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/tags/Volley/" style="font-size: 10px;">Volley</a> <a href="/tags/源码/" style="font-size: 20px;">源码</a> <a href="/tags/粒子爆炸/" style="font-size: 10px;">粒子爆炸</a> <a href="/tags/自定义控件/" style="font-size: 15px;">自定义控件</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">关于我</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">yydcdut</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/avatar.png" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">yydcdut</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">每周一篇好文章</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/me/">关于我</a></li>
+                
+                    <li><a href="/note/">开源App</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <li id="Email"><a class="Email" target="_blank" href="/yuyidong2015@gmail.com" title="Email"></a></li>
+                            
+                                <li id="新浪微博"><a class="新浪微博" target="_blank" href="http://weibo.com/yydcdut" title="新浪微博"></a></li>
+                            
+                                <li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/yydcdut" title="GitHub"></a></li>
+                            
+                                <li id="StackOverflow"><a class="StackOverflow" target="_blank" href="http://stackoverflow.com/users/4364595/yydcdut" title="StackOverflow"></a></li>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-explosionfield-analyse" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/04/10/explosionfield-analyse/" class="article-date">
+      <time datetime="2016-04-10T05:30:40.000Z" itemprop="datePublished">2016-04-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ExplosionField源码解析
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ExplosionField/">ExplosionField</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/源码/">源码</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/粒子爆炸/">粒子爆炸</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自定义控件/">自定义控件</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>Github: <a href="https://github.com/tyrantgit/ExplosionField" target="_blank" rel="external">ExplosionField</a>      分析版本：<a href="https://github.com/tyrantgit/ExplosionField/tree/3122cb6c5783218f1a08787e6a6241e6e745695f" target="_blank" rel="external">3122cb6</a></p>
+</blockquote>
+<p>一个粒子爆炸效果的 UI 开源控件。</p>
+<a id="more"></a>
+<h2 id="ExplosionField"><a href="#ExplosionField" class="headerlink" title="ExplosionField"></a>ExplosionField</h2><p><code>ExplosionField</code> 是一个开源的 Android UI 控件，其 UI 效果是粒子爆炸效果。</p>
+<p><img src="http://7xs03u.com1.z0.glb.clouddn.com/explosionfield.gif" alt="ExplosionField"></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>得到想要爆炸的 <code>View</code> ，然后将 <code>View</code> 设置到 <code>ExplosionField</code> 中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ExplosionField explosionField = ExplosionField.attach2Window(<span class="keyword">this</span>);</span><br><span class="line">explosionField.explode(view);</span><br></pre></td></tr></table></figure>
+<h2 id="源码解析"><a href="#源码解析" class="headerlink" title="源码解析"></a>源码解析</h2><p>从 <code>MainActivity</code> 开始分析走吧：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">      	<span class="comment">//ExplosionField是个View，附着在Activity上</span></span><br><span class="line">        mExplosionField = ExplosionField.attach2Window(<span class="keyword">this</span>);</span><br><span class="line">        addListener(findViewById(R.id.root));</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">  	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addListener</span><span class="params">(View root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (root <span class="keyword">instanceof</span> ViewGroup) &#123;</span><br><span class="line">          	<span class="comment">//如果是ViewGroup或者其子类，进行递归</span></span><br><span class="line">            ViewGroup parent = (ViewGroup) root;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; parent.getChildCount(); i++) &#123;</span><br><span class="line">                addListener(parent.getChildAt(i));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          	<span class="comment">//不然的话设置监听器</span></span><br><span class="line">            root.setClickable(<span class="keyword">true</span>);</span><br><span class="line">            root.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">                <span class="annotation">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                    mExplosionField.explode(v);<span class="comment">//进行爆照动画</span></span><br><span class="line">                    v.setOnClickListener(<span class="keyword">null</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从 <code>MainActivity</code> 中可以看出爆炸这个过程是调用 <code>explode(View)</code> 方法进行的，同时得到 <code>ExplosionField</code> 对象是通过其静态方法 <code>ExplosionField.attach2Window(Activity)</code> 得到的。</p>
+<p>那么 <code>attach2Window(Activity)</code> 做了什么呢：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExplosionField</span> <span class="keyword">extends</span> <span class="title">View</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExplosionField <span class="title">attach2Window</span><span class="params">(Activity activity)</span> </span>&#123;</span><br><span class="line">      	<span class="comment">//DecorView中Content的那个FrameLayout</span></span><br><span class="line">        ViewGroup rootView = (ViewGroup) activity.findViewById(Window.ID_ANDROID_CONTENT);</span><br><span class="line">      	<span class="comment">//把自己new出来</span></span><br><span class="line">        ExplosionField explosionField = <span class="keyword">new</span> ExplosionField(activity);</span><br><span class="line">      	<span class="comment">//把自己添加DecorView的ContentView中，宽高都是match_parent</span></span><br><span class="line">        rootView.addView(explosionField, <span class="keyword">new</span> ViewGroup.LayoutParams(</span><br><span class="line">                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));</span><br><span class="line">        <span class="keyword">return</span> explosionField;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>attach2Window(Activity)</code>  方法就是将 <code>ExplosionField</code> 添加到最上层。那么来看看这个 View :</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExplosionField</span> <span class="keyword">extends</span> <span class="title">View</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">  	<span class="keyword">private</span> <span class="keyword">int</span>[] mExpandInset = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</span><br><span class="line">  	<span class="comment">//保存每个颗粒的动画</span></span><br><span class="line">  	<span class="keyword">private</span> List&lt;ExplosionAnimator&gt; mExplosions = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">  	<span class="function"><span class="keyword">public</span> <span class="title">ExplosionField</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ExplosionField</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs);</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ExplosionField</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Arrays.fill(mExpandInset, Utils.dp2Px(<span class="number">32</span>));</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">  	<span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDraw(canvas);</span><br><span class="line">        <span class="keyword">for</span> (ExplosionAnimator explosion : mExplosions) &#123;</span><br><span class="line">            explosion.draw(canvas);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">  	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">explode</span><span class="params">(<span class="keyword">final</span> View view)</span> </span>&#123;</span><br><span class="line">      	<span class="comment">//得到View相对整个屏幕的坐标</span></span><br><span class="line">        Rect r = <span class="keyword">new</span> Rect();</span><br><span class="line">        view.getGlobalVisibleRect(r);</span><br><span class="line">      	<span class="comment">//得到ExplosionField的location</span></span><br><span class="line">        <span class="keyword">int</span>[] location = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</span><br><span class="line">        getLocationOnScreen(location);</span><br><span class="line">      	<span class="comment">//进行偏移</span></span><br><span class="line">        r.offset(-location[<span class="number">0</span>], -location[<span class="number">1</span>]);</span><br><span class="line">      	<span class="comment">//Rect.inset方法是将rect变狭窄，但这里传入的是负值，那么就是变大</span></span><br><span class="line">        r.inset(-mExpandInset[<span class="number">0</span>], -mExpandInset[<span class="number">1</span>]);</span><br><span class="line">        <span class="keyword">int</span> startDelay = <span class="number">100</span>;</span><br><span class="line">      	<span class="comment">//振动的动画</span></span><br><span class="line">        ValueAnimator animator = ValueAnimator.ofFloat(<span class="number">0f</span>, <span class="number">1f</span>).setDuration(<span class="number">150</span>);</span><br><span class="line">        animator.addUpdateListener(<span class="keyword">new</span> ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line"></span><br><span class="line">            Random random = <span class="keyword">new</span> Random();</span><br><span class="line"></span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationUpdate</span><span class="params">(ValueAnimator animation)</span> </span>&#123;</span><br><span class="line">                view.setTranslationX((random.nextFloat() - <span class="number">0.5f</span>) * view.getWidth() * <span class="number">0.05f</span>);</span><br><span class="line">                view.setTranslationY((random.nextFloat() - <span class="number">0.5f</span>) * view.getHeight() * <span class="number">0.05f</span>);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        animator.start();</span><br><span class="line">		<span class="comment">//将这个View消失的动画</span></span><br><span class="line">      		view.animate().setDuration(<span class="number">150</span>).setStartDelay(startDelay).scaleX(<span class="number">0f</span>).scaleY(<span class="number">0f</span>).alpha(<span class="number">0f</span>).start();</span><br><span class="line">      	<span class="comment">//进行爆炸</span></span><br><span class="line">        explode(Utils.createBitmapFromView(view), r, startDelay, ExplosionAnimator.DEFAULT_DURATION);</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">  	 <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">explode</span><span class="params">(Bitmap bitmap, Rect bound, <span class="keyword">long</span> startDelay, <span class="keyword">long</span> duration)</span> </span>&#123;</span><br><span class="line">       	<span class="comment">//new出爆炸动画</span></span><br><span class="line">        <span class="keyword">final</span> ExplosionAnimator explosion = <span class="keyword">new</span> ExplosionAnimator(<span class="keyword">this</span>, bitmap, bound);</span><br><span class="line">        explosion.addListener(<span class="keyword">new</span> AnimatorListenerAdapter() &#123;</span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationEnd</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">              	<span class="comment">//当结束的时候从mExplosions中将动画去除掉</span></span><br><span class="line">                mExplosions.remove(animation);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">       	<span class="comment">//延时</span></span><br><span class="line">        explosion.setStartDelay(startDelay);</span><br><span class="line">       	<span class="comment">//动画进行事件</span></span><br><span class="line">        explosion.setDuration(duration);</span><br><span class="line">       	<span class="comment">//将动画添加到mExplosions中</span></span><br><span class="line">        mExplosions.add(explosion);</span><br><span class="line">       	<span class="comment">//动画开始</span></span><br><span class="line">        explosion.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当开始进行爆照时，先进行 150ms 的振动动画，之后将此 View 隐藏掉，在 <code>ExplosionField</code> 中的相同位置绘制出这个 View ，进行爆炸。</p>
+<p>先简单的过一遍 <code>Utils</code> 这个类吧：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Utils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Utils</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> DENSITY = Resources.getSystem().getDisplayMetrics().density;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Canvas sCanvas = <span class="keyword">new</span> Canvas();</span><br><span class="line"></span><br><span class="line">  	<span class="comment">//dp转像素</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">dp2Px</span><span class="params">(<span class="keyword">int</span> dp)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Math.round(dp * DENSITY);</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">	<span class="comment">/**</span><br><span class="line">     * 将一个View绘制成Bitmap</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> view</span><br><span class="line">     * <span class="doctag">@return</span></span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">createBitmapFromView</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (view <span class="keyword">instanceof</span> ImageView) &#123;</span><br><span class="line">            Drawable drawable = ((ImageView) view).getDrawable();</span><br><span class="line">            <span class="keyword">if</span> (drawable != <span class="keyword">null</span> &amp;&amp; drawable <span class="keyword">instanceof</span> BitmapDrawable) &#123;</span><br><span class="line">                <span class="keyword">return</span> ((BitmapDrawable) drawable).getBitmap();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        view.clearFocus();</span><br><span class="line">        Bitmap bitmap = createBitmapSafely(view.getWidth(),</span><br><span class="line">                view.getHeight(), Bitmap.Config.ARGB_8888, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (bitmap != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (sCanvas) &#123;</span><br><span class="line">                Canvas canvas = sCanvas;</span><br><span class="line">                canvas.setBitmap(bitmap);</span><br><span class="line">                view.draw(canvas);</span><br><span class="line">                canvas.setBitmap(<span class="keyword">null</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> bitmap;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span><br><span class="line">     * 创建bitmap，防OOM</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> width</span><br><span class="line">     * <span class="doctag">@param</span> height</span><br><span class="line">     * <span class="doctag">@param</span> config</span><br><span class="line">     * <span class="doctag">@param</span> retryCount</span><br><span class="line">     * <span class="doctag">@return</span></span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">createBitmapSafely</span><span class="params">(<span class="keyword">int</span> width, <span class="keyword">int</span> height, Bitmap.Config config, <span class="keyword">int</span> retryCount)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> Bitmap.createBitmap(width, height, config);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (OutOfMemoryError e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">if</span> (retryCount &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                System.gc();</span><br><span class="line">                <span class="keyword">return</span> createBitmapSafely(width, height, config, retryCount - <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看完工具类，回过头来看爆照动画类 <code>ExplosionAnimator</code> :</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExplosionAnimator</span> <span class="keyword">extends</span> <span class="title">ValueAnimator</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">long</span> DEFAULT_DURATION = <span class="number">0x400</span>;<span class="comment">//1024...</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Interpolator DEFAULT_INTERPOLATOR = <span class="keyword">new</span> AccelerateInterpolator(<span class="number">0.6f</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> END_VALUE = <span class="number">1.4f</span>;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> X = Utils.dp2Px(<span class="number">5</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> Y = Utils.dp2Px(<span class="number">20</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> V = Utils.dp2Px(<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> W = Utils.dp2Px(<span class="number">1</span>);</span><br><span class="line">  </span><br><span class="line">	<span class="keyword">private</span> Paint mPaint;</span><br><span class="line">    <span class="keyword">private</span> Particle[] mParticles;</span><br><span class="line">    <span class="keyword">private</span> Rect mBound;</span><br><span class="line">    <span class="keyword">private</span> View mContainer;</span><br><span class="line">  </span><br><span class="line">  	<span class="function"><span class="keyword">public</span> <span class="title">ExplosionAnimator</span><span class="params">(View container, Bitmap bitmap, Rect bound)</span> </span>&#123;</span><br><span class="line">        mPaint = <span class="keyword">new</span> Paint();</span><br><span class="line">        mBound = <span class="keyword">new</span> Rect(bound);</span><br><span class="line">      	<span class="comment">//X,Y要分成多少个颗粒</span></span><br><span class="line">        <span class="keyword">int</span> partLen = <span class="number">15</span>;</span><br><span class="line">      	<span class="comment">//颗粒数组，15*15</span></span><br><span class="line">        mParticles = <span class="keyword">new</span> Particle[partLen * partLen];</span><br><span class="line">        Random random = <span class="keyword">new</span> Random(System.currentTimeMillis());</span><br><span class="line">      	<span class="comment">//按17*17来算颗粒的宽度和高度</span></span><br><span class="line">        <span class="keyword">int</span> w = bitmap.getWidth() / (partLen + <span class="number">2</span>);</span><br><span class="line">        <span class="keyword">int</span> h = bitmap.getHeight() / (partLen + <span class="number">2</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; partLen; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; partLen; j++) &#123;</span><br><span class="line">              	<span class="comment">//边上的颗粒不添加进来，只取从1~16的颗粒</span></span><br><span class="line">                mParticles[(i * partLen) + j] = generateParticle(bitmap.getPixel((j + <span class="number">1</span>) * w, (i + <span class="number">1</span>) * h), random);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      	<span class="comment">//container是ExplosionField</span></span><br><span class="line">        mContainer = container;</span><br><span class="line">      	<span class="comment">//设置变化值</span></span><br><span class="line">        setFloatValues(<span class="number">0f</span>, END_VALUE);</span><br><span class="line">      	<span class="comment">//插值器</span></span><br><span class="line">        setInterpolator(DEFAULT_INTERPOLATOR);</span><br><span class="line">      	<span class="comment">//时间</span></span><br><span class="line">        setDuration(DEFAULT_DURATION);</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">	<span class="function"><span class="keyword">private</span> Particle <span class="title">generateParticle</span><span class="params">(<span class="keyword">int</span> color, Random random)</span> </span>&#123;</span><br><span class="line">      	<span class="comment">//new出颗粒</span></span><br><span class="line">        Particle particle = <span class="keyword">new</span> Particle();</span><br><span class="line">      	<span class="comment">//设置颗粒颜色</span></span><br><span class="line">        particle.color = color;</span><br><span class="line">      	<span class="comment">//设置颗粒半径,2dp</span></span><br><span class="line">        particle.radius = V;</span><br><span class="line">      	<span class="comment">//获取随机数，如果小于0.2，particle.baseRadius值在2dp~5dp之间，也就是开始爆炸的时候半径在2dp~5dp之间</span></span><br><span class="line">        <span class="keyword">if</span> (random.nextFloat() &lt; <span class="number">0.2f</span>) &#123;</span><br><span class="line">            particle.baseRadius = V + ((X - V) * random.nextFloat());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;<span class="comment">//如果大于等于0.2，particle.baseRadius值在1dp~2dp之间，也就是开始爆炸的时候半径在1dp~2dp之间</span></span><br><span class="line">            particle.baseRadius = W + ((V - W) * random.nextFloat());</span><br><span class="line">        &#125;</span><br><span class="line">      	<span class="comment">//0~1的随机数</span></span><br><span class="line">        <span class="keyword">float</span> nextFloat = random.nextFloat();</span><br><span class="line">      	<span class="comment">//(Temp值)值范围在mBound.height()*(0~0.38)</span></span><br><span class="line">        particle.top = mBound.height() * ((<span class="number">0.18f</span> * random.nextFloat()) + <span class="number">0.2f</span>);</span><br><span class="line">        <span class="comment">//如果小于0.2，那么颗粒的top的值在mBound.height()*(0~0.38)，如果大于等于0.2，那么颗粒的top的值在mBound.height()*(0~0.456)</span></span><br><span class="line">      	particle.top = nextFloat &lt; <span class="number">0.2f</span> ? particle.top : particle.top + ((particle.top * <span class="number">0.2f</span>) * random.nextFloat());</span><br><span class="line">      	<span class="comment">//(Temp值)值范围在mBound.height()*(-0.9~0.9)</span></span><br><span class="line">        particle.bottom = (mBound.height() * (random.nextFloat() - <span class="number">0.5f</span>)) * <span class="number">1.8f</span>;</span><br><span class="line">        <span class="comment">//如果小于0.2，那么颗粒的bottom的值在mBound.height()*(-0.9~0.9)，如果大于等于0.2但小于0.8，那么颗粒的bottom的值在mBound.height()*(-0.54~0.54)，如果大于等于0.8，那么颗粒的bottom的值在mBound.height()*(-0.27~0.27)</span></span><br><span class="line">      	<span class="keyword">float</span> f = nextFloat &lt; <span class="number">0.2f</span> ? particle.bottom : nextFloat &lt; <span class="number">0.8f</span> ? particle.bottom * <span class="number">0.6f</span> : particle.bottom * <span class="number">0.3f</span>;</span><br><span class="line">      	<span class="comment">//赋值给bottom</span></span><br><span class="line">        particle.bottom = f;</span><br><span class="line">		<span class="comment">//???这是啥???</span></span><br><span class="line">        particle.mag = <span class="number">4.0f</span> * particle.top / particle.bottom;</span><br><span class="line">        particle.neg = (-particle.mag) / particle.bottom;</span><br><span class="line">      	<span class="comment">//f值在mBound.centerX()+(-10dp~10dp)</span></span><br><span class="line">        f = mBound.centerX() + (Y * (random.nextFloat() - <span class="number">0.5f</span>));</span><br><span class="line">      	<span class="comment">//赋值给baseCx，一开始的X中心坐标</span></span><br><span class="line">        particle.baseCx = f;</span><br><span class="line">      	<span class="comment">//赋值给cx</span></span><br><span class="line">        particle.cx = f;</span><br><span class="line">      	<span class="comment">//f值在mBound.centerY()+(-10dp~10dp)</span></span><br><span class="line">        f = mBound.centerY() + (Y * (random.nextFloat() - <span class="number">0.5f</span>));</span><br><span class="line">      	<span class="comment">//赋值给baseCx，一开始的Y中心坐标</span></span><br><span class="line">        particle.baseCy = f;</span><br><span class="line">      	<span class="comment">//赋值给cx</span></span><br><span class="line">        particle.cy = f;</span><br><span class="line">      	<span class="comment">//颗粒不显示时间，无穷~0.14</span></span><br><span class="line">        particle.life = END_VALUE / <span class="number">10</span> * random.nextFloat();</span><br><span class="line">      	<span class="comment">//溢出值0~0.4</span></span><br><span class="line">        particle.overflow = <span class="number">0.4f</span> * random.nextFloat();</span><br><span class="line">      	<span class="comment">//透明度为1</span></span><br><span class="line">        particle.alpha = <span class="number">1f</span>;</span><br><span class="line">        <span class="keyword">return</span> particle;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 <code>nextFloat</code> 的值小于 0.2 时，top 范围在 <code>mBound.height()*(0~0.38)</code> ，bottom 范围在 <code>mBound.height()*(-0.9~0.9)</code> ；</li>
+<li>在 <code>nextFloat</code> 的值大于等于 0.2，小于 0.8 时，top 范围在 <code>mBound.height()*(0~0.456)</code> ，bottom 范围在 <code>mBound.height()*(-0.54~0.54)</code> ；</li>
+<li>在 <code>nextFloat</code> 的值大于等于 0.8 时，top 范围在 <code>mBound.height()*(0~0.456)</code> ，bottom 范围在 <code>mBound.height()*(-0.27~0.27)</code></li>
+</ul>
+<p><code>particle.baseCx</code> 和 <code>particle.baseCy</code> 是爆炸一开始的颗粒的坐标，都在要爆炸 View 中心的偏移 10dp 的位置。</p>
+<p>当爆炸开始时，调用了 <code>start()</code> 方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExplosionAnimator</span> <span class="keyword">extends</span> <span class="title">ValueAnimator</span> </span>&#123;</span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.start();</span><br><span class="line">        mContainer.invalidate(mBound);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>mContainer</code> 就是 <code>ExplosionField</code> ，那么 <code>onDraw(Canvas)</code> 方法将会被调用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExplosionField</span> <span class="keyword">extends</span> <span class="title">View</span> </span>&#123;</span><br><span class="line">	<span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDraw(canvas);</span><br><span class="line">        <span class="keyword">for</span> (ExplosionAnimator explosion : mExplosions) &#123;</span><br><span class="line">            explosion.draw(canvas);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再进到 <code>ExplosionAnimator</code> 的 <code>draw(Canvas)</code> 方法中:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExplosionAnimator</span> <span class="keyword">extends</span> <span class="title">ValueAnimator</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">draw</span><span class="params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!isStarted()) &#123;<span class="comment">//如果已经开始了，那么就跳过</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      	<span class="comment">//遍历每个像素</span></span><br><span class="line">        <span class="keyword">for</span> (Particle particle : mParticles) &#123;</span><br><span class="line">            particle.advance((<span class="keyword">float</span>) getAnimatedValue());</span><br><span class="line">          	<span class="comment">//如果透明度大于0</span></span><br><span class="line">            <span class="keyword">if</span> (particle.alpha &gt; <span class="number">0f</span>) &#123;</span><br><span class="line">              	<span class="comment">//将颜色赋值给笔</span></span><br><span class="line">                mPaint.setColor(particle.color);</span><br><span class="line">              	<span class="comment">//给笔设置alpha值</span></span><br><span class="line">                mPaint.setAlpha((<span class="keyword">int</span>) (Color.alpha(particle.color) * particle.alpha));</span><br><span class="line">              	<span class="comment">//画圆，以cx,cy为中心，radius为半径</span></span><br><span class="line">                canvas.drawCircle(particle.cx, particle.cy, particle.radius, mPaint);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      	<span class="comment">//继续</span></span><br><span class="line">        mContainer.invalidate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里主要动画应该就是在 <code>Particle.advance(float)</code> 方法里面：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExplosionAnimator</span> <span class="keyword">extends</span> <span class="title">ValueAnimator</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Particle</span> </span>&#123;</span><br><span class="line">        <span class="keyword">float</span> alpha;<span class="comment">//透明值</span></span><br><span class="line">        <span class="keyword">int</span> color;<span class="comment">//颜色</span></span><br><span class="line">        <span class="keyword">float</span> cx;<span class="comment">//不断变化的X的位置</span></span><br><span class="line">        <span class="keyword">float</span> cy;<span class="comment">//不断变化的Y的位置</span></span><br><span class="line">        <span class="keyword">float</span> radius;<span class="comment">//半径</span></span><br><span class="line">        <span class="keyword">float</span> baseCx;<span class="comment">//一开始的X位置</span></span><br><span class="line">        <span class="keyword">float</span> baseCy;<span class="comment">//一开始的Y位置</span></span><br><span class="line">        <span class="keyword">float</span> baseRadius;<span class="comment">//最终的半径</span></span><br><span class="line">        <span class="keyword">float</span> top;<span class="comment">//top</span></span><br><span class="line">        <span class="keyword">float</span> bottom;<span class="comment">//bottom</span></span><br><span class="line">        <span class="keyword">float</span> mag;<span class="comment">//???</span></span><br><span class="line">        <span class="keyword">float</span> neg;<span class="comment">//???</span></span><br><span class="line">        <span class="keyword">float</span> life;<span class="comment">//当0~1的比例大于life，颗粒才会显示出来</span></span><br><span class="line">        <span class="keyword">float</span> overflow;<span class="comment">//当0~1的比例小于等于(1-overflow)，颗粒才会显示出来</span></span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">advance</span><span class="params">(<span class="keyword">float</span> factor)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">float</span> f = <span class="number">0f</span>;</span><br><span class="line">          	<span class="comment">//当前的比例，factor为0~END_VALUE(1.4)的值，而normalization为0~1</span></span><br><span class="line">            <span class="keyword">float</span> normalization = factor / END_VALUE;</span><br><span class="line">          	<span class="comment">//当前比例小于存活时间(无穷~0.14)或者当前比例大于(1-溢出值)，也就是大于(0.6~1)，将透明度置为0</span></span><br><span class="line">            <span class="keyword">if</span> (normalization &lt; life || normalization &gt; <span class="number">1f</span> - overflow) &#123;</span><br><span class="line">                alpha = <span class="number">0f</span>;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">          	<span class="comment">//经过上面一层判断之后，接下来操作的话normalization值应该在life~(1-overflow)之间</span></span><br><span class="line">          	<span class="comment">//normalization = 当前已经显示比例 / 实际上能显示在View上的比例 ，现在这个值的范围是0~1</span></span><br><span class="line">            normalization = (normalization - life) / (<span class="number">1f</span> - life - overflow);</span><br><span class="line">          	<span class="comment">//f2为真正显示在View上面的时候的值，在0~END_VALUE(1.4)之间</span></span><br><span class="line">            <span class="keyword">float</span> f2 = normalization * END_VALUE;</span><br><span class="line">          	<span class="comment">//如果该值超过0.7</span></span><br><span class="line">            <span class="keyword">if</span> (normalization &gt;= <span class="number">0.7f</span>) &#123;</span><br><span class="line">              	<span class="comment">//给f赋值</span></span><br><span class="line">                f = (normalization - <span class="number">0.7f</span>) / <span class="number">0.3f</span>;</span><br><span class="line">            &#125;</span><br><span class="line">          	<span class="comment">//如果normalization没有超过0.7，alpha一直为1，超过0.7之后慢慢变透明</span></span><br><span class="line">            alpha = <span class="number">1f</span> - f;</span><br><span class="line">          	<span class="comment">//范围0~1.4*bottom，bottom可能为正可能为负</span></span><br><span class="line">            f = bottom * f2;</span><br><span class="line">          	<span class="comment">//颗粒X中心坐标，当bottom为正时往右移，为负的时候往左边移动</span></span><br><span class="line">            cx = baseCx + f;</span><br><span class="line">          	<span class="comment">//颗粒X中心坐标</span></span><br><span class="line">            cy = (<span class="keyword">float</span>) (baseCy - <span class="keyword">this</span>.neg * Math.pow(f, <span class="number">2.0</span>)) - f * mag;</span><br><span class="line">          	<span class="comment">//修改半径</span></span><br><span class="line">            radius = V + (baseRadius - V) * f2;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在第一个 if 判断中，<code>normalization &lt; life</code> 说明<strong>一开始的时候是不显示的</strong>，所以这个地方导致了有些颗粒先出来有些颗粒后出来；</li>
+<li>同时在第一个 if 判断中， <code>normalization &gt; 1f - overflow</code> 说明到后面该颗粒就不显示了；</li>
+<li><code>cx</code> 在不断的加上 <code>f</code> ，而 <code>f</code> 的值是由 <code>bottom * f2</code> 儿来，<code>bottom</code> 可能为正数可能为负数，这就导致了有得颗粒向左有的颗粒向右</li>
+<li><code>cy</code> 的变化是一个函数性的变换，先变大再不断的变小；<code>//TODO 待更新分析</code></li>
+<li><code>radius</code> 半径的变化是逐渐靠近 <code>baseRadius</code>；</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="爆炸动画"><a href="#爆炸动画" class="headerlink" title="爆炸动画"></a>爆炸动画</h3><p>爆炸动画 <code>ExplosionAnimator</code>继承于 <code>ValueAnimator</code> ，在动画开始的时候去刷新 <code>ExplosionField</code> 的绘制，也就是调用了 <code>ExplosionField.onDraw(Canvas)</code> ，在 <code>onDraw(Canvas)</code> 中又调用了 <code>ExplosionAnimator.draw(canvas)</code> ，而在 <code>ExplosionAnimator.draw(canvas)</code> 中进行爆炸颗粒 <code>Particle</code> 的变换，比如位置、颜色、大小等，然后调用 <code>ExplosionField.invalidate()</code> 触发了 <code>ExplosionAnimator.draw(canvas)</code> ，就这样不停的来回调用，直到动画结束。</p>
+<h3 id="颗粒"><a href="#颗粒" class="headerlink" title="颗粒"></a>颗粒</h3><p>代码一个有 15*15 个颗粒，但是每个颗粒的高度和宽度都是以 17*17 个计算得来的，实际上在处理的时候是放弃掉了周围一圈的颗粒。下图中的实心部分是没有算进去的颗粒。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ●</span><br><span class="line">● ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ●</span><br><span class="line">● ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ●</span><br><span class="line">● ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ●</span><br><span class="line">● ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ●</span><br><span class="line">● ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ●</span><br><span class="line">● ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ●</span><br><span class="line">● ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ●</span><br><span class="line">● ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ●</span><br><span class="line">● ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ●</span><br><span class="line">● ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ●</span><br><span class="line">● ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ●</span><br><span class="line">● ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ●</span><br><span class="line">● ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ●</span><br><span class="line">● ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ●</span><br><span class="line">● ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ●</span><br><span class="line">● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ●</span><br></pre></td></tr></table></figure>
+<p>每个颗粒有一个 <code>life</code> 和 <code>overflow</code> 变量，当动画的比例值没有超过 <code>life</code> 则不显示出来，若超过了 <code>overflow</code> 也不显示出来，这里就导致了每个颗粒出现时间点不一样。其次，开始的时候每个颗粒的启始位置都是在中心位置的上下左右偏移 10dp 的范围内。</p>
+
+        
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/04/10/explosionfield-analyse/">ExplosionField源码解析</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 yydcdut 的个人博客">yydcdut</a></p>
+        <p><span>发布时间:</span>2016年04月10日 - 13时30分</p>
+        <p><span>最后更新:</span>2016年04月10日 - 13时49分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/04/10/explosionfield-analyse/" title="ExplosionField源码解析">http://yydcdut.com/2016/04/10/explosionfield-analyse/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yydcdut.com/2016/04/10/explosionfield-analyse/　　作者: yydcdut" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/03/27/elasticscrollview-analyse/">
+                    ElasticScrollView源码解析
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ExplosionField"><span class="toc-number">1.</span> <span class="toc-text">ExplosionField</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-number">2.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码解析"><span class="toc-number">3.</span> <span class="toc-text">源码解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#爆炸动画"><span class="toc-number">4.1.</span> <span class="toc-text">爆炸动画</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#颗粒"><span class="toc-number">4.2.</span> <span class="toc-text">颗粒</span></a></li></ol></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+    <div class="share">
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+    <a href="#" class="bds_copy" data-cmd="copy" title="复制网址"></a>
+    <a href="#" class="bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+    </div>
+    <script>
+        window._bd_share_config={
+            "common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+</div>
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/04/10/explosionfield-analyse/" data-title="ExplosionField源码解析" data-url="http://yydcdut.com/2016/04/10/explosionfield-analyse/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yydcdut"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/03/27/elasticscrollview-analyse/" title="下一篇: ElasticScrollView源码解析">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/04/10/explosionfield-analyse/">ExplosionField源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/27/elasticscrollview-analyse/">ElasticScrollView源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/20/split-dex/">Android Dex分包之旅</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/13/volley-code-analyse/">Volley源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/eventbus3-code-analyse/">EventBus3.0源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/28/listview-optimize/">ListView优化总结</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 yydcdut
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的静态博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减双栏 Hexo 博客主题">Yelee</a> by MOxFIVE
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >本站到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+    <style>
+        body {
+          background: lightgray;
+        }
+        #container .left-col {
+          background: white;
+        }
+        .article-inner {
+          background: white;
+          margin-bottom: 1em;
+        }
+        .post-nav-button {
+          background: #ececec;
+        }
+        #header .header-nav .social #GitHub {
+          background-color: #bfd3ec;
+        }
+        #post-nav-button a {
+          background: rgba(215, 216, 215, .2);
+        }
+        .post-list {
+          background: white;
+        }
+    </style>
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
