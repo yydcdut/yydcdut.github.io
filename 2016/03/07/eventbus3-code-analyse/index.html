@@ -5,16 +5,22 @@
   
   <title>EventBus3.0源码解析 | Android杂文 - yydcdut</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="EventBus3 与之前的相比，其主要差别在于订阅方法可以不再以 onEvent 开头了，改为用注解。再此之前github上有一个3.0的分支，但是是beta版本，其源码大概解析可参考 Android – EventBus解析 。">
+  <meta name="description" content="Github: EventBus      分析版本：8a943ef
+
+EventBus3 与之前的相比，其主要差别在于订阅方法可以不再以 onEvent 开头了，改为用注解。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="EventBus3.0源码解析">
 <meta property="og:url" content="http://yydcdut.com/2016/03/07/eventbus3-code-analyse/index.html">
 <meta property="og:site_name" content="Android杂文 - yydcdut">
-<meta property="og:description" content="EventBus3 与之前的相比，其主要差别在于订阅方法可以不再以 onEvent 开头了，改为用注解。再此之前github上有一个3.0的分支，但是是beta版本，其源码大概解析可参考 Android – EventBus解析 。">
-<meta property="og:updated_time" content="2016-03-13T14:47:06.000Z">
+<meta property="og:description" content="Github: EventBus      分析版本：8a943ef
+
+EventBus3 与之前的相比，其主要差别在于订阅方法可以不再以 onEvent 开头了，改为用注解。">
+<meta property="og:updated_time" content="2016-04-10T06:03:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="EventBus3.0源码解析">
-<meta name="twitter:description" content="EventBus3 与之前的相比，其主要差别在于订阅方法可以不再以 onEvent 开头了，改为用注解。再此之前github上有一个3.0的分支，但是是beta版本，其源码大概解析可参考 Android – EventBus解析 。">
+<meta name="twitter:description" content="Github: EventBus      分析版本：8a943ef
+
+EventBus3 与之前的相比，其主要差别在于订阅方法可以不再以 onEvent 开头了，改为用注解。">
   
     <link rel="alternative" href="/atom.xml" title="Android杂文 - yydcdut" type="application/atom+xml">
   
@@ -280,7 +286,10 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>EventBus3 与之前的相比，其主要差别在于订阅方法可以不再以 <em>onEvent</em> 开头了，改为用<strong>注解</strong>。再此之前github上有一个3.0的分支，但是是beta版本，其源码大概解析可参考 <a href="http://www.cnblogs.com/yydcdut/p/4651208.html" target="_blank" rel="external">Android – EventBus解析</a> 。</p>
+        <blockquote>
+<p>Github: <a href="https://github.com/greenrobot/EventBus" target="_blank" rel="external">EventBus</a>      分析版本：<a href="https://github.com/greenrobot/EventBus/tree/8a943efc7303eecba9abda04cee93324899169b5" target="_blank" rel="external">8a943ef</a></p>
+</blockquote>
+<p>EventBus3 与之前的相比，其主要差别在于订阅方法可以不再以 <em>onEvent</em> 开头了，改为用<strong>注解</strong>。</p>
 <a id="more"></a>
 <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><a href="https://github.com/greenrobot/EventBus" target="_blank" rel="external">EventBus</a> 是Android上的以发布\订阅事件为核心的库。事件 (<code>event</code>) 通过 <code>post()</code> 发送到总线，然后再分发到匹配事件类型的订阅者 (<code>subscribers</code>) 。订阅者只有在总线中注册 (<code>register</code>) 了才能收到事件，注销 (<code>unrigister</code>) 之后就收不到任何事件了。事件方法必须带有 <code>Subscribe</code> 的注解，必须是 <code>public</code> ，没有返回类型 <code>void</code> 并且只能有一个参数。</p>
 <blockquote>
@@ -448,7 +457,7 @@
         <p><span>本文标题:</span><a href="/2016/03/07/eventbus3-code-analyse/">EventBus3.0源码解析</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 yydcdut 的个人博客">yydcdut</a></p>
         <p><span>发布时间:</span>2016年03月07日 - 00时53分</p>
-        <p><span>最后更新:</span>2016年03月13日 - 22时47分</p>
+        <p><span>最后更新:</span>2016年04月10日 - 14时03分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/03/07/eventbus3-code-analyse/" title="EventBus3.0源码解析">http://yydcdut.com/2016/03/07/eventbus3-code-analyse/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yydcdut.com/2016/03/07/eventbus3-code-analyse/　　作者: yydcdut" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
