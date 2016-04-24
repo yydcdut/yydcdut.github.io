@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Google-EasyPermissions源码解析 | Android杂文 - yydcdut</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Github: easypermissions      分析版本：962b99d
+
+EasyPermissions 是一个在 Android M 或者更高版本的上使用去简化系统权限逻辑的开源库。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Google-EasyPermissions源码解析">
+<meta property="og:url" content="http://yydcdut.com/2016/04/24/easypermissions-analyse/index.html">
+<meta property="og:site_name" content="Android杂文 - yydcdut">
+<meta property="og:description" content="Github: easypermissions      分析版本：962b99d
+
+EasyPermissions 是一个在 Android M 或者更高版本的上使用去简化系统权限逻辑的开源库。">
+<meta property="og:updated_time" content="2016-04-24T09:39:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Google-EasyPermissions源码解析">
+<meta name="twitter:description" content="Github: easypermissions      分析版本：962b99d
+
+EasyPermissions 是一个在 Android M 或者更高版本的上使用去简化系统权限逻辑的开源库。">
+  
+    <link rel="alternative" href="/atom.xml" title="Android杂文 - yydcdut" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css" type="text/css">
+  
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: true
+      }
+  </script>
+  
+      <script>
+          var _hmt = _hmt || [];
+          (function() {
+              var hm = document.createElement("script");
+              hm.src = "//hm.baidu.com/hm.js?ca0d2d2e8c8246e6ac0e8f9cb04e5833";
+              var s = document.getElementsByTagName("script")[0]; 
+              s.parentNode.insertBefore(hm, s);
+          })();
+      </script>
+  
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/avatar.png" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">yydcdut</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">每周一篇好文章</p>
+        
+                
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/me/">关于我</a></li>
+                        
+                            <li><a href="/note/">开源App</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <li id="Email"><a class="Email" target="_blank" href="/yuyidong2015@gmail.com" title="Email"></a></li>
+                            
+                                <li id="新浪微博"><a class="新浪微博" target="_blank" href="http://weibo.com/yydcdut" title="新浪微博"></a></li>
+                            
+                                <li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/yydcdut" title="GitHub"></a></li>
+                            
+                                <li id="StackOverflow"><a class="StackOverflow" target="_blank" href="http://stackoverflow.com/users/4364595/yydcdut" title="StackOverflow"></a></li>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Android图像处理/" style="font-size: 10px;">Android图像处理</a> <a href="/tags/Dex/" style="font-size: 10px;">Dex</a> <a href="/tags/ElasticScrollView/" style="font-size: 10px;">ElasticScrollView</a> <a href="/tags/EventBus/" style="font-size: 10px;">EventBus</a> <a href="/tags/ExplosionField/" style="font-size: 10px;">ExplosionField</a> <a href="/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/tags/Volley/" style="font-size: 10px;">Volley</a> <a href="/tags/权限/" style="font-size: 10px;">权限</a> <a href="/tags/源码/" style="font-size: 20px;">源码</a> <a href="/tags/粒子爆炸/" style="font-size: 10px;">粒子爆炸</a> <a href="/tags/自定义控件/" style="font-size: 15px;">自定义控件</a>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">关于我</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">yydcdut</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/avatar.png" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">yydcdut</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">每周一篇好文章</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/me/">关于我</a></li>
+                
+                    <li><a href="/note/">开源App</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <li id="Email"><a class="Email" target="_blank" href="/yuyidong2015@gmail.com" title="Email"></a></li>
+                            
+                                <li id="新浪微博"><a class="新浪微博" target="_blank" href="http://weibo.com/yydcdut" title="新浪微博"></a></li>
+                            
+                                <li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/yydcdut" title="GitHub"></a></li>
+                            
+                                <li id="StackOverflow"><a class="StackOverflow" target="_blank" href="http://stackoverflow.com/users/4364595/yydcdut" title="StackOverflow"></a></li>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-easypermissions-analyse" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/04/24/easypermissions-analyse/" class="article-date">
+      <time datetime="2016-04-24T09:26:26.000Z" itemprop="datePublished">2016-04-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Google-EasyPermissions源码解析
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/权限/">权限</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/源码/">源码</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>Github: <a href="https://github.com/googlesamples/easypermissions" target="_blank" rel="external">easypermissions</a>      分析版本：<a href="https://github.com/googlesamples/easypermissions/tree/962b99da0a08c27fc0d6f78252a948b36d64f60c" target="_blank" rel="external">962b99d</a></p>
+</blockquote>
+<p>EasyPermissions 是一个在 Android M 或者更高版本的上使用去简化系统权限逻辑的开源库。</p>
+<a id="more"></a>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>添加依赖到 <code>Gradle</code> :</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">  compile <span class="string">'pub.devrel:easypermissions:0.1.5'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>在使用 EasyPermissions 之前，需要在 <code>Activity</code> 或者 <code>Fragment</code> 中实现 <code>EasyPermissions.PermissionCallbacks</code> 接口，并且覆盖以下方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span></span><br><span class="line">    <span class="keyword">implements</span> <span class="title">EasyPermissions</span>.<span class="title">PermissionCallbacks</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRequestPermissionsResult</span><span class="params">(<span class="keyword">int</span> requestCode, String[] permissions, <span class="keyword">int</span>[] grantResults)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onRequestPermissionsResult(requestCode, permissions, grantResults);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将结果转发给EasyPermissions</span></span><br><span class="line">        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, <span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPermissionsGranted</span><span class="params">(<span class="keyword">int</span> requestCode, List&lt;String&gt; list)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 权限被授予</span></span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPermissionsDenied</span><span class="params">(<span class="keyword">int</span> requestCode, List&lt;String&gt; list)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 权限被拒绝</span></span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="请求权限"><a href="#请求权限" class="headerlink" title="请求权限"></a>请求权限</h3><ul>
+<li><p>使用 <code>EasyPermissions#hasPermissions(...)</code> 去判断 app 是否已经有权限了。该方法的最后个参数是可变数组形式的，所以可以一次性查询多个权限。</p>
+</li>
+<li><p>使用 <code>EasyPermissions#requestPermissions</code> 去请求权限。该方法在请求权限的同时有必要的话会显示使用权限理由。<code>requestCode</code> 对于该方法来说必须是唯一的，同时最后个参数也是可变数组形式的，所以可以一次性请求多个权限。</p>
+</li>
+<li><p>使用 <code>AfterPermissioonGranted</code> 注解。这是可选的，但是提供出来是为了方便。如果所有的请求的权限都被授予了，被注解的方法将会被执行，这样做是为了简化通常的请求权限成功之后再调用方法的流程。同时也可以在 <code>onPermissionsGranted</code> 的回调中添加逻辑操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@AfterPermissionGranted</span>(RC_CAMERA_AND_WIFI)</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">methodRequiresTwoPermission</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  String[] perms = &#123;Manifest.permission.CAMERA, Manifest.permission.CHANGE_WIFI_STATE&#125;;</span><br><span class="line">  <span class="keyword">if</span> (EasyPermissions.hasPermissions(<span class="keyword">this</span>, perms)) &#123;</span><br><span class="line">      <span class="comment">// Already have permission, do the thing</span></span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// Do not have permissions, request them now</span></span><br><span class="line">      EasyPermissions.requestPermissions(<span class="keyword">this</span>, getString(R.string.camera_and_wifi_rationale),</span><br><span class="line">                    RC_CAMERA_AND_WIFI, perms);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><h3 id="hasPermissions"><a href="#hasPermissions" class="headerlink" title="hasPermissions"></a>hasPermissions</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EasyPermissions</span> </span>&#123;</span><br><span class="line">  <span class="comment">/**</span><br><span class="line">     * Check if the calling context has a set of permissions.</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> context the calling context.</span><br><span class="line">     * <span class="doctag">@param</span> perms   one ore more permissions, such as &#123;<span class="doctag">@code</span> android.Manifest.permission.CAMERA&#125;.</span><br><span class="line">     * <span class="doctag">@return</span> true if all permissions are already granted, false if at least one permission</span><br><span class="line">     * is not yet granted.</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">hasPermissions</span><span class="params">(Context context, String... perms)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (String perm : perms) &#123;</span><br><span class="line">            <span class="comment">//通过ContextCompat#checkSelfPermission判断</span></span><br><span class="line">            <span class="keyword">boolean</span> hasPerm = (ContextCompat.checkSelfPermission(context, perm) == PackageManager.PERMISSION_GRANTED);</span><br><span class="line">            <span class="keyword">if</span> (!hasPerm) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该方法的作用是判断是否授予了权限，通过 v4 的 <code>ContextCompat#checkSelfPermission</code> 来判断，在返回结果的时候，如果所有的请求的权限都是被授予了的话，就返回 <code>true</code> ，否则返回 <code>false</code> 。</p>
+<h3 id="requestPermissions"><a href="#requestPermissions" class="headerlink" title="requestPermissions"></a>requestPermissions</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EasyPermissions</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">requestPermissions</span><span class="params">(<span class="keyword">final</span> Object object, String rationale,</span><br><span class="line">                                          <span class="keyword">final</span> <span class="keyword">int</span> requestCode, <span class="keyword">final</span> String... perms)</span> </span>&#123;</span><br><span class="line">        requestPermissions(object, rationale,</span><br><span class="line">                android.R.string.ok,</span><br><span class="line">                android.R.string.cancel,</span><br><span class="line">                requestCode, perms);</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/**</span><br><span class="line">     * Request a set of permissions, showing rationale if the system requests it.</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> object         Activity or Fragment requesting permissions. Should implement</span><br><span class="line">     *                       &#123;<span class="doctag">@link</span> android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback&#125;</span><br><span class="line">     *                       or</span><br><span class="line">     *                       &#123;<span class="doctag">@link</span> android.support.v13.app.FragmentCompat.OnRequestPermissionsResultCallback&#125;</span><br><span class="line">     * <span class="doctag">@param</span> rationale      a message explaining why the application needs this set of permissions, will</span><br><span class="line">     *                       be displayed if the user rejects the request the first time.</span><br><span class="line">     * <span class="doctag">@param</span> positiveButton custom text for positive button</span><br><span class="line">     * <span class="doctag">@param</span> negativeButton custom text for negative button</span><br><span class="line">     * <span class="doctag">@param</span> requestCode    request code to track this request, must be &lt; 256.</span><br><span class="line">     * <span class="doctag">@param</span> perms          a set of permissions to be requested.</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">requestPermissions</span><span class="params">(<span class="keyword">final</span> Object object, String rationale, @StringRes <span class="keyword">int</span> positiveButton, @StringRes <span class="keyword">int</span> negativeButton, <span class="keyword">final</span> <span class="keyword">int</span> requestCode, <span class="keyword">final</span> String... perms)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//判断传入参数是否合适</span></span><br><span class="line">        checkCallingObjectSuitability(object);</span><br><span class="line">        <span class="comment">//拿到PermissionCallbacks对象</span></span><br><span class="line">        <span class="keyword">final</span> PermissionCallbacks callbacks = (PermissionCallbacks) object;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">boolean</span> shouldShowRationale = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (String perm : perms) &#123;</span><br><span class="line">            <span class="comment">//是否需要显示理由</span></span><br><span class="line">            shouldShowRationale = shouldShowRationale || shouldShowRequestPermissionRationale(object, perm);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//如果需要的话，显示dialog进行显示</span></span><br><span class="line">        <span class="keyword">if</span> (shouldShowRationale) &#123;</span><br><span class="line">            AlertDialog dialog = <span class="keyword">new</span> AlertDialog.Builder(getActivity(object))</span><br><span class="line">                    .setMessage(rationale)</span><br><span class="line">                    .setPositiveButton(positiveButton, <span class="keyword">new</span> DialogInterface.OnClickListener() &#123;</span><br><span class="line">                        <span class="annotation">@Override</span></span><br><span class="line">                        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(DialogInterface dialog, <span class="keyword">int</span> which)</span> </span>&#123;</span><br><span class="line">                            <span class="comment">//用户同意了，进行系统权限申请操作</span></span><br><span class="line">                            executePermissionsRequest(object, perms, requestCode);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;)</span><br><span class="line">                    .setNegativeButton(negativeButton, <span class="keyword">new</span> DialogInterface.OnClickListener() &#123;</span><br><span class="line">                        <span class="annotation">@Override</span></span><br><span class="line">                        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(DialogInterface dialog, <span class="keyword">int</span> which)</span> </span>&#123;</span><br><span class="line">                            <span class="comment">// act as if the permissions were denied</span></span><br><span class="line">                            <span class="comment">//没有同意的话，回调出去</span></span><br><span class="line">                            callbacks.onPermissionsDenied(requestCode, Arrays.asList(perms));</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;).create();</span><br><span class="line">            dialog.show();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//不需要显示理由，直接进行权限请求操作</span></span><br><span class="line">            executePermissionsRequest(object, perms, requestCode);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/**</span><br><span class="line">     * 判断传入的对象合适合法，判断规则是传入的object是不是 Fragment 或者 Activity 类，同时是否实现了 PermissionCallbacks</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> object</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">checkCallingObjectSuitability</span><span class="params">(Object object)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// Make sure Object is an Activity or Fragment</span></span><br><span class="line">        <span class="keyword">if</span> (!((object <span class="keyword">instanceof</span> Fragment) || (object <span class="keyword">instanceof</span> Activity))) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Caller must be an Activity or a Fragment."</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Make sure Object implements callbacks</span></span><br><span class="line">        <span class="keyword">if</span> (!(object <span class="keyword">instanceof</span> PermissionCallbacks)) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Caller must implement PermissionCallbacks."</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/**</span><br><span class="line">     * 是否需要显示请求权限理由</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> object</span><br><span class="line">     * <span class="doctag">@param</span> perm</span><br><span class="line">     * <span class="doctag">@return</span> 需要的话返回true，不需要的话返回false</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">shouldShowRequestPermissionRationale</span><span class="params">(Object object, String perm)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (object <span class="keyword">instanceof</span> Activity) &#123;</span><br><span class="line">            <span class="keyword">return</span> ActivityCompat.shouldShowRequestPermissionRationale((Activity) object, perm);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (object <span class="keyword">instanceof</span> Fragment) &#123;</span><br><span class="line">            <span class="keyword">return</span> ((Fragment) object).shouldShowRequestPermissionRationale(perm);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 执行权限请求操作</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> object</span><br><span class="line">     * <span class="doctag">@param</span> perms</span><br><span class="line">     * <span class="doctag">@param</span> requestCode</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">executePermissionsRequest</span><span class="params">(Object object, String[] perms, <span class="keyword">int</span> requestCode)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//判断传入参数是否合适</span></span><br><span class="line">        checkCallingObjectSuitability(object);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (object <span class="keyword">instanceof</span> Activity) &#123;</span><br><span class="line">            ActivityCompat.requestPermissions((Activity) object, perms, requestCode);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (object <span class="keyword">instanceof</span> Fragment) &#123;</span><br><span class="line">            ((Fragment) object).requestPermissions(perms, requestCode);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 拿到Activity对象</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> object</span><br><span class="line">     * <span class="doctag">@return</span></span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Activity <span class="title">getActivity</span><span class="params">(Object object)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (object <span class="keyword">instanceof</span> Activity) &#123;</span><br><span class="line">            <span class="keyword">return</span> ((Activity) object);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (object <span class="keyword">instanceof</span> Fragment) &#123;</span><br><span class="line">            <span class="keyword">return</span> ((Fragment) object).getActivity();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>requestPermission()</code> 有两个不同参数的实现，区别在于弹出的对话框中的 positive 和 negative 文字是否自定义。传入的 <code>Object</code> 对象得是 <code>Activity</code> 或者 <code>Fragment</code> 并且实现了 <code>android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback</code> 或者 <code>android.support.v13.app.FragmentCompat.OnRequestPermissionsResultCallback</code>。然后通过 <code>shouldShowRequestPermissionRationale</code> 方法去判断是否需要显示请求权限的理由，当申请的权限中有一个需要显示请求权限的话，那么就会弹出 dialog 。如果需要弹出 dialog ，用户取消的话那么直接回调出去，没有取消的话就让系统进行权限的申请。</p>
+<p>走到这里 <code>requestPermission()</code> 的任务完成了，那么当用户同意或者不同意授予请求的权限，会进入到 <code>android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback</code> 或者 <code>android.support.v13.app.FragmentCompat.OnRequestPermissionsResultCallback</code>。再回过头看看 <code>使用#准备</code> 中的内容，发现在 <code>OnRequestPermissionsResultCallback</code> 方法中调用了 <code>EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);</code>。</p>
+<h3 id="onRequestPermissionsResult"><a href="#onRequestPermissionsResult" class="headerlink" title="onRequestPermissionsResult"></a>onRequestPermissionsResult</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EasyPermissions</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Handle the result of a permission request, should be called from the calling Activity's</span><br><span class="line">     * &#123;<span class="doctag">@link</span> android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback#onRequestPermissionsResult(int, String[], int[])&#125;</span><br><span class="line">     * method.</span><br><span class="line">     * &lt;p/&gt;</span><br><span class="line">     * If any permissions were granted or denied, the Activity will receive the appropriate</span><br><span class="line">     * callbacks through &#123;<span class="doctag">@link</span> PermissionCallbacks&#125; and methods annotated with</span><br><span class="line">     * &#123;<span class="doctag">@link</span> AfterPermissionGranted&#125; will be run if appropriate.</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> requestCode  requestCode argument to permission result callback.</span><br><span class="line">     * <span class="doctag">@param</span> permissions  permissions argument to permission result callback.</span><br><span class="line">     * <span class="doctag">@param</span> grantResults grantResults argument to permission result callback.</span><br><span class="line">     * <span class="doctag">@param</span> object       the calling Activity or Fragment.</span><br><span class="line">     * <span class="doctag">@throws</span> IllegalArgumentException if the calling Activity does not implement</span><br><span class="line">     *                                  &#123;<span class="doctag">@link</span> PermissionCallbacks&#125;.</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">onRequestPermissionsResult</span><span class="params">(<span class="keyword">int</span> requestCode, String[] permissions, <span class="keyword">int</span>[] grantResults, Object object)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//判断传入参数是否合适</span></span><br><span class="line">        checkCallingObjectSuitability(object);</span><br><span class="line">        <span class="comment">//合适的话直接强转，不合适抛异常</span></span><br><span class="line">        PermissionCallbacks callbacks = (PermissionCallbacks) object;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Make a collection of granted and denied permissions from the request.</span></span><br><span class="line">        ArrayList&lt;String&gt; granted = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        ArrayList&lt;String&gt; denied = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">      <span class="comment">//判断返回的权限数据，如果权限被授予，添加到granted的List中，没有被授予则添加到denied的List中</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; permissions.length; i++) &#123;</span><br><span class="line">            String perm = permissions[i];</span><br><span class="line">            <span class="keyword">if</span> (grantResults[i] == PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">                granted.add(perm);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                denied.add(perm);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Report granted permissions, if any.</span></span><br><span class="line">      <span class="comment">//进行回调</span></span><br><span class="line">        <span class="keyword">if</span> (!granted.isEmpty()) &#123;</span><br><span class="line">            <span class="comment">// Notify callbacks</span></span><br><span class="line">            callbacks.onPermissionsGranted(requestCode, granted);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Report denied permissions, if any.</span></span><br><span class="line">      <span class="comment">//进行回调</span></span><br><span class="line">        <span class="keyword">if</span> (!denied.isEmpty()) &#123;</span><br><span class="line">            callbacks.onPermissionsDenied(requestCode, denied);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// If 100% successful, call annotated methods</span></span><br><span class="line">      <span class="comment">//如果所有请求的权限都被授予，则调用被注解的方法</span></span><br><span class="line">        <span class="keyword">if</span> (!granted.isEmpty() &amp;&amp; denied.isEmpty()) &#123;</span><br><span class="line">            runAnnotatedMethods(object, requestCode);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>onRequestPermissionsResult()</code> 方法处理系统请求权限之后返回的数据，将授予和没有授予的权限通过 <code>PermissionCallbacks</code> 分别回调出去。最后如果请求的权限都被授予的话，则自动去调用被注解了的方法。</p>
+<h3 id="runAnnotatedMethods"><a href="#runAnnotatedMethods" class="headerlink" title="runAnnotatedMethods"></a>runAnnotatedMethods</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EasyPermissions</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 通过反射的方式调用被注解了的方法</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> object</span><br><span class="line">     * <span class="doctag">@param</span> requestCode</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">runAnnotatedMethods</span><span class="params">(Object object, <span class="keyword">int</span> requestCode)</span> </span>&#123;</span><br><span class="line">        Class clazz = object.getClass();</span><br><span class="line">        <span class="keyword">for</span> (Method method : clazz.getDeclaredMethods()) &#123;</span><br><span class="line">          <span class="comment">//是否被AfterPermissionGranted注解了的方法</span></span><br><span class="line">            <span class="keyword">if</span> (method.isAnnotationPresent(AfterPermissionGranted.class)) &#123;</span><br><span class="line">                <span class="comment">// Check for annotated methods with matching request code.</span></span><br><span class="line">                AfterPermissionGranted ann = method.getAnnotation(AfterPermissionGranted.class);</span><br><span class="line">              <span class="comment">//requestCode和AfterPermissionGranted注解传入的requestCode相同的话</span></span><br><span class="line">                <span class="keyword">if</span> (ann.value() == requestCode) &#123;</span><br><span class="line">                    <span class="comment">// Method must be void so that we can invoke it</span></span><br><span class="line">                  <span class="comment">//必须是没有参数的方法</span></span><br><span class="line">                    <span class="keyword">if</span> (method.getParameterTypes().length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Cannot execute non-void method "</span> + method.getName());</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="comment">// Make method accessible if private</span></span><br><span class="line">                      <span class="comment">//如果是private的话，设置Accessible</span></span><br><span class="line">                        <span class="keyword">if</span> (!method.isAccessible()) &#123;</span><br><span class="line">                            method.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">                        &#125;</span><br><span class="line">                      <span class="comment">//调用</span></span><br><span class="line">                        method.invoke(object);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">                        Log.e(TAG, <span class="string">"runDefaultMethod:IllegalAccessException"</span>, e);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">                        Log.e(TAG, <span class="string">"runDefaultMethod:InvocationTargetException"</span>, e);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>runAnnotatedMethods()</code> 方法通过反射方法去调用被注解了的方法，同时这个方法得满足 <code>requestCode</code> 相同且方法没有参数。</p>
+<h3 id="AfterPermissionGranted"><a href="#AfterPermissionGranted" class="headerlink" title="AfterPermissionGranted"></a>AfterPermissionGranted</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="annotation">@Target</span>(ElementType.METHOD)</span><br><span class="line"><span class="keyword">public</span> <span class="annotation">@interface</span> AfterPermissionGranted &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">value</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一个 <code>RUNTIME</code> 的注解，常用使用方式就是通过反射的形式。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>EasyPermissions</code> 通过注解的方式巧妙的减少了在成功请求权限之后的操作，减少的步奏是完成获取权限成功之后自动调用被注解的方法。简单的例子就如 demo 中的一样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@AfterPermissionGranted</span>(RC_CAMERA_PERM)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cameraTask</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (EasyPermissions.hasPermissions(<span class="keyword">this</span>, Manifest.permission.CAMERA)) &#123;</span><br><span class="line">        <span class="comment">// Have permission, do the thing!</span></span><br><span class="line">        Toast.makeText(<span class="keyword">this</span>, <span class="string">"TODO: Camera things"</span>, Toast.LENGTH_LONG).show();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Ask for one permission</span></span><br><span class="line">        EasyPermissions.requestPermissions(<span class="keyword">this</span>, getString(R.string.rationale_camera), RC_CAMERA_PERM, Manifest.permission.CAMERA);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>没有权限的情况下请求权限，请求完之后如果成功则又自动进入这个方法，进行 Toast 操作。</p>
+<h3 id="运行时权限"><a href="#运行时权限" class="headerlink" title="运行时权限"></a>运行时权限</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">group:android.permission-group.CONTACTS</span><br><span class="line">  permission:android.permission.WRITE_CONTACTS</span><br><span class="line">  permission:android.permission.GET_ACCOUNTS</span><br><span class="line">  permission:android.permission.READ_CONTACTS</span><br><span class="line"></span><br><span class="line">group:android.permission-group.PHONE</span><br><span class="line">  permission:android.permission.READ_CALL_LOG</span><br><span class="line">  permission:android.permission.READ_PHONE_STATE</span><br><span class="line">  permission:android.permission.CALL_PHONE</span><br><span class="line">  permission:android.permission.WRITE_CALL_LOG</span><br><span class="line">  permission:android.permission.USE_SIP</span><br><span class="line">  permission:android.permission.PROCESS_OUTGOING_CALLS</span><br><span class="line">  permission:com.android.voicemail.permission.ADD_VOICEMAIL</span><br><span class="line"></span><br><span class="line">group:android.permission-group.CALENDAR</span><br><span class="line">  permission:android.permission.READ_CALENDAR</span><br><span class="line">  permission:android.permission.WRITE_CALENDAR</span><br><span class="line"></span><br><span class="line">group:android.permission-group.CAMERA</span><br><span class="line">  permission:android.permission.CAMERA</span><br><span class="line"></span><br><span class="line">group:android.permission-group.SENSORS</span><br><span class="line">  permission:android.permission.BODY_SENSORS</span><br><span class="line"></span><br><span class="line">group:android.permission-group.LOCATION</span><br><span class="line">  permission:android.permission.ACCESS_FINE_LOCATION</span><br><span class="line">  permission:android.permission.ACCESS_COARSE_LOCATION</span><br><span class="line"></span><br><span class="line">group:android.permission-group.STORAGE</span><br><span class="line">  permission:android.permission.READ_EXTERNAL_STORAGE</span><br><span class="line">  permission:android.permission.WRITE_EXTERNAL_STORAGE</span><br><span class="line"></span><br><span class="line">group:android.permission-group.MICROPHONE</span><br><span class="line">  permission:android.permission.RECORD_AUDIO</span><br><span class="line"></span><br><span class="line">group:android.permission-group.SMS</span><br><span class="line">  permission:android.permission.READ_SMS</span><br><span class="line">  permission:android.permission.RECEIVE_WAP_PUSH</span><br><span class="line">  permission:android.permission.RECEIVE_MMS</span><br><span class="line">  permission:android.permission.RECEIVE_SMS</span><br><span class="line">  permission:android.permission.SEND_SMS</span><br><span class="line">  permission:android.permission.READ_CELL_BROADCASTS</span><br></pre></td></tr></table></figure>
+<p>同时也可以通过 <code>adb shell pm list permissions -d -g</code> 进行查看。</p>
+<p>运行权限也分为了一组一组的，同时申请权限的时候也是按组来申请的，也就是说 <strong>app 对 <code>READ_CONTACTS</code> 已经授权了，当你的 app 申请 <code>WRITE_CONTACTS</code> 时，系统会直接授权通过</strong>。</p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p><code>EasyPermissions</code> 提供的 <code>Fragment</code> 是 v4 包的，如果要使用 <code>android.app.Fragment</code> 的话就需要自己添加了。</p>
+
+        
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/04/24/easypermissions-analyse/">Google-EasyPermissions源码解析</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 yydcdut 的个人博客">yydcdut</a></p>
+        <p><span>发布时间:</span>2016年04月24日 - 17时26分</p>
+        <p><span>最后更新:</span>2016年04月24日 - 17时39分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/04/24/easypermissions-analyse/" title="Google-EasyPermissions源码解析">http://yydcdut.com/2016/04/24/easypermissions-analyse/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yydcdut.com/2016/04/24/easypermissions-analyse/　　作者: yydcdut" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/04/17/android-crop-analyse/">
+                    android-crop源码解析
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-number">1.</span> <span class="toc-text">使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#准备"><span class="toc-number">1.1.</span> <span class="toc-text">准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#请求权限"><span class="toc-number">1.2.</span> <span class="toc-text">请求权限</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码"><span class="toc-number">2.</span> <span class="toc-text">源码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#hasPermissions"><span class="toc-number">2.1.</span> <span class="toc-text">hasPermissions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#requestPermissions"><span class="toc-number">2.2.</span> <span class="toc-text">requestPermissions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#onRequestPermissionsResult"><span class="toc-number">2.3.</span> <span class="toc-text">onRequestPermissionsResult</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#runAnnotatedMethods"><span class="toc-number">2.4.</span> <span class="toc-text">runAnnotatedMethods</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AfterPermissionGranted"><span class="toc-number">2.5.</span> <span class="toc-text">AfterPermissionGranted</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#运行时权限"><span class="toc-number">3.1.</span> <span class="toc-text">运行时权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意"><span class="toc-number">3.2.</span> <span class="toc-text">注意</span></a></li></ol></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+    <div class="share">
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+    <a href="#" class="bds_copy" data-cmd="copy" title="复制网址"></a>
+    <a href="#" class="bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+    </div>
+    <script>
+        window._bd_share_config={
+            "common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+</div>
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/04/24/easypermissions-analyse/" data-title="Google-EasyPermissions源码解析" data-url="http://yydcdut.com/2016/04/24/easypermissions-analyse/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yydcdut"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/04/17/android-crop-analyse/" title="下一篇: android-crop源码解析">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/04/24/easypermissions-analyse/">Google-EasyPermissions源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/android-crop-analyse/">android-crop源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/10/explosionfield-analyse/">ExplosionField源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/27/elasticscrollview-analyse/">ElasticScrollView源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/20/split-dex/">Android Dex分包之旅</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/13/volley-code-analyse/">Volley源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/eventbus3-code-analyse/">EventBus3.0源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/28/listview-optimize/">ListView优化总结</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 yydcdut
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的静态博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减双栏 Hexo 博客主题">Yelee</a> by MOxFIVE
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >本站到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+    <style>
+        body {
+          background: lightgray;
+        }
+        #container .left-col {
+          background: white;
+        }
+        .article-inner {
+          background: white;
+          margin-bottom: 1em;
+        }
+        .post-nav-button {
+          background: #ececec;
+        }
+        #header .header-nav .social #GitHub {
+          background-color: #bfd3ec;
+        }
+        #post-nav-button a {
+          background: rgba(215, 216, 215, .2);
+        }
+        .post-list {
+          background: white;
+        }
+    </style>
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
