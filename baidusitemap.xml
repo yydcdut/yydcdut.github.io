@@ -3,8 +3,30 @@
 
     
   <url>
+    <loc>http://yydcdut.com/2016/05/02/asynctask-analyse/</loc>
+    <lastmod>2016-05-02T15:11:19.000Z</lastmod>
+    <data>
+        <display>
+        <title>AsyncTask源码解析</title>
+        <pubTime>2016-05-02T15:08:42.000Z</pubTime>
+        
+        <tag>AsyncTask </tag>
+         
+        <tag>源码 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://yydcdut.com/categories/Android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yydcdut.com/2016/04/24/easypermissions-analyse/</loc>
-    <lastmod>2016-04-24T09:39:02.000Z</lastmod>
+    <lastmod>2016-04-24T09:39:14.000Z</lastmod>
     <data>
         <display>
         <title>Google-EasyPermissions源码解析</title>
