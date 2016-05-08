@@ -72,15 +72,22 @@
     </url>
 
     <url>
-        <loc>http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/</loc>
+        <loc>http://yydcdut.com/tags/AsyncTask/</loc>
         <lastmod>2016-05-02T15:11:19.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://yydcdut.com/tags/AsyncTask/</loc>
-        <lastmod>2016-05-02T15:11:19.000Z</lastmod>
+        <loc>http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/</loc>
+        <lastmod>2016-05-08T12:44:53.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yydcdut.com/tags/SwipeBack/</loc>
+        <lastmod>2016-05-08T12:44:53.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
