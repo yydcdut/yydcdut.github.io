@@ -1363,6 +1363,10 @@ color
   margin-top: 10px;
   border-left: 4px solid rgba(147,181,224,0.4);
   background: rgba(255,255,255,0.4);
+  border-left: 5px solid rgba(112,134,142,0.85);
+  background: rgba(255,255,255,0.7);
+  border-left: 10px solid rgba(102,128,153,0.08);
+  background: rgba(102,128,153,0.08);
 }
 .article-entry blockquote p {
   margin: 0.4em auto;
@@ -2142,11 +2146,10 @@ li:hover {
   padding: 0.05em 0.3em;
   -webkit-border-radius: 3px;
   border-radius: 3px;
-  var: 2;
+  var: 4;
   color: #fff;
   background: rgba(153,204,153,0.7);
-  color: #f48385;
-  background: rgba(199,38,79,0.07);
+  background: rgba(136,172,219,0.65);
 }
 pre .comment,
 pre .title {
