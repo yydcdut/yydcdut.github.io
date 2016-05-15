@@ -37,13 +37,6 @@
     </url>
 
     <url>
-        <loc>http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/</loc>
-        <lastmod>2016-04-10T06:01:41.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>http://yydcdut.com/tags/ElasticScrollView/</loc>
         <lastmod>2016-04-10T06:01:41.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -79,15 +72,29 @@
     </url>
 
     <url>
-        <loc>http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/</loc>
+        <loc>http://yydcdut.com/tags/SwipeBack/</loc>
         <lastmod>2016-05-08T13:05:33.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://yydcdut.com/tags/SwipeBack/</loc>
-        <lastmod>2016-05-08T13:05:33.000Z</lastmod>
+        <loc>http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/</loc>
+        <lastmod>2016-05-15T14:34:05.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/</loc>
+        <lastmod>2016-05-15T14:34:05.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yydcdut.com/tags/TextView/</loc>
+        <lastmod>2016-05-15T14:34:05.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
