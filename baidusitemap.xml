@@ -3,6 +3,28 @@
 
     
   <url>
+    <loc>http://yydcdut.com/2016/04/17/android-crop-analyse/</loc>
+    <lastmod>2016-05-21T07:30:47.000Z</lastmod>
+    <data>
+        <display>
+        <title>android-crop源码解析</title>
+        <pubTime>2016-04-17T14:57:05.000Z</pubTime>
+        
+        <tag>Android图像处理 </tag>
+         
+        <tag>源码 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://yydcdut.com/categories/Android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yydcdut.com/2016/05/15/drawee-text-view-analyse/</loc>
     <lastmod>2016-05-21T07:13:22.000Z</lastmod>
     <data>
@@ -79,28 +101,6 @@
         <pubTime>2016-04-24T09:26:26.000Z</pubTime>
         
         <tag>权限 </tag>
-         
-        <tag>源码 </tag>
-         
-         
-           
-             
-              <breadCrumb title="Android" url="http://yydcdut.com/categories/Android/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yydcdut.com/2016/04/17/android-crop-analyse/</loc>
-    <lastmod>2016-04-17T14:58:57.000Z</lastmod>
-    <data>
-        <display>
-        <title>android-crop源码解析</title>
-        <pubTime>2016-04-17T14:57:05.000Z</pubTime>
-        
-        <tag>Android图像处理 </tag>
          
         <tag>源码 </tag>
          
