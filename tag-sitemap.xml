@@ -2,13 +2,6 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
-        <loc>http://yydcdut.com/tags/ListView/</loc>
-        <lastmod>2016-02-28T12:38:44.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>http://yydcdut.com/tags/Volley/</loc>
         <lastmod>2016-03-18T03:05:25.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -72,13 +65,6 @@
     </url>
 
     <url>
-        <loc>http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/</loc>
-        <lastmod>2016-05-21T07:13:22.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>http://yydcdut.com/tags/TextView/</loc>
         <lastmod>2016-05-21T07:13:22.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -86,15 +72,29 @@
     </url>
 
     <url>
-        <loc>http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/</loc>
+        <loc>http://yydcdut.com/tags/Android%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</loc>
         <lastmod>2016-05-21T07:30:47.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://yydcdut.com/tags/Android%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</loc>
-        <lastmod>2016-05-21T07:30:47.000Z</lastmod>
+        <loc>http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/</loc>
+        <lastmod>2016-05-22T15:48:51.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/</loc>
+        <lastmod>2016-05-22T15:48:51.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yydcdut.com/tags/ListView/</loc>
+        <lastmod>2016-05-22T15:48:51.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
