@@ -79,22 +79,29 @@
     </url>
 
     <url>
+        <loc>http://yydcdut.com/tags/ListView/</loc>
+        <lastmod>2016-05-22T15:49:05.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/</loc>
-        <lastmod>2016-05-22T15:48:51.000Z</lastmod>
+        <lastmod>2016-05-29T15:13:30.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
         <loc>http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/</loc>
-        <lastmod>2016-05-22T15:48:51.000Z</lastmod>
+        <lastmod>2016-05-29T15:13:30.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://yydcdut.com/tags/ListView/</loc>
-        <lastmod>2016-05-22T15:48:51.000Z</lastmod>
+        <loc>http://yydcdut.com/tags/drag/</loc>
+        <lastmod>2016-05-29T15:13:30.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
