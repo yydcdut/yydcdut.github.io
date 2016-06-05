@@ -93,15 +93,22 @@
     </url>
 
     <url>
-        <loc>http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/</loc>
+        <loc>http://yydcdut.com/tags/EventBus/</loc>
         <lastmod>2016-06-05T02:44:23.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://yydcdut.com/tags/EventBus/</loc>
-        <lastmod>2016-06-05T02:44:23.000Z</lastmod>
+        <loc>http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/</loc>
+        <lastmod>2016-06-05T11:39:39.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yydcdut.com/tags/support-v4/</loc>
+        <lastmod>2016-06-05T11:39:39.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
