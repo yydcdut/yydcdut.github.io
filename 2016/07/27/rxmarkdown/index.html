@@ -3,18 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>ViewDragHelper源码解析 | Android杂文 - yydcdut</title>
+  <title>RxMarkdown介绍 | Android杂文 - yydcdut</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="占坑">
+  <meta name="description" content="RxMarkdown 是一个运用 RxJava API 在 android.widget.TextView 或 android.widget.EditText 中编辑和（实时）预览基本 markdown 语法的 Android 库。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ViewDragHelper源码解析">
-<meta property="og:url" content="http://yydcdut.com/2016/06/19/viewdraghelper-analyse/index.html">
+<meta property="og:title" content="RxMarkdown介绍">
+<meta property="og:url" content="http://yydcdut.com/2016/07/27/rxmarkdown/index.html">
 <meta property="og:site_name" content="Android杂文 - yydcdut">
-<meta property="og:description" content="占坑">
-<meta property="og:updated_time" content="2016-06-19T11:11:26.000Z">
+<meta property="og:description" content="RxMarkdown 是一个运用 RxJava API 在 android.widget.TextView 或 android.widget.EditText 中编辑和（实时）预览基本 markdown 语法的 Android 库。">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/rxmarkdown.gif">
+<meta property="og:updated_time" content="2016-07-27T06:49:49.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ViewDragHelper源码解析">
-<meta name="twitter:description" content="占坑">
+<meta name="twitter:title" content="RxMarkdown介绍">
+<meta name="twitter:description" content="RxMarkdown 是一个运用 RxJava API 在 android.widget.TextView 或 android.widget.EditText 中编辑和（实时）预览基本 markdown 语法的 Android 库。">
   
     <link rel="alternative" href="/atom.xml" title="Android杂文 - yydcdut" type="application/atom+xml">
   
@@ -206,11 +207,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-viewdraghelper-analyse" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-rxmarkdown" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/06/19/viewdraghelper-analyse/" class="article-date">
-      <time datetime="2016-06-19T11:10:31.000Z" itemprop="datePublished">2016-06-19</time>
+      <a href="/2016/07/27/rxmarkdown/" class="article-date">
+      <time datetime="2016-07-27T06:39:36.000Z" itemprop="datePublished">2016-07-27</time>
 </a>
     </div>
   
@@ -223,7 +224,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      ViewDragHelper源码解析
+      RxMarkdown介绍
     </h1>
   
 
@@ -231,8 +232,16 @@
       
       <div class="article-info article-info-post">
         
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/扯蛋/">扯蛋</a>
+    </div>
+
 
         
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/扯蛋/">扯蛋</a></li></ul>
+    </div>
+
         <div class="clearfix"></div>
       </div>
       
@@ -240,9 +249,33 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>占坑</p>
+        <p>RxMarkdown 是一个运用 RxJava API 在 <code>android.widget.TextView</code> 或 <code>android.widget.EditText</code> 中编辑和（实时）预览基本 markdown 语法的 Android 库。 </p>
 <a id="more"></a>
-<p>占坑</p>
+<h2 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h2><p>传送门：<a href="https://github.com/yydcdut/RxMarkdown" target="_blank" rel="external">RxMarkdown</a></p>
+<p><img src="http://yydcdut.qiniudn.com/rxmarkdown.gif" alt="gif"></p>
+<h2 id="为什么做"><a href="#为什么做" class="headerlink" title="为什么做"></a>为什么做</h2><p>看到很多 Android 上的 markdown 的库或者 App ，基本上都是基于 <code>WebView</code> 的，通过 JavaScript 解析内容，加上 CSS 渲染显示在 WebView 上。我就想到如果在 Android 的TextView 上和 EditText 上渲染 markdown 的内容的话会不会很屌，就打算这么做了，做之前我就想到了做出来应该是一个很鸡肋的样子，因为很多 markdown 的语法都应该不会支持吧，但是在做的过程中真的是克服了很多问题，但是表格真是不知道该去怎么实现。</p>
+<h2 id="怎么做"><a href="#怎么做" class="headerlink" title="怎么做"></a>怎么做</h2><p>在 Android 上实现富文本显示的话，起初想到的是将文本转成HTML，然后在 TextView 或者 EditText 中展示出来就好了，但是发现 TextView 或者 EditText 能支持的 HTML 的标签并不多，那么打算自己写一个 <code>Html.TagHandler</code> 处理好了，最后发现其过程麻烦了，先将 markdown 的内容转成 HTML 的，然后再转成 Android 上的富文本。那么，现在的处理是直接将 markdown 的内容转成 Android 上的富文本。</p>
+<p>Android 的富文本是啥？就是 <code>Spannable</code> ，Github 上关于 Android 的 <code>Spannable</code> 的开源库有很多，都写的很棒，但是对于 Android 提供的那些 <code>Span</code> 没法满足要求，然后就只能自己搞一些 <code>Span</code> 来做，比如 markdown 的 todo 的那个语法等。</p>
+<h2 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h2><ul>
+<li><p>图片渲染</p>
+<p>在图片渲染这部分，虽然提供了 <code>ImageSpan</code> ，但是这个类似乎好像不支持网络访问，因为数据（ Drawable ）是通过方法返回值返回到底层去的，所以就没法执行异步操作。在这个地方，刚好看到了 Bilibilib 开源的 <code>drawee-text-view</code> ，就是基于 Fresco 的 Spannable TextView，读了源码之后，豁然开朗，知道了怎么搞，这个问题耶就解决了，但是在 EditText 上似乎还有写问题，当图片从网络上获取完之后，渲染之后，不会马上显示出来，只有当 EditText 上的内容有改变的时候才会显示出来。</p>
+</li>
+<li><p>有序和无序列表</p>
+<p>在处理这部分的逻辑的时候，脑子都要炸了，因为不仅要处理语法这部分，还要考虑上下文，也就是当为有序的时候，前面那一行如果是 <code>3.</code> ，那么该行无论前面是几，当渲染出来的时候都应该是 <code>4.</code>；不仅如此，还要考虑嵌套问题，嵌套一层的时候，应该是 <code>1.</code> 这样的；嵌套结束之后，前面的数字应该继续是非嵌套的时候的数字 + 1。</p>
+</li>
+<li><p>实时预览</p>
+<p>在实时预览的时候，当某个地方发生改变的时候，需要将那部分的数据重新解析一下，这个解析数据要考虑速度和正确性。</p>
+</li>
+<li><p>嵌套</p>
+<p>还是嵌套，在 『引用』和『无序列表』的时候，位置的判断稍微比较难处理；还要『居中』和『 Header 』的嵌套等等。</p>
+</li>
+</ul>
+<h2 id="还用到了什么"><a href="#还用到了什么" class="headerlink" title="还用到了什么"></a>还用到了什么</h2><p>在该库中，人生第一次用了的『责任链模式』，虽然写出来的责任链跟书上的有很大的区别，但是为了适应项目嘛，还要『工厂方法模式』、『建造者模式』</p>
+<h2 id="接下来做什么"><a href="#接下来做什么" class="headerlink" title="接下来做什么"></a>接下来做什么</h2><ul>
+<li>一直在考虑有没有必要将 markdown 的文本转换成 HTML ？</li>
+<li>表格该怎么处理?</li>
+<li>与 WebView 的形式的对比…</li>
+</ul>
 
         
       
@@ -252,13 +285,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/06/19/viewdraghelper-analyse/">ViewDragHelper源码解析</a></p>
+        <p><span>本文标题:</span><a href="/2016/07/27/rxmarkdown/">RxMarkdown介绍</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 yydcdut 的个人博客">yydcdut</a></p>
-        <p><span>发布时间:</span>2016年06月19日 - 19时10分</p>
-        <p><span>最后更新:</span>2016年06月19日 - 19时11分</p>
+        <p><span>发布时间:</span>2016年07月27日 - 14时39分</p>
+        <p><span>最后更新:</span>2016年07月27日 - 14时49分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/06/19/viewdraghelper-analyse/" title="ViewDragHelper源码解析">http://yydcdut.com/2016/06/19/viewdraghelper-analyse/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://yydcdut.com/2016/06/19/viewdraghelper-analyse/　　作者: yydcdut" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2016/07/27/rxmarkdown/" title="RxMarkdown介绍">http://yydcdut.com/2016/07/27/rxmarkdown/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yydcdut.com/2016/07/27/rxmarkdown/　　作者: yydcdut" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -271,16 +304,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2016/07/27/rxmarkdown/">
-                    RxMarkdown介绍
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2016/06/05/arraymap-analyse/">
-                    ArrayMap源码解析
+                <a href="/2016/06/19/viewdraghelper-analyse/">
+                    ViewDragHelper源码解析
                 </a>
             </div>
         
@@ -291,7 +318,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#传送门"><span class="toc-number">1.</span> <span class="toc-text">传送门</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么做"><span class="toc-number">2.</span> <span class="toc-text">为什么做</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#怎么做"><span class="toc-number">3.</span> <span class="toc-text">怎么做</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#遇到问题"><span class="toc-number">4.</span> <span class="toc-text">遇到问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#还用到了什么"><span class="toc-number">5.</span> <span class="toc-text">还用到了什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#接下来做什么"><span class="toc-number">6.</span> <span class="toc-text">接下来做什么</span></a></li></ol>
 </div>
 <style>
     .left-col .switch-btn {
@@ -355,7 +382,7 @@
     
       <div class="duoshuo" id="comments">
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/06/19/viewdraghelper-analyse/" data-title="ViewDragHelper源码解析" data-url="http://yydcdut.com/2016/06/19/viewdraghelper-analyse/"></div>
+    <div class="ds-thread" data-thread-key="2016/07/27/rxmarkdown/" data-title="RxMarkdown介绍" data-url="http://yydcdut.com/2016/07/27/rxmarkdown/"></div>
     <!-- 多说评论框 end -->
     <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -379,15 +406,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/07/27/rxmarkdown/" title="上一篇: RxMarkdown介绍">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2016/06/05/arraymap-analyse/" title="下一篇: ArrayMap源码解析">
+            <a href="/2016/06/19/viewdraghelper-analyse/" title="下一篇: ViewDragHelper源码解析">
                 <i class="fa fa-angle-right"></i>
             </a>
         
