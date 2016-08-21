@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Logger源码解析 | Android杂文 - yydcdut</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Github: logger      分析版本：fcbb21
+
+Logger — Simple, pretty and powerful logger for android.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Logger源码解析">
+<meta property="og:url" content="http://yydcdut.com/2016/08/21/logger-analyse/index.html">
+<meta property="og:site_name" content="Android杂文 - yydcdut">
+<meta property="og:description" content="Github: logger      分析版本：fcbb21
+
+Logger — Simple, pretty and powerful logger for android.">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/logger_description.png">
+<meta property="og:updated_time" content="2016-08-21T08:16:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Logger源码解析">
+<meta name="twitter:description" content="Github: logger      分析版本：fcbb21
+
+Logger — Simple, pretty and powerful logger for android.">
+  
+    <link rel="alternative" href="/atom.xml" title="Android杂文 - yydcdut" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css" type="text/css">
+  
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: true
+      }
+  </script>
+  
+      <script>
+          var _hmt = _hmt || [];
+          (function() {
+              var hm = document.createElement("script");
+              hm.src = "//hm.baidu.com/hm.js?ca0d2d2e8c8246e6ac0e8f9cb04e5833";
+              var s = document.getElementsByTagName("script")[0]; 
+              s.parentNode.insertBefore(hm, s);
+          })();
+      </script>
+  
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/avatar.png" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">yydcdut</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">每周一篇好文章</p>
+        
+                
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/me/">关于我</a></li>
+                        
+                            <li><a href="/note/">开源App</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <li id="Email"><a class="Email" target="_blank" href="/yuyidong2015@gmail.com" title="Email"></a></li>
+                            
+                                <li id="新浪微博"><a class="新浪微博" target="_blank" href="http://weibo.com/yydcdut" title="新浪微博"></a></li>
+                            
+                                <li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/yydcdut" title="GitHub"></a></li>
+                            
+                                <li id="StackOverflow"><a class="StackOverflow" target="_blank" href="http://stackoverflow.com/users/4364595/yydcdut" title="StackOverflow"></a></li>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Android图像处理/" style="font-size: 10px;">Android图像处理</a> <a href="/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/Dex/" style="font-size: 10px;">Dex</a> <a href="/tags/ElasticScrollView/" style="font-size: 10px;">ElasticScrollView</a> <a href="/tags/EventBus/" style="font-size: 10px;">EventBus</a> <a href="/tags/ExplosionField/" style="font-size: 10px;">ExplosionField</a> <a href="/tags/ListView/" style="font-size: 13.33px;">ListView</a> <a href="/tags/SwipeBack/" style="font-size: 10px;">SwipeBack</a> <a href="/tags/TextView/" style="font-size: 10px;">TextView</a> <a href="/tags/Volley/" style="font-size: 10px;">Volley</a> <a href="/tags/drag/" style="font-size: 10px;">drag</a> <a href="/tags/support-v4/" style="font-size: 10px;">support-v4</a> <a href="/tags/扯蛋/" style="font-size: 10px;">扯蛋</a> <a href="/tags/权限/" style="font-size: 10px;">权限</a> <a href="/tags/源码/" style="font-size: 20px;">源码</a> <a href="/tags/粒子爆炸/" style="font-size: 10px;">粒子爆炸</a> <a href="/tags/自定义控件/" style="font-size: 16.67px;">自定义控件</a>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">yydcdut</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/avatar.png" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">yydcdut</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">每周一篇好文章</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/me/">关于我</a></li>
+                
+                    <li><a href="/note/">开源App</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <li id="Email"><a class="Email" target="_blank" href="/yuyidong2015@gmail.com" title="Email"></a></li>
+                            
+                                <li id="新浪微博"><a class="新浪微博" target="_blank" href="http://weibo.com/yydcdut" title="新浪微博"></a></li>
+                            
+                                <li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/yydcdut" title="GitHub"></a></li>
+                            
+                                <li id="StackOverflow"><a class="StackOverflow" target="_blank" href="http://stackoverflow.com/users/4364595/yydcdut" title="StackOverflow"></a></li>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-logger-analyse" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/21/logger-analyse/" class="article-date">
+      <time datetime="2016-08-21T08:07:58.000Z" itemprop="datePublished">2016-08-21</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Logger源码解析
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/源码/">源码</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>Github: <a href="https://github.com/orhanobut/logger" target="_blank" rel="external">logger</a>      分析版本：<a href="https://github.com/orhanobut/logger/tree/fcbb21b30230cdb1c17247d10c395d4e7bfb21ad" target="_blank" rel="external">fcbb21</a></p>
+</blockquote>
+<p>Logger — Simple, pretty and powerful logger for android.</p>
+<a id="more"></a>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><img src="http://yydcdut.qiniudn.com/logger_description.png" alt="logger"></p>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>线程信息（Thread information）</li>
+<li>类信息（Class information）</li>
+<li>方法信息（Method information）</li>
+<li>Json 格式化（Pretty-print for json content）</li>
+<li>遇 ‘\n’ 分行（Pretty-print for new line “\n”）</li>
+<li>简洁易看的输出（Clean output）</li>
+<li>跳转代码（Jump to source）</li>
+</ul>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile <span class="string">'com.orhanobut:logger:1.15'</span></span><br></pre></td></tr></table></figure>
+<h3 id="提供方法"><a href="#提供方法" class="headerlink" title="提供方法"></a>提供方法</h3><ul>
+<li>基础：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Logger.d(<span class="string">"hello"</span>);</span><br><span class="line">Logger.e(<span class="string">"hello"</span>);</span><br><span class="line">Logger.w(<span class="string">"hello"</span>);</span><br><span class="line">Logger.v(<span class="string">"hello"</span>);</span><br><span class="line">Logger.wtf(<span class="string">"hello"</span>);</span><br><span class="line">Logger.json(JSON_CONTENT);</span><br><span class="line">Logger.xml(XML_CONTENT);</span><br><span class="line">Logger.log(DEBUG, <span class="string">"tag"</span>, <span class="string">"message"</span>, throwable);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>支持 String format ：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Logger.d(<span class="string">"hello %s"</span>, <span class="string">"world"</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>支持 Array、Map、Set 和 List 格式：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Logger.d(list);</span><br><span class="line">Logger.d(map);</span><br><span class="line">Logger.d(set);</span><br><span class="line">Logger.d(<span class="keyword">new</span> String[]);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>设置所有的 log 输出的 tag ：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Logger.init(YOUR_TAG);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>当前 log 的 tag：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Logger.t(<span class="string">"mytag"</span>).d(<span class="string">"hello"</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Logger 的设置：</li>
+</ul>
+<p>该方法只需要调用一次，可以放在 Application 中，所有的参数都是可选的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Logger</span><br><span class="line">  .init(YOUR_TAG)                 <span class="comment">// default PRETTYLOGGER or use just init()</span></span><br><span class="line">  .methodCount(<span class="number">3</span>)                 <span class="comment">// default 2</span></span><br><span class="line">  .hideThreadInfo()               <span class="comment">// default shown</span></span><br><span class="line">  .logLevel(LogLevel.NONE)        <span class="comment">// default LogLevel.FULL</span></span><br><span class="line">  .methodOffset(<span class="number">2</span>)                <span class="comment">// default 0</span></span><br><span class="line">  .logAdapter(<span class="keyword">new</span> AndroidLogAdapter()); <span class="comment">//default AndroidLogAdapter</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>打 release 包的时候使用 <code>LogLevel.NONE</code> 。</p>
+<ul>
+<li>使用自定义的 log ：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.logAdapter(<span class="keyword">new</span> CustomLogAdapter())</span><br></pre></td></tr></table></figure>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p>从 <code>Logger.d(&quot;hello&quot;);</code> 入手开始看：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">LoggerPrinter</span> <span class="keyword">implements</span> <span class="title">Printer</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> Printer printer = <span class="keyword">new</span> LoggerPrinter();</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">d</span><span class="params">(Object object)</span> </span>&#123;</span><br><span class="line">    printer.d(object);</span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>跟到 <code>Printer</code> 中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">LoggerPrinter</span> <span class="keyword">implements</span> <span class="title">Printer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Android's max limit for a log entry is ~4076 bytes,</span><br><span class="line">     * so 4000 bytes is used as chunk size since default charset</span><br><span class="line">     * is UTF-8</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CHUNK_SIZE = <span class="number">4000</span>;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * The minimum stack trace index, starts at this class after two native calls.</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MIN_STACK_OFFSET = <span class="number">3</span>;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * tag is used for the Log, the name is a little different</span><br><span class="line">     * in order to differentiate the logs easily with the filter</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">private</span> String tag;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Settings settings = <span class="keyword">new</span> Settings();</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ThreadLocal&lt;String&gt; localTag = <span class="keyword">new</span> ThreadLocal&lt;&gt;();<span class="comment">//该变量每个线程维护的有一份，防止多线程并发的时候打出tag出问题</span></span><br><span class="line">  </span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">d</span><span class="params">(Object object)</span> </span>&#123;</span><br><span class="line">        String message;</span><br><span class="line">        <span class="keyword">if</span> (object.getClass().isArray()) &#123;<span class="comment">//判断是否是数组</span></span><br><span class="line">            message = Arrays.deepToString((Object[]) object);<span class="comment">//如果是的话,调用Arrays的方法</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            message = object.toString();</span><br><span class="line">        &#125;</span><br><span class="line">        log(DEBUG, <span class="keyword">null</span>, message);</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * This method is synchronized in order to avoid messy of logs' order.</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">log</span><span class="params">(<span class="keyword">int</span> priority, Throwable throwable, String msg, Object... args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (settings.getLogLevel() == LogLevel.NONE) &#123;<span class="comment">//为NONE的就不继续了</span></span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        String tag = getTag();<span class="comment">//得到tag</span></span><br><span class="line">        String message = createMessage(msg, args);<span class="comment">//组装message</span></span><br><span class="line">        log(priority, tag, message, throwable);</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * <span class="doctag">@return</span> the appropriate tag based on local or global</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">getTag</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String tag = localTag.get();</span><br><span class="line">        <span class="keyword">if</span> (tag != <span class="keyword">null</span>) &#123;</span><br><span class="line">            localTag.remove();</span><br><span class="line">            <span class="keyword">return</span> tag;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.tag;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">createMessage</span><span class="params">(String message, Object... args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> args == <span class="keyword">null</span> || args.length == <span class="number">0</span> ? message : String.format(message, args);</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">log</span><span class="params">(<span class="keyword">int</span> priority, String tag, String message, Throwable throwable)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (settings.getLogLevel() == LogLevel.NONE) &#123;<span class="comment">//当为NONE的时候不输出</span></span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (throwable != <span class="keyword">null</span> &amp;&amp; message != <span class="keyword">null</span>) &#123;<span class="comment">//如果有throwable,组装到message中</span></span><br><span class="line">            message += <span class="string">" : "</span> + Helper.getStackTraceString(throwable);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (throwable != <span class="keyword">null</span> &amp;&amp; message == <span class="keyword">null</span>) &#123;<span class="comment">//如果有throwable,组装到message中</span></span><br><span class="line">            message = Helper.getStackTraceString(throwable);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (message == <span class="keyword">null</span>) &#123;</span><br><span class="line">            message = <span class="string">"No message/exception is set"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> methodCount = getMethodCount();</span><br><span class="line">        <span class="keyword">if</span> (Helper.isEmpty(message)) &#123;</span><br><span class="line">            message = <span class="string">"Empty/NULL log message"</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        logTopBorder(priority, tag);<span class="comment">//输出顶部的框框</span></span><br><span class="line">        logHeaderContent(priority, tag, methodCount);<span class="comment">//输出线程信息、方法信息等</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//get bytes of message with system's default charset (which is UTF-8 for Android)</span></span><br><span class="line">        <span class="keyword">byte</span>[] bytes = message.getBytes();<span class="comment">//计算message长度</span></span><br><span class="line">        <span class="keyword">int</span> length = bytes.length;</span><br><span class="line">        <span class="keyword">if</span> (length &lt;= CHUNK_SIZE) &#123;<span class="comment">//log中一行显示4000,当小于4000的时候就去一行显示</span></span><br><span class="line">            <span class="keyword">if</span> (methodCount &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                logDivider(priority, tag);</span><br><span class="line">            &#125;</span><br><span class="line">            logContent(priority, tag, message);</span><br><span class="line">            logBottomBorder(priority, tag);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (methodCount &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            logDivider(priority, tag);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i += CHUNK_SIZE) &#123;<span class="comment">//分行显示</span></span><br><span class="line">            <span class="keyword">int</span> count = Math.min(length - i, CHUNK_SIZE);</span><br><span class="line">            <span class="comment">//create a new String with system's default charset (which is UTF-8 for Android)</span></span><br><span class="line">            logContent(priority, tag, <span class="keyword">new</span> String(bytes, i, count));</span><br><span class="line">        &#125;</span><br><span class="line">        logBottomBorder(priority, tag);</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line"><span class="annotation">@SuppressWarnings</span>(<span class="string">"StringBufferReplaceableByString"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">logHeaderContent</span><span class="params">(<span class="keyword">int</span> logType, String tag, <span class="keyword">int</span> methodCount)</span> </span>&#123;</span><br><span class="line">        StackTraceElement[] trace = Thread.currentThread().getStackTrace();<span class="comment">//返回该线程的堆栈转储堆栈跟踪元素的数组</span></span><br><span class="line">        <span class="keyword">if</span> (settings.isShowThreadInfo()) &#123;<span class="comment">//是否显示线程信息</span></span><br><span class="line">            logChunk(logType, tag, HORIZONTAL_DOUBLE_LINE + <span class="string">" Thread: "</span> + Thread.currentThread().getName());<span class="comment">//显示线程名字</span></span><br><span class="line">            logDivider(logType, tag);<span class="comment">//显示分割线</span></span><br><span class="line">        &#125;</span><br><span class="line">        String level = <span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> stackOffset = getStackOffset(trace) + settings.getMethodOffset();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//corresponding method count with the current stack may exceeds the stack trace. Trims the count</span></span><br><span class="line">        <span class="keyword">if</span> (methodCount + stackOffset &gt; trace.length) &#123;</span><br><span class="line">            methodCount = trace.length - stackOffset - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = methodCount; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">int</span> stackIndex = i + stackOffset;</span><br><span class="line">            <span class="keyword">if</span> (stackIndex &gt;= trace.length) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//组装,『║ 类名.方法名 (哪个文件:行数)』</span></span><br><span class="line">            StringBuilder builder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">            builder.append(<span class="string">"║ "</span>)</span><br><span class="line">                    .append(level)</span><br><span class="line">                    .append(getSimpleClassName(trace[stackIndex].getClassName()))</span><br><span class="line">                    .append(<span class="string">"."</span>)</span><br><span class="line">                    .append(trace[stackIndex].getMethodName())</span><br><span class="line">                    .append(<span class="string">" "</span>)</span><br><span class="line">                    .append(<span class="string">" ("</span>)</span><br><span class="line">                    .append(trace[stackIndex].getFileName())</span><br><span class="line">                    .append(<span class="string">":"</span>)</span><br><span class="line">                    .append(trace[stackIndex].getLineNumber())</span><br><span class="line">                    .append(<span class="string">")"</span>);</span><br><span class="line">            level += <span class="string">"   "</span>;</span><br><span class="line">            logChunk(logType, tag, builder.toString());<span class="comment">//输出</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 通过chunk界别来通过LogAdapter输出</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> logType</span><br><span class="line">     * <span class="doctag">@param</span> tag</span><br><span class="line">     * <span class="doctag">@param</span> chunk</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">logChunk</span><span class="params">(<span class="keyword">int</span> logType, String tag, String chunk)</span> </span>&#123;</span><br><span class="line">        String finalTag = formatTag(tag);</span><br><span class="line">        <span class="keyword">switch</span> (logType) &#123;</span><br><span class="line">            <span class="keyword">case</span> ERROR:</span><br><span class="line">                settings.getLogAdapter().e(finalTag, chunk);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> INFO:</span><br><span class="line">                settings.getLogAdapter().i(finalTag, chunk);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> VERBOSE:</span><br><span class="line">                settings.getLogAdapter().v(finalTag, chunk);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> WARN:</span><br><span class="line">                settings.getLogAdapter().w(finalTag, chunk);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> ASSERT:</span><br><span class="line">                settings.getLogAdapter().wtf(finalTag, chunk);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> DEBUG:</span><br><span class="line">                <span class="comment">// Fall through, log debug by default</span></span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                settings.getLogAdapter().d(finalTag, chunk);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 显示分割线</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> logType</span><br><span class="line">     * <span class="doctag">@param</span> tag</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">logDivider</span><span class="params">(<span class="keyword">int</span> logType, String tag)</span> </span>&#123;</span><br><span class="line">        logChunk(logType, tag, MIDDLE_BORDER);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//----------------------- logHeaderContent  begin -----------------------</span></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Determines the starting index of the stack trace, after method calls made by this class.</span><br><span class="line">     * 找调用堆栈中最外层调用的index</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> trace the stack trace</span><br><span class="line">     * <span class="doctag">@return</span> the stack offset</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getStackOffset</span><span class="params">(StackTraceElement[] trace)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = MIN_STACK_OFFSET; i &lt; trace.length; i++) &#123;<span class="comment">//MIN_STACK_OFFSET为3,一般3返回的是最外层调用方法的地方</span></span><br><span class="line">            StackTraceElement e = trace[i];</span><br><span class="line">            String name = e.getClassName();</span><br><span class="line">            <span class="keyword">if</span> (!name.equals(LoggerPrinter.class.getName()) &amp;&amp; !name.equals(Logger.class.getName())) &#123;</span><br><span class="line">                <span class="keyword">return</span> --i;<span class="comment">//当name不为『LoggerPrinter』或者『Logger』的时候,接下去的就是调用该方法堆栈的信息了</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">getSimpleClassName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> lastIndex = name.lastIndexOf(<span class="string">"."</span>);</span><br><span class="line">        <span class="keyword">return</span> name.substring(lastIndex + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">formatTag</span><span class="params">(String tag)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!Helper.isEmpty(tag) &amp;&amp; !Helper.equals(<span class="keyword">this</span>.tag, tag)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.tag + <span class="string">"-"</span> + tag;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.tag;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 如果对该条log设置了tag,那么进行tag处理</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> tag</span><br><span class="line">     * <span class="doctag">@return</span></span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">formatTag</span><span class="params">(String tag)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!Helper.isEmpty(tag) &amp;&amp; !Helper.equals(<span class="keyword">this</span>.tag, tag)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.tag + <span class="string">"-"</span> + tag;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.tag;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//----------------------- logHeaderContent  end -----------------------</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 分行去显示内容</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> logType</span><br><span class="line">     * <span class="doctag">@param</span> tag</span><br><span class="line">     * <span class="doctag">@param</span> chunk</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">logContent</span><span class="params">(<span class="keyword">int</span> logType, String tag, String chunk)</span> </span>&#123;</span><br><span class="line">        String[] lines = chunk.split(System.getProperty(<span class="string">"line.separator"</span>));</span><br><span class="line">        <span class="keyword">for</span> (String line : lines) &#123;</span><br><span class="line">            logChunk(logType, tag, HORIZONTAL_DOUBLE_LINE + <span class="string">" "</span> + line);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">logBottomBorder</span><span class="params">(<span class="keyword">int</span> logType, String tag)</span> </span>&#123;</span><br><span class="line">        logChunk(logType, tag, BOTTOM_BORDER);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>当满足 <code>(文件名字:行数)</code> 的时候，便可点击并跳转到该位置。</strong>以及其他的 <code>v()</code> 、 <code>i()</code> 等等都相似。</p>
+<p>那么现在来看看 json 和 xml ：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">LoggerPrinter</span> <span class="keyword">implements</span> <span class="title">Printer</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Formats the json content and print it</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> json the json content</span><br><span class="line">     */</span></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">json</span><span class="params">(String json)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Helper.isEmpty(json)) &#123;</span><br><span class="line">            d(<span class="string">"Empty/Null json content"</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            json = json.trim();</span><br><span class="line">            <span class="keyword">if</span> (json.startsWith(<span class="string">"&#123;"</span>)) &#123;<span class="comment">//JsonObject</span></span><br><span class="line">                JSONObject jsonObject = <span class="keyword">new</span> JSONObject(json);</span><br><span class="line">                String message = jsonObject.toString(JSON_INDENT);<span class="comment">//转成String</span></span><br><span class="line">                d(message);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (json.startsWith(<span class="string">"["</span>)) &#123;<span class="comment">//JsonArray</span></span><br><span class="line">                JSONArray jsonArray = <span class="keyword">new</span> JSONArray(json);</span><br><span class="line">                String message = jsonArray.toString(JSON_INDENT);<span class="comment">//转成String</span></span><br><span class="line">                d(message);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            e(<span class="string">"Invalid Json"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (JSONException e) &#123;</span><br><span class="line">            e(<span class="string">"Invalid Json"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * Formats the json content and print it</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> xml the xml content</span><br><span class="line">     */</span></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">xml</span><span class="params">(String xml)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Helper.isEmpty(xml)) &#123;</span><br><span class="line">            d(<span class="string">"Empty/Null xml content"</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Source xmlInput = <span class="keyword">new</span> StreamSource(<span class="keyword">new</span> StringReader(xml));</span><br><span class="line">            StreamResult xmlOutput = <span class="keyword">new</span> StreamResult(<span class="keyword">new</span> StringWriter());</span><br><span class="line">            Transformer transformer = TransformerFactory.newInstance().newTransformer();</span><br><span class="line">            transformer.setOutputProperty(OutputKeys.INDENT, <span class="string">"yes"</span>);</span><br><span class="line">            transformer.setOutputProperty(<span class="string">"&#123;http://xml.apache.org/xslt&#125;indent-amount"</span>, <span class="string">"2"</span>);</span><br><span class="line">            transformer.transform(xmlInput, xmlOutput);</span><br><span class="line">            d(xmlOutput.getWriter().toString().replaceFirst(<span class="string">"&gt;"</span>, <span class="string">"&gt;\n"</span>));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (TransformerException e) &#123;</span><br><span class="line">            e(<span class="string">"Invalid xml"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在处理 json 中，使用的是 <code>JSONObject</code> 和 <code>JSONArray</code> 两个类，利用该方法的 <code>toString()</code> 方法，在调用 <code>d()</code> 方法输出。在处理 xml 中，使用的是 <code>StreamSource</code> ，同样用 <code>d()</code> 输出。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在平时的开发的时候我们也会用到 Log，或许会将 Log 方法简单封装一下，比如 release 的时候不打出 Log 等。但是Logger 不仅仅只是封装，还处理了很多 Log 存在的缺陷，像 logger 这样处理 Log 日志真的是业界良心，后续也有很多开源库参照该库。</p>
+
+        
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/08/21/logger-analyse/">Logger源码解析</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 yydcdut 的个人博客">yydcdut</a></p>
+        <p><span>发布时间:</span>2016年08月21日 - 16时07分</p>
+        <p><span>最后更新:</span>2016年08月21日 - 16时16分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/08/21/logger-analyse/" title="Logger源码解析">http://yydcdut.com/2016/08/21/logger-analyse/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yydcdut.com/2016/08/21/logger-analyse/　　作者: yydcdut" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/07/27/rxmarkdown/">
+                    RxMarkdown介绍
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特点"><span class="toc-number">1.1.</span> <span class="toc-text">特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用"><span class="toc-number">1.2.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#提供方法"><span class="toc-number">1.3.</span> <span class="toc-text">提供方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码"><span class="toc-number">2.</span> <span class="toc-text">源码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+    <div class="share">
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+    <a href="#" class="bds_copy" data-cmd="copy" title="复制网址"></a>
+    <a href="#" class="bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+    </div>
+    <script>
+        window._bd_share_config={
+            "common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+</div>
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/08/21/logger-analyse/" data-title="Logger源码解析" data-url="http://yydcdut.com/2016/08/21/logger-analyse/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yydcdut"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/07/27/rxmarkdown/" title="下一篇: RxMarkdown介绍">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/logger-analyse/">Logger源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/rxmarkdown/">RxMarkdown介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/viewdraghelper-analyse/">ViewDragHelper源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/05/arraymap-analyse/">ArrayMap源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/29/android-grag-square-analyse/">android-drag-square源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/22/swipemenulistview-analyse/">SwipeMenuListview源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/15/drawee-text-view-analyse/">Bilibili-drawee-text-view源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/08/swipebacklayout-analyse/">SwipeBackLayout源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/asynctask-analyse/">AsyncTask源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/24/easypermissions-analyse/">Google-EasyPermissions源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/android-crop-analyse/">android-crop源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/10/explosionfield-analyse/">ExplosionField源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/27/elasticscrollview-analyse/">ElasticScrollView源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/20/split-dex/">Android Dex分包之旅</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/13/volley-code-analyse/">Volley源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/eventbus3-code-analyse/">EventBus3.0源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/28/listview-optimize/">ListView优化总结</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 yydcdut
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的静态博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减双栏 Hexo 博客主题">Yelee</a> by MOxFIVE
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >本站到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+    <style>
+        body {
+          background: lightgray;
+        }
+        #container .left-col {
+          background: white;
+        }
+        .article-inner {
+          background: white;
+          margin-bottom: 1em;
+        }
+        .post-nav-button {
+          background: #ececec;
+        }
+        #header .header-nav .social #GitHub {
+          background-color: #bfd3ec;
+        }
+        #post-nav-button a {
+          background: rgba(215, 216, 215, .2);
+        }
+        .post-list {
+          background: white;
+        }
+    </style>
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
