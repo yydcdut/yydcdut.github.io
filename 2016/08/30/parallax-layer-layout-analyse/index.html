@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Parallax-Layer-Layout源码解析 | Android杂文 - yydcdut</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Github: Parallax-Layer-Layout      分析版本：5375a3a
+
+在 Android 上的分层视差效果的开源库。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Parallax-Layer-Layout源码解析">
+<meta property="og:url" content="http://yydcdut.com/2016/08/30/parallax-layer-layout-analyse/index.html">
+<meta property="og:site_name" content="Android杂文 - yydcdut">
+<meta property="og:description" content="Github: Parallax-Layer-Layout      分析版本：5375a3a
+
+在 Android 上的分层视差效果的开源库。">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/Parallax_Layer_Layout.gif">
+<meta property="og:updated_time" content="2016-08-30T07:42:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Parallax-Layer-Layout源码解析">
+<meta name="twitter:description" content="Github: Parallax-Layer-Layout      分析版本：5375a3a
+
+在 Android 上的分层视差效果的开源库。">
+  
+    <link rel="alternative" href="/atom.xml" title="Android杂文 - yydcdut" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css" type="text/css">
+  
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: true
+      }
+  </script>
+  
+      <script>
+          var _hmt = _hmt || [];
+          (function() {
+              var hm = document.createElement("script");
+              hm.src = "//hm.baidu.com/hm.js?ca0d2d2e8c8246e6ac0e8f9cb04e5833";
+              var s = document.getElementsByTagName("script")[0]; 
+              s.parentNode.insertBefore(hm, s);
+          })();
+      </script>
+  
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/avatar.png" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">yydcdut</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">每周一篇好文章</p>
+        
+                
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/me/">关于我</a></li>
+                        
+                            <li><a href="/note/">开源App</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <li id="Email"><a class="Email" target="_blank" href="/yuyidong2015@gmail.com" title="Email"></a></li>
+                            
+                                <li id="新浪微博"><a class="新浪微博" target="_blank" href="http://weibo.com/yydcdut" title="新浪微博"></a></li>
+                            
+                                <li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/yydcdut" title="GitHub"></a></li>
+                            
+                                <li id="StackOverflow"><a class="StackOverflow" target="_blank" href="http://stackoverflow.com/users/4364595/yydcdut" title="StackOverflow"></a></li>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Android图像处理/" style="font-size: 10px;">Android图像处理</a> <a href="/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/Dex/" style="font-size: 10px;">Dex</a> <a href="/tags/ElasticScrollView/" style="font-size: 10px;">ElasticScrollView</a> <a href="/tags/EventBus/" style="font-size: 10px;">EventBus</a> <a href="/tags/ExplosionField/" style="font-size: 10px;">ExplosionField</a> <a href="/tags/ListView/" style="font-size: 13.33px;">ListView</a> <a href="/tags/SwipeBack/" style="font-size: 10px;">SwipeBack</a> <a href="/tags/TextView/" style="font-size: 10px;">TextView</a> <a href="/tags/Volley/" style="font-size: 10px;">Volley</a> <a href="/tags/drag/" style="font-size: 10px;">drag</a> <a href="/tags/support-v4/" style="font-size: 10px;">support-v4</a> <a href="/tags/传感器/" style="font-size: 10px;">传感器</a> <a href="/tags/扯蛋/" style="font-size: 10px;">扯蛋</a> <a href="/tags/权限/" style="font-size: 10px;">权限</a> <a href="/tags/源码/" style="font-size: 20px;">源码</a> <a href="/tags/粒子爆炸/" style="font-size: 10px;">粒子爆炸</a> <a href="/tags/自定义控件/" style="font-size: 16.67px;">自定义控件</a>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">yydcdut</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/avatar.png" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">yydcdut</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">每周一篇好文章</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/me/">关于我</a></li>
+                
+                    <li><a href="/note/">开源App</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <li id="Email"><a class="Email" target="_blank" href="/yuyidong2015@gmail.com" title="Email"></a></li>
+                            
+                                <li id="新浪微博"><a class="新浪微博" target="_blank" href="http://weibo.com/yydcdut" title="新浪微博"></a></li>
+                            
+                                <li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/yydcdut" title="GitHub"></a></li>
+                            
+                                <li id="StackOverflow"><a class="StackOverflow" target="_blank" href="http://stackoverflow.com/users/4364595/yydcdut" title="StackOverflow"></a></li>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-parallax-layer-layout-analyse" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/30/parallax-layer-layout-analyse/" class="article-date">
+      <time datetime="2016-08-30T07:31:52.000Z" itemprop="datePublished">2016-08-30</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Parallax-Layer-Layout源码解析
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/传感器/">传感器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/源码/">源码</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/自定义控件/">自定义控件</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>Github: <a href="https://github.com/SchibstedSpain/Parallax-Layer-Layout" target="_blank" rel="external">Parallax-Layer-Layout</a>      分析版本：<a href="https://github.com/SchibstedSpain/Parallax-Layer-Layout/tree/5375a3a4db4aff1831aa7aabea2fb0b1e002abf9" target="_blank" rel="external">5375a3a</a></p>
+</blockquote>
+<p>在 Android 上的分层视差效果的开源库。</p>
+<a id="more"></a>
+<h2 id="Parallax-Layer-Layout"><a href="#Parallax-Layer-Layout" class="headerlink" title="Parallax-Layer-Layout"></a>Parallax-Layer-Layout</h2><p><img src="http://yydcdut.qiniudn.com/Parallax_Layer_Layout.gif" alt="Parallax-Layer-Layout"></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>添加到 layout 中：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">com.schibsted.spain.parallaxlayerlayout.ParallaxLayerLayout</span></span><br><span class="line">        <span class="attribute">android:id</span>=<span class="value">"@+id/parallax"</span></span><br><span class="line">        <span class="attribute">android:layout_width</span>=<span class="value">"match_parent"</span></span><br><span class="line">        <span class="attribute">android:layout_height</span>=<span class="value">"0dp"</span></span><br><span class="line">        <span class="attribute">android:layout_weight</span>=<span class="value">"1"</span></span><br><span class="line">        <span class="attribute">app:parallaxOffsetBase</span>=<span class="value">"20dp"</span></span><br><span class="line">        <span class="attribute">app:parallaxOffsetIncrement</span>=<span class="value">"10dp"</span></span><br><span class="line">        <span class="attribute">app:parallaxScaleVertical</span>=<span class="value">"0.5"</span>&gt;</span></span><br><span class="line">        </span><br><span class="line">        <span class="tag">&lt;<span class="title">View</span></span><br><span class="line">            <span class="attribute">android:id</span>=<span class="value">"@+id/layer_3"</span></span><br><span class="line">            <span class="attribute">android:layout_width</span>=<span class="value">"200dp"</span></span><br><span class="line">            <span class="attribute">android:layout_height</span>=<span class="value">"200dp"</span></span><br><span class="line">            <span class="attribute">android:background</span>=<span class="value">"@drawable/background_primary_dark"</span></span><br><span class="line">            <span class="attribute">app:layout_parallaxZIndex</span>=<span class="value">"3"</span>/&gt;</span></span><br><span class="line">        </span><br><span class="line">        <span class="tag">&lt;<span class="title">View</span></span><br><span class="line">            <span class="attribute">android:id</span>=<span class="value">"@+id/layer_2"</span></span><br><span class="line">            <span class="attribute">android:layout_width</span>=<span class="value">"152dp"</span></span><br><span class="line">            <span class="attribute">android:layout_height</span>=<span class="value">"152dp"</span></span><br><span class="line">            <span class="attribute">android:background</span>=<span class="value">"@drawable/background_primary"</span>/&gt;</span></span><br><span class="line">        </span><br><span class="line">        <span class="tag">&lt;<span class="title">View</span></span><br><span class="line">            <span class="attribute">android:id</span>=<span class="value">"@+id/layer_1"</span></span><br><span class="line">            <span class="attribute">android:layout_width</span>=<span class="value">"120dp"</span></span><br><span class="line">            <span class="attribute">android:layout_height</span>=<span class="value">"120dp"</span></span><br><span class="line">            <span class="attribute">android:background</span>=<span class="value">"@drawable/background_accent"</span>/&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;/<span class="title">com.schibsted.spain.parallaxlayerlayout.ParallaxLayerLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注册传感器：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ParallaxLayerLayout parallaxLayout;</span><br><span class="line">    <span class="keyword">private</span> SensorTranslationUpdater translationUpdater;</span><br><span class="line">  </span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main_squares);</span><br><span class="line">      </span><br><span class="line">        parallaxLayout = (ParallaxLayerLayout) findViewById(R.id.parallax);</span><br><span class="line">        translationUpdater = <span class="keyword">new</span> SensorTranslationUpdater(<span class="keyword">this</span>);</span><br><span class="line">        parallaxLayout.setTranslationUpdater(translationUpdater);</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onResume</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onResume();</span><br><span class="line">        translationUpdater.registerSensorManager();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPause</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onPause();</span><br><span class="line">        translationUpdater.unregisterSensorManager();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><h3 id="SensorTranslationUpdater"><a href="#SensorTranslationUpdater" class="headerlink" title="SensorTranslationUpdater"></a>SensorTranslationUpdater</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SensorTranslationUpdater</span> <span class="keyword">implements</span> <span class="title">ParallaxLayerLayout</span>.<span class="title">TranslationUpdater</span>, <span class="title">SensorEventListener</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_SAMPLING_PERIOD = <span class="number">100</span>;<span class="comment">//传感器回调间隔时间</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> SensorManager sensorManager;<span class="comment">//传感器</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span>[] mTiltVector = <span class="keyword">new</span> <span class="keyword">float</span>[<span class="number">3</span>];</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> mTargeted = <span class="keyword">false</span>;<span class="comment">//是否第一次进入或者reset了</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span>[] mTargetMatrix = <span class="keyword">new</span> <span class="keyword">float</span>[<span class="number">16</span>];<span class="comment">//初始矩阵</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span>[] mRotationMatrix = <span class="keyword">new</span> <span class="keyword">float</span>[<span class="number">16</span>];<span class="comment">//当前矩阵</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span>[] mOrientedRotationMatrix = <span class="keyword">new</span> <span class="keyword">float</span>[<span class="number">16</span>];<span class="comment">//屏幕旋转后转换回来之后的矩阵</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span>[] mTruncatedRotationVector;<span class="comment">//适配机型的传感器返回的数组</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> mTiltSensitivity = <span class="number">2.0f</span>;<span class="comment">//灵敏度</span></span><br><span class="line">    <span class="keyword">private</span> ParallaxLayerLayout parallax;<span class="comment">//View</span></span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SensorTranslationUpdater</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>((SensorManager) context.getSystemService(Context.SENSOR_SERVICE));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SensorTranslationUpdater</span><span class="params">(SensorManager sensorManager)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.sensorManager = sensorManager;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 注册传感器</span><br><span class="line">     * 使用的是TYPE_ROTATION_VECTOR传感器</span><br><span class="line">     * 在Activity的onResume中调用</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerSensorManager</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sensorManager != <span class="keyword">null</span>) &#123;</span><br><span class="line">            sensorManager.registerListener(<span class="keyword">this</span>,sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR), DEFAULT_SAMPLING_PERIOD);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 注销传感器</span><br><span class="line">     * 在Activity的onPause中调用</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unregisterSensorManager</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (sensorManager != <span class="keyword">null</span>) &#123;</span><br><span class="line">            sensorManager.unregisterListener(<span class="keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 传感器的回调</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> event</span><br><span class="line">     */</span></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSensorChanged</span><span class="params">(SensorEvent event)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (parallax == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//得到每个角度都是间于-1到1之间</span></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">float</span>[] vectors = interpretSensorEvent(parallax.getContext(), event);</span><br><span class="line">        <span class="keyword">if</span> (vectors == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">float</span> roll = vectors[<span class="number">2</span>];<span class="comment">//X轴方向的值</span></span><br><span class="line">        <span class="keyword">float</span> pitch = -vectors[<span class="number">1</span>];<span class="comment">//Y轴方向的值</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//做平移动画</span></span><br><span class="line">        parallax.updateTranslations(<span class="keyword">new</span> <span class="keyword">float</span>[]&#123;roll, pitch&#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span><br><span class="line">     * 将View设置进来</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> parallaxLayerLayout</span><br><span class="line">     */</span></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(ParallaxLayerLayout parallaxLayerLayout)</span> </span>&#123;</span><br><span class="line">        parallax = parallaxLayerLayout;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 清理掉View</span><br><span class="line">     */</span></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unSubscribe</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        parallax = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>初始化 <code>SensorTranslationUpdater</code> 完成了，现在看一些方法的具体实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SensorTranslationUpdater</span> <span class="keyword">implements</span> <span class="title">ParallaxLayerLayout</span>.<span class="title">TranslationUpdater</span>, <span class="title">SensorEventListener</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_SAMPLING_PERIOD = <span class="number">100</span>;<span class="comment">//传感器回调间隔时间</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> SensorManager sensorManager;<span class="comment">//传感器</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span>[] mTiltVector = <span class="keyword">new</span> <span class="keyword">float</span>[<span class="number">3</span>];</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> mTargeted = <span class="keyword">false</span>;<span class="comment">//是否第一次进入或者reset了</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span>[] mTargetMatrix = <span class="keyword">new</span> <span class="keyword">float</span>[<span class="number">16</span>];<span class="comment">//初始矩阵</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span>[] mRotationMatrix = <span class="keyword">new</span> <span class="keyword">float</span>[<span class="number">16</span>];<span class="comment">//当前矩阵</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span>[] mOrientedRotationMatrix = <span class="keyword">new</span> <span class="keyword">float</span>[<span class="number">16</span>];<span class="comment">//屏幕旋转后转换回来之后的矩阵</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span>[] mTruncatedRotationVector;<span class="comment">//适配机型的传感器返回的数组</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> mTiltSensitivity = <span class="number">2.0f</span>;<span class="comment">//灵敏度</span></span><br><span class="line">    <span class="keyword">private</span> ParallaxLayerLayout parallax;<span class="comment">//View</span></span><br><span class="line">  </span><br><span class="line">    <span class="comment">//最后返回的在-1到1之间</span></span><br><span class="line">    <span class="annotation">@Nullable</span></span><br><span class="line">    <span class="annotation">@SuppressWarnings</span>(<span class="string">"SuspiciousNameCombination"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span>[] interpretSensorEvent(<span class="annotation">@NonNull</span> Context context, <span class="annotation">@Nullable</span> SensorEvent event) &#123;</span><br><span class="line">        <span class="keyword">if</span> (event == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//适配</span></span><br><span class="line">        <span class="comment">// Retrieves the RotationVector from SensorEvent</span></span><br><span class="line">        <span class="keyword">float</span>[] rotationVector = getRotationVectorFromSensorEvent(event);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//第一次的时候会进到这里</span></span><br><span class="line">        <span class="comment">//赋值mTargetMatrix,这个为最初始的matrix</span></span><br><span class="line">        <span class="comment">//就是将传感器得到的值转换成矩阵</span></span><br><span class="line">        <span class="comment">// Set target rotation if none has been set</span></span><br><span class="line">        <span class="keyword">if</span> (!mTargeted) &#123;</span><br><span class="line">            setTargetVector(rotationVector);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//转换成矩阵</span></span><br><span class="line">        <span class="comment">// Get rotation matrix from event's values</span></span><br><span class="line">        SensorManager.getRotationMatrixFromVector(mRotationMatrix, rotationVector);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//得到当前屏幕的旋转角度</span></span><br><span class="line">        <span class="comment">// Acquire rotation of screen</span></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> rotation =</span><br><span class="line">                ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay()</span><br><span class="line">                        .getRotation();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//通过屏幕的选择来计算角度</span></span><br><span class="line">        <span class="comment">// Calculate angle differential between target and current orientation</span></span><br><span class="line">        <span class="keyword">if</span> (rotation == Surface.ROTATION_0) &#123;</span><br><span class="line">            <span class="comment">//通过当前的mRotationMatrix矩阵和最开始的mTargetMatrix矩阵,对比得到变换的角度</span></span><br><span class="line">            SensorManager.getAngleChange(mTiltVector, mRotationMatrix, mTargetMatrix);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//通过屏幕的选择角度重新映射坐标</span></span><br><span class="line">            <span class="comment">// Adjust axes on screen orientation by remapping coordinates</span></span><br><span class="line">            <span class="keyword">switch</span> (rotation) &#123;</span><br><span class="line">                <span class="keyword">case</span> Surface.ROTATION_90:</span><br><span class="line">                    SensorManager.remapCoordinateSystem(mRotationMatrix, SensorManager.AXIS_Y,</span><br><span class="line">                            SensorManager.AXIS_MINUS_X, mOrientedRotationMatrix);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">case</span> Surface.ROTATION_180:</span><br><span class="line">                    SensorManager.remapCoordinateSystem(mRotationMatrix, SensorManager.AXIS_MINUS_X,</span><br><span class="line">                            SensorManager.AXIS_MINUS_Y, mOrientedRotationMatrix);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">case</span> Surface.ROTATION_270:</span><br><span class="line">                    SensorManager.remapCoordinateSystem(mRotationMatrix, SensorManager.AXIS_MINUS_Y,</span><br><span class="line">                            SensorManager.AXIS_X, mOrientedRotationMatrix);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">default</span>:</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            SensorManager.getAngleChange(mTiltVector, mOrientedRotationMatrix, mTargetMatrix);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//得到的角度都是在-π到π之间,转化成-1到1之间</span></span><br><span class="line">        <span class="comment">// Perform value scaling and clamping on value array</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mTiltVector.length; i++) &#123;</span><br><span class="line">            <span class="comment">// Map domain of tilt vector from radian (-PI, PI) to fraction (-1, 1)</span></span><br><span class="line">            mTiltVector[i] /= Math.PI;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Adjust for tilt sensitivity</span></span><br><span class="line">            mTiltVector[i] *= mTiltSensitivity;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Clamp values to bounds</span></span><br><span class="line">            <span class="keyword">if</span> (mTiltVector[i] &gt; <span class="number">1</span>) &#123;</span><br><span class="line">                mTiltVector[i] = <span class="number">1f</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mTiltVector[i] &lt; -<span class="number">1</span>) &#123;</span><br><span class="line">                mTiltVector[i] = -<span class="number">1f</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> mTiltVector;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 适配,只要前4个</span><br><span class="line">     * 一般的都只返回3个,XYZ</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> event</span><br><span class="line">     * <span class="doctag">@return</span></span><br><span class="line">     */</span></span><br><span class="line">    <span class="annotation">@NonNull</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span>[] getRotationVectorFromSensorEvent(<span class="annotation">@NonNull</span> SensorEvent event) &#123;</span><br><span class="line">        <span class="keyword">if</span> (event.values.length &gt; <span class="number">4</span>) &#123;</span><br><span class="line">            <span class="comment">// On some Samsung devices SensorManager.getRotationMatrixFromVector</span></span><br><span class="line">            <span class="comment">// appears to throw an exception if rotation vector has length &gt; 4.</span></span><br><span class="line">            <span class="comment">// For the purposes of this class the first 4 values of the</span></span><br><span class="line">            <span class="comment">// rotation vector are sufficient (see crbug.com/335298 for details).</span></span><br><span class="line">            <span class="keyword">if</span> (mTruncatedRotationVector == <span class="keyword">null</span>) &#123;</span><br><span class="line">                mTruncatedRotationVector = <span class="keyword">new</span> <span class="keyword">float</span>[<span class="number">4</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            System.arraycopy(event.values, <span class="number">0</span>, mTruncatedRotationVector, <span class="number">0</span>, <span class="number">4</span>);</span><br><span class="line">            <span class="keyword">return</span> mTruncatedRotationVector;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> event.values;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该俩方法就是将传感器返回的值转换成 -1 到 1 区间内的值，然后传递给 <code>ParallaxLayerLayout</code>，再看看 <code>ParallaxLayerLayout</code> ：</p>
+<h3 id="ParallaxLayerLayout"><a href="#ParallaxLayerLayout" class="headerlink" title="ParallaxLayerLayout"></a>ParallaxLayerLayout</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ParallaxLayerLayout</span> <span class="keyword">extends</span> <span class="title">FrameLayout</span> </span>&#123;</span><br><span class="line">    <span class="comment">//默认移动范围</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_BASE_OFFSET_DP = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_OFFSET_INCREMENT_DP = <span class="number">5</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Interpolator interpolator = <span class="keyword">new</span> DecelerateInterpolator();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> offsetIncrementPx;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> baseOffsetPx;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> scaleX = <span class="number">1.0f</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> scaleY = <span class="number">1.0f</span>;</span><br><span class="line">    <span class="keyword">private</span> TranslationUpdater translationUpdater;</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ParallaxLayerLayout</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ParallaxLayerLayout</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs);</span><br><span class="line"></span><br><span class="line">        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ParallaxLayerLayout);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            baseOffsetPx =</span><br><span class="line">                    a.getDimensionPixelSize(R.styleable.ParallaxLayerLayout_parallaxOffsetBase, -<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span> (baseOffsetPx == -<span class="number">1</span>) &#123;</span><br><span class="line">                baseOffsetPx =</span><br><span class="line">                        (<span class="keyword">int</span>) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_BASE_OFFSET_DP,</span><br><span class="line">                                getResources().getDisplayMetrics());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            offsetIncrementPx =</span><br><span class="line">                    a.getDimensionPixelSize(R.styleable.ParallaxLayerLayout_parallaxOffsetIncrement, -<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span> (offsetIncrementPx == -<span class="number">1</span>) &#123;</span><br><span class="line">                offsetIncrementPx = (<span class="keyword">int</span>) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,</span><br><span class="line">                        DEFAULT_OFFSET_INCREMENT_DP, getResources().getDisplayMetrics());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            scaleX = a.getFloat(R.styleable.ParallaxLayerLayout_parallaxScaleHorizontal, <span class="number">1.0f</span>);</span><br><span class="line">            scaleY = a.getFloat(R.styleable.ParallaxLayerLayout_parallaxScaleVertical, <span class="number">1.0f</span>);</span><br><span class="line">            <span class="keyword">if</span> (scaleX &gt; <span class="number">1.0f</span> || scaleX &lt; <span class="number">0.0f</span> || scaleY &gt; <span class="number">1.0f</span> || scaleY &lt; <span class="number">0.0f</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Parallax scale must be a value between -1.0 and 1.0"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            a.recycle();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line"><span class="comment">//region Offset computation</span></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onFinishInflate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onFinishInflate();</span><br><span class="line"></span><br><span class="line">        computeOffsets();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//用于IDE的预览</span></span><br><span class="line">        <span class="keyword">if</span> (isInEditMode()) &#123;</span><br><span class="line">            updateTranslations(<span class="keyword">new</span> <span class="keyword">float</span>[]&#123;<span class="number">1.0f</span>, <span class="number">1.0f</span>&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">computeOffsets</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> childCount = getChildCount();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = childCount - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            View child = getChildAt(i);</span><br><span class="line">            LayoutParams lp = (LayoutParams) child.getLayoutParams();</span><br><span class="line">            <span class="keyword">int</span> index;</span><br><span class="line">            <span class="comment">//该childView当前的索引</span></span><br><span class="line">            <span class="keyword">if</span> (lp.customIndex == -<span class="number">1</span>) &#123;</span><br><span class="line">                <span class="comment">//Reversed for parallax effect</span></span><br><span class="line">                index = childCount - <span class="number">1</span> - i;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                index = lp.customIndex;</span><br><span class="line">            &#125;</span><br><span class="line">            lp.offsetPx = offsetPxForIndex(index, lp.incrementMultiplier);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 这里计算出不同的childView的索引不同从而移动的距离也不同</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> index</span><br><span class="line">     * <span class="doctag">@param</span> incrementMultiplier</span><br><span class="line">     * <span class="doctag">@return</span></span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">float</span> <span class="title">offsetPxForIndex</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">float</span> incrementMultiplier)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> incrementMultiplier * baseOffsetPx + index * offsetIncrementPx;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//endregion</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">//region Translation</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 移动</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> translations X and Y translation percentage, with values from -1.0 to 1.0.</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateTranslations</span><span class="params">(@Size(<span class="number">2</span>)</span> <span class="keyword">float</span>[] translations) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Math.abs(translations[<span class="number">0</span>]) &gt; <span class="number">1</span> || Math.abs(translations[<span class="number">1</span>]) &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Translation values must be between 1.0 and -1.0"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> childCount = getChildCount();<span class="comment">//为每个子View都处理</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = childCount - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">            View child = getChildAt(i);</span><br><span class="line">            <span class="keyword">float</span>[] translationsPx = calculateFinalTranslationPx(child, translations);<span class="comment">//计算移动距离</span></span><br><span class="line">            child.setTranslationX(translationsPx[<span class="number">0</span>]);<span class="comment">//移动X轴</span></span><br><span class="line">            child.setTranslationY(translationsPx[<span class="number">1</span>]);<span class="comment">//移动Y轴</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 设置TranslationUpdater</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> translationUpdater</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTranslationUpdater</span><span class="params">(TranslationUpdater translationUpdater)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.translationUpdater != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">this</span>.translationUpdater.unSubscribe();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.translationUpdater = translationUpdater;</span><br><span class="line">        <span class="keyword">this</span>.translationUpdater.subscribe(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 计算移动距离</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> child</span><br><span class="line">     * <span class="doctag">@param</span> translations</span><br><span class="line">     * <span class="doctag">@return</span></span><br><span class="line">     */</span></span><br><span class="line">    <span class="annotation">@Size</span>(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span>[] calculateFinalTranslationPx(View child, <span class="annotation">@Size</span>(<span class="number">2</span>) <span class="keyword">float</span>[] translations) &#123;</span><br><span class="line">        LayoutParams lp = (LayoutParams) child.getLayoutParams();</span><br><span class="line">        <span class="keyword">int</span> xSign = translations[<span class="number">0</span>] &gt; <span class="number">0</span> ? <span class="number">1</span> : -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> ySign = translations[<span class="number">1</span>] &gt; <span class="number">0</span> ? <span class="number">1</span> : -<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">float</span> translationX =</span><br><span class="line">                xSign * lp.offsetPx * interpolator.getInterpolation(Math.abs(translations[<span class="number">0</span>])) * scaleX;</span><br><span class="line">        <span class="keyword">float</span> translationY =</span><br><span class="line">                ySign * lp.offsetPx * interpolator.getInterpolation(Math.abs(translations[<span class="number">1</span>])) * scaleY;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">float</span>[]&#123;translationX, translationY&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//endregion</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">//region LayoutParams</span></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">checkLayoutParams</span><span class="params">(ViewGroup.LayoutParams p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> p <span class="keyword">instanceof</span> LayoutParams;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> LayoutParams <span class="title">generateDefaultLayoutParams</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,</span><br><span class="line">                ViewGroup.LayoutParams.WRAP_CONTENT);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> LayoutParams <span class="title">generateLayoutParams</span><span class="params">(AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LayoutParams(getContext(), attrs);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> ViewGroup.<span class="function">LayoutParams <span class="title">generateLayoutParams</span><span class="params">(ViewGroup.LayoutParams p)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LayoutParams(p.width, p.height);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">TranslationUpdater</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(ParallaxLayerLayout parallaxLayerLayout)</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">unSubscribe</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//endregion</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LayoutParams</span> <span class="keyword">extends</span> <span class="title">FrameLayout</span>.<span class="title">LayoutParams</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">float</span> offsetPx;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> customIndex = -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">float</span> incrementMultiplier = <span class="number">1.0f</span>;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">LayoutParams</span><span class="params">(Context c, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(c, attrs);</span><br><span class="line">            gravity = Gravity.CENTER;</span><br><span class="line">            TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.ParallaxLayerLayout_LayoutParams);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                customIndex =</span><br><span class="line">                        a.getInt(R.styleable.ParallaxLayerLayout_LayoutParams_layout_parallaxZIndex, -<span class="number">1</span>);</span><br><span class="line">                incrementMultiplier = a.getFloat(</span><br><span class="line">                        R.styleable.ParallaxLayerLayout_LayoutParams_layout_parallaxIncrementMultiplier, <span class="number">1.0f</span>);</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                a.recycle();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">LayoutParams</span><span class="params">(<span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(width, height);</span><br><span class="line">            gravity = Gravity.CENTER;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>自己实现了 <code>LayoutParams</code> ，在其中设置了一些成员变量，这样省去了创建 entity 这种类了。通过 <code>customIndex</code> 的值分别去计算移动的距离，值越大移动距离越多。</p>
+
+        
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/08/30/parallax-layer-layout-analyse/">Parallax-Layer-Layout源码解析</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 yydcdut 的个人博客">yydcdut</a></p>
+        <p><span>发布时间:</span>2016年08月30日 - 15时31分</p>
+        <p><span>最后更新:</span>2016年08月30日 - 15时42分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/08/30/parallax-layer-layout-analyse/" title="Parallax-Layer-Layout源码解析">http://yydcdut.com/2016/08/30/parallax-layer-layout-analyse/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yydcdut.com/2016/08/30/parallax-layer-layout-analyse/　　作者: yydcdut" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/08/21/logger-analyse/">
+                    Logger源码解析
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Parallax-Layer-Layout"><span class="toc-number">1.</span> <span class="toc-text">Parallax-Layer-Layout</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-number">2.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码"><span class="toc-number">3.</span> <span class="toc-text">源码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SensorTranslationUpdater"><span class="toc-number">3.1.</span> <span class="toc-text">SensorTranslationUpdater</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ParallaxLayerLayout"><span class="toc-number">3.2.</span> <span class="toc-text">ParallaxLayerLayout</span></a></li></ol></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+    <div class="share">
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+    <a href="#" class="bds_copy" data-cmd="copy" title="复制网址"></a>
+    <a href="#" class="bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+    </div>
+    <script>
+        window._bd_share_config={
+            "common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+</div>
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2016/08/30/parallax-layer-layout-analyse/" data-title="Parallax-Layer-Layout源码解析" data-url="http://yydcdut.com/2016/08/30/parallax-layer-layout-analyse/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yydcdut"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/08/21/logger-analyse/" title="下一篇: Logger源码解析">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/08/30/parallax-layer-layout-analyse/">Parallax-Layer-Layout源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/logger-analyse/">Logger源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/rxmarkdown/">RxMarkdown介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/viewdraghelper-analyse/">ViewDragHelper源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/05/arraymap-analyse/">ArrayMap源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/29/android-grag-square-analyse/">android-drag-square源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/22/swipemenulistview-analyse/">SwipeMenuListview源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/15/drawee-text-view-analyse/">Bilibili-drawee-text-view源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/08/swipebacklayout-analyse/">SwipeBackLayout源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/asynctask-analyse/">AsyncTask源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/24/easypermissions-analyse/">Google-EasyPermissions源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/android-crop-analyse/">android-crop源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/10/explosionfield-analyse/">ExplosionField源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/27/elasticscrollview-analyse/">ElasticScrollView源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/20/split-dex/">Android Dex分包之旅</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/13/volley-code-analyse/">Volley源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/eventbus3-code-analyse/">EventBus3.0源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/28/listview-optimize/">ListView优化总结</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2016 yydcdut
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的静态博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减双栏 Hexo 博客主题">Yelee</a> by MOxFIVE
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >本站到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+    <style>
+        body {
+          background: lightgray;
+        }
+        #container .left-col {
+          background: white;
+        }
+        .article-inner {
+          background: white;
+          margin-bottom: 1em;
+        }
+        .post-nav-button {
+          background: #ececec;
+        }
+        #header .header-nav .social #GitHub {
+          background-color: #bfd3ec;
+        }
+        #post-nav-button a {
+          background: rgba(215, 216, 215, .2);
+        }
+        .post-list {
+          background: white;
+        }
+    </style>
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

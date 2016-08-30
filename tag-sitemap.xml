@@ -79,13 +79,6 @@
     </url>
 
     <url>
-        <loc>http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/</loc>
-        <lastmod>2016-05-29T15:19:54.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>http://yydcdut.com/tags/drag/</loc>
         <lastmod>2016-05-29T15:19:54.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -115,7 +108,21 @@
 
     <url>
         <loc>http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/</loc>
-        <lastmod>2016-08-21T08:16:40.000Z</lastmod>
+        <lastmod>2016-08-30T07:42:14.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/</loc>
+        <lastmod>2016-08-30T07:42:14.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yydcdut.com/tags/%E4%BC%A0%E6%84%9F%E5%99%A8/</loc>
+        <lastmod>2016-08-30T07:42:14.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
