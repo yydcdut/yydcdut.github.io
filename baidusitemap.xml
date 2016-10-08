@@ -3,6 +3,28 @@
 
     
   <url>
+    <loc>http://yydcdut.com/2016/06/19/viewdraghelper-analyse/</loc>
+    <lastmod>2016-10-08T09:08:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>ViewDragHelper源码解析</title>
+        <pubTime>2016-06-19T11:10:31.000Z</pubTime>
+        
+        <tag>support-v4 </tag>
+         
+        <tag>源码 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://yydcdut.com/categories/Android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yydcdut.com/2016/09/25/dexknifeplugin-analyse/</loc>
     <lastmod>2016-09-25T10:46:19.000Z</lastmod>
     <data>
@@ -83,21 +105,6 @@
              
               <breadCrumb title="扯蛋" url="http://yydcdut.com/categories/%E6%89%AF%E8%9B%8B/"/>
           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yydcdut.com/2016/06/19/viewdraghelper-analyse/</loc>
-    <lastmod>2016-06-19T11:11:26.000Z</lastmod>
-    <data>
-        <display>
-        <title>ViewDragHelper源码解析</title>
-        <pubTime>2016-06-19T11:10:31.000Z</pubTime>
-        
-         
-           
         </display>
     </data>
     </url>
