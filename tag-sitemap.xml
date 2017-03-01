@@ -129,7 +129,21 @@
 
     <url>
         <loc>http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/</loc>
-        <lastmod>2016-12-06T10:02:45.000Z</lastmod>
+        <lastmod>2017-03-01T08:18:26.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yydcdut.com/tags/%E5%8A%A8%E7%94%BB/</loc>
+        <lastmod>2017-03-01T08:18:26.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yydcdut.com/tags/%E6%B5%81%E7%A8%8B/</loc>
+        <lastmod>2017-03-01T08:18:26.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
