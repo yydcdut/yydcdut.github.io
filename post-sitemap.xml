@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>http://yydcdut.com/2016/06/05/arraymap-analyse/</loc>
+        <lastmod>2017-03-01T09:47:23.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://yydcdut.com/2016/12/06/hashmap-analyse/</loc>
         <lastmod>2017-03-01T08:32:41.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -57,14 +65,6 @@
     <url>
         <loc>http://yydcdut.com/2016/07/27/rxmarkdown/</loc>
         <lastmod>2016-07-27T06:49:49.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://yydcdut.com/2016/06/05/arraymap-analyse/</loc>
-        <lastmod>2016-06-05T11:39:39.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

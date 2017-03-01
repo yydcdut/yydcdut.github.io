@@ -121,13 +121,6 @@
     </url>
 
     <url>
-        <loc>http://yydcdut.com/tags/support-v4/</loc>
-        <lastmod>2016-10-08T09:08:38.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>http://yydcdut.com/tags/%E5%8A%A8%E7%94%BB/</loc>
         <lastmod>2017-03-01T08:18:26.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -143,7 +136,14 @@
 
     <url>
         <loc>http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/</loc>
-        <lastmod>2017-03-01T08:32:41.000Z</lastmod>
+        <lastmod>2017-03-01T09:47:23.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yydcdut.com/tags/support-v4/</loc>
+        <lastmod>2017-03-01T09:47:23.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
