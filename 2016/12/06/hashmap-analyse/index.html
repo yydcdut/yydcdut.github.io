@@ -5,23 +5,23 @@
   
   <title>HashMap源码解析 | Android杂文 - yydcdut</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在 Java8 之前， HashMap 是链表散列的数据结构，即数组和链表的结合体；从 Java8 开始，引入红黑树的数据结构和扩容的优化。
+  <meta name="description" content="分析版本： JDK1.8
 
- 分析版本： JDK1.8">
+在 Java8 之前， HashMap 是链表散列的数据结构，即数组和链表的结合体；从 Java8 开始，引入红黑树的数据结构和扩容的优化。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HashMap源码解析">
 <meta property="og:url" content="http://yydcdut.com/2016/12/06/hashmap-analyse/index.html">
 <meta property="og:site_name" content="Android杂文 - yydcdut">
-<meta property="og:description" content="在 Java8 之前， HashMap 是链表散列的数据结构，即数组和链表的结合体；从 Java8 开始，引入红黑树的数据结构和扩容的优化。
+<meta property="og:description" content="分析版本： JDK1.8
 
- 分析版本： JDK1.8">
+在 Java8 之前， HashMap 是链表散列的数据结构，即数组和链表的结合体；从 Java8 开始，引入红黑树的数据结构和扩容的优化。">
 <meta property="og:image" content="http://yydcdut.qiniudn.com/hashmap-analyse.png">
-<meta property="og:updated_time" content="2016-12-06T10:02:45.000Z">
+<meta property="og:updated_time" content="2017-03-01T08:32:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HashMap源码解析">
-<meta name="twitter:description" content="在 Java8 之前， HashMap 是链表散列的数据结构，即数组和链表的结合体；从 Java8 开始，引入红黑树的数据结构和扩容的优化。
+<meta name="twitter:description" content="分析版本： JDK1.8
 
- 分析版本： JDK1.8">
+在 Java8 之前， HashMap 是链表散列的数据结构，即数组和链表的结合体；从 Java8 开始，引入红黑树的数据结构和扩容的优化。">
   
     <link rel="alternative" href="/atom.xml" title="Android杂文 - yydcdut" type="application/atom+xml">
   
@@ -255,10 +255,10 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>在 Java8 之前， HashMap 是链表散列的数据结构，即数组和链表的结合体；从 Java8 开始，引入红黑树的数据结构和扩容的优化。</p>
-<blockquote>
+        <blockquote>
 <p> 分析版本： JDK1.8</p>
 </blockquote>
+<p>在 Java8 之前， HashMap 是链表散列的数据结构，即数组和链表的结合体；从 Java8 开始，引入红黑树的数据结构和扩容的优化。</p>
 <a id="more"></a>
 <h2 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h2><p>从 Java8 引入红黑树之后， HashMap 是由数组、链表和红黑树组成，发现源码有些地方与之前不同，那就是 <code>Node</code> ：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span><br><span class="line">    <span class="keyword">implements</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;, <span class="title">Cloneable</span>, <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> hash;</span><br><span class="line">        <span class="keyword">final</span> K key;</span><br><span class="line">        V value;</span><br><span class="line">        Node&lt;K,V&gt; next;</span><br><span class="line"></span><br><span class="line">        Node(<span class="keyword">int</span> hash, K key, V value, Node&lt;K,V&gt; next) &#123;</span><br><span class="line">            <span class="keyword">this</span>.hash = hash;</span><br><span class="line">            <span class="keyword">this</span>.key = key;</span><br><span class="line">            <span class="keyword">this</span>.value = value;</span><br><span class="line">            <span class="keyword">this</span>.next = next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> K <span class="title">getKey</span><span class="params">()</span>        </span>&#123; <span class="keyword">return</span> key; &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> V <span class="title">getValue</span><span class="params">()</span>      </span>&#123; <span class="keyword">return</span> value; &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> key + <span class="string">"="</span> + value; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> Objects.hashCode(key) ^ Objects.hashCode(value);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> V <span class="title">setValue</span><span class="params">(V newValue)</span> </span>&#123;</span><br><span class="line">            V oldValue = value;</span><br><span class="line">            value = newValue;</span><br><span class="line">            <span class="keyword">return</span> oldValue;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (o == <span class="keyword">this</span>)</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            <span class="keyword">if</span> (o <span class="keyword">instanceof</span> Map.Entry) &#123;</span><br><span class="line">                Map.Entry&lt;?,?&gt; e = (Map.Entry&lt;?,?&gt;)o;</span><br><span class="line">                <span class="keyword">if</span> (Objects.equals(key, e.getKey()) &amp;&amp;</span><br><span class="line">                    Objects.equals(value, e.getValue()))</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -304,7 +304,7 @@
         <p><span>本文标题:</span><a href="/2016/12/06/hashmap-analyse/">HashMap源码解析</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 yydcdut 的个人博客">yydcdut</a></p>
         <p><span>发布时间:</span>2016年12月06日 - 17时54分</p>
-        <p><span>最后更新:</span>2016年12月06日 - 18时02分</p>
+        <p><span>最后更新:</span>2017年03月01日 - 16时32分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/12/06/hashmap-analyse/" title="HashMap源码解析">http://yydcdut.com/2016/12/06/hashmap-analyse/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yydcdut.com/2016/12/06/hashmap-analyse/　　作者: yydcdut" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
