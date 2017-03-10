@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android UI优化 | Android杂文 - yydcdut</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android 的 UI 优化学习笔记和总结，包括一些导致卡顿的原因和一些解决方案，欢迎大家一起学习交流！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android UI优化">
+<meta property="og:url" content="http://yydcdut.com/2017/03/10/ui-optimize/index.html">
+<meta property="og:site_name" content="Android杂文 - yydcdut">
+<meta property="og:description" content="Android 的 UI 优化学习笔记和总结，包括一些导致卡顿的原因和一些解决方案，欢迎大家一起学习交流！">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/16ms.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/34ms.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/MsgNumberView_before0.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/MsgNumberView_before1.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/MsgNumberView_after.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/JobPostDetail_CompanyScale_before.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/JobPostDetail_CompanyScale_after.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/overdraw.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/overdraw_options_view.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/overdraw_bad.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/overdraw_good.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/android_perf_course_clip_1.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/android_perf_course_clip_3.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/android_perf_course_clip_code_compare.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/android_perf_course_clip_result.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/gpu_cpu_rasterization.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/tools_gpu_profile.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/cpu_gpu_good.jpg">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/cpu_gpu_bad.jpg">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/trace_0.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/trace_1.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/trace_2.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/trace_3.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/trace_4.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/trace_5.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/trace_6.png">
+<meta property="og:image" content="http://yydcdut.qiniudn.com/memory_monitor_gc.png">
+<meta property="og:updated_time" content="2017-03-10T07:55:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android UI优化">
+<meta name="twitter:description" content="Android 的 UI 优化学习笔记和总结，包括一些导致卡顿的原因和一些解决方案，欢迎大家一起学习交流！">
+  
+    <link rel="alternative" href="/atom.xml" title="Android杂文 - yydcdut" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css" type="text/css">
+  
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <script>
+      var yiliaConfig = {
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: true
+      }
+  </script>
+  
+      <script>
+          var _hmt = _hmt || [];
+          (function() {
+              var hm = document.createElement("script");
+              hm.src = "//hm.baidu.com/hm.js?ca0d2d2e8c8246e6ac0e8f9cb04e5833";
+              var s = document.getElementsByTagName("script")[0]; 
+              s.parentNode.insertBefore(hm, s);
+          })();
+      </script>
+  
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+            <img lazy-src="/img/avatar.png" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+          <h1 class="header-author"><a href="/">yydcdut</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">每周一篇好文章</p>
+        
+                
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/me/">关于我</a></li>
+                        
+                            <li><a href="/note/">开源App</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <li id="Email"><a class="Email" target="_blank" href="/yydcdut@qq.com" title="Email"></a></li>
+                            
+                                <li id="新浪微博"><a class="新浪微博" target="_blank" href="http://weibo.com/yydcdut" title="新浪微博"></a></li>
+                            
+                                <li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/yydcdut" title="GitHub"></a></li>
+                            
+                                <li id="StackOverflow"><a class="StackOverflow" target="_blank" href="http://stackoverflow.com/users/4364595/yydcdut" title="StackOverflow"></a></li>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <a href="/tags/Android图像处理/" style="font-size: 10px;">Android图像处理</a> <a href="/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/Dex/" style="font-size: 13.33px;">Dex</a> <a href="/tags/ElasticScrollView/" style="font-size: 10px;">ElasticScrollView</a> <a href="/tags/EventBus/" style="font-size: 10px;">EventBus</a> <a href="/tags/ExplosionField/" style="font-size: 10px;">ExplosionField</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/ListView/" style="font-size: 13.33px;">ListView</a> <a href="/tags/SwipeBack/" style="font-size: 10px;">SwipeBack</a> <a href="/tags/TextView/" style="font-size: 10px;">TextView</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/Volley/" style="font-size: 10px;">Volley</a> <a href="/tags/drag/" style="font-size: 10px;">drag</a> <a href="/tags/support-v4/" style="font-size: 13.33px;">support-v4</a> <a href="/tags/传感器/" style="font-size: 10px;">传感器</a> <a href="/tags/动画/" style="font-size: 10px;">动画</a> <a href="/tags/扯蛋/" style="font-size: 10px;">扯蛋</a> <a href="/tags/权限/" style="font-size: 10px;">权限</a> <a href="/tags/流程/" style="font-size: 10px;">流程</a> <a href="/tags/源码/" style="font-size: 20px;">源码</a> <a href="/tags/粒子爆炸/" style="font-size: 10px;">粒子爆炸</a> <a href="/tags/自定义控件/" style="font-size: 16.67px;">自定义控件</a>
+                    </div>
+                </section>
+                
+                
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">yydcdut</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/avatar.png" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">yydcdut</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">每周一篇好文章</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/me/">关于我</a></li>
+                
+                    <li><a href="/note/">开源App</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <li id="Email"><a class="Email" target="_blank" href="/yydcdut@qq.com" title="Email"></a></li>
+                            
+                                <li id="新浪微博"><a class="新浪微博" target="_blank" href="http://weibo.com/yydcdut" title="新浪微博"></a></li>
+                            
+                                <li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/yydcdut" title="GitHub"></a></li>
+                            
+                                <li id="StackOverflow"><a class="StackOverflow" target="_blank" href="http://stackoverflow.com/users/4364595/yydcdut" title="StackOverflow"></a></li>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-ui-optimize" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/03/10/ui-optimize/" class="article-date">
+      <time datetime="2017-03-10T07:36:27.000Z" itemprop="datePublished">2017-03-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android UI优化
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UI/">UI</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>Android 的 UI 优化学习笔记和总结，包括一些导致卡顿的原因和一些解决方案，欢迎大家一起学习交流！</p>
+<a id="more"></a>
+<h2 id="16ms"><a href="#16ms" class="headerlink" title="16ms"></a>16ms</h2><p>Android 系统每隔 16ms 发出 VSYNC 信号触发对UI进行渲染，那么就要求每一帧都要在 16ms 内绘制完成（包括发送给 GPU 和 CPU 绘制到缓冲区的命令，这样就能够达到流畅的画面所需要的60fps。</p>
+<p><img src="http://yydcdut.qiniudn.com/16ms.png" alt="http://yydcdut.qiniudn.com/16ms.png"></p>
+<p>如果你的某个操作花费时间是24ms，系统在得到 VSYNC 信号的时候就无法进行正常渲染，这样就发生了丢帧现象。那么用户在 32ms 内看到的会是同一帧画面。</p>
+<p><img src="http://yydcdut.qiniudn.com/34ms.png" alt="http://yydcdut.qiniudn.com/34ms.png"></p>
+<h2 id="丢帧原因"><a href="#丢帧原因" class="headerlink" title="丢帧原因"></a>丢帧原因</h2><p>有很多原因可以导致丢帧，这里列举一些常见的：</p>
+<ul>
+<li>layout 太过复杂，层次过多</li>
+<li>UI 上有层叠太多的绘制单元，过度绘制</li>
+<li>CPU 或者 GPU 负载过重</li>
+<li>动画执行的次数过多</li>
+<li>频繁 GC，主要是内存抖动</li>
+<li>UI 线程执行耗时操作</li>
+<li>等等</li>
+</ul>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>接下来逐个分析导致原因以及解决方案：</p>
+<h3 id="布局太过复杂，层次过多"><a href="#布局太过复杂，层次过多" class="headerlink" title="布局太过复杂，层次过多"></a>布局太过复杂，层次过多</h3><p>layout 布局是一棵树，树根是 window 的 decorView，套嵌的子 view 越深，树就越复杂，渲染就越费时间。每个 View 都会经过 measure、layout 和 draw 三个流程，都是从树根开始，那么选父布局的时候就要考虑渲染的性能问题：这里分析一下常见的布局控件 <code>LinearLayout</code> 、<code>RelativeLayout</code> 和 <code>FrameLayout</code> ：</p>
+<h4 id="LinearLayout"><a href="#LinearLayout" class="headerlink" title="LinearLayout"></a>LinearLayout</h4><p>LinearLayout 在 measure 的时候，在横向或者纵向会去测量子 View 的宽度或高度，且只会测量一次，但是当设置 <code>layout_weight</code> 属性的时候会去测量两次才能获得精确的展示尺寸。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinearLayout</span> <span class="keyword">extends</span> <span class="title">ViewGroup</span> </span>&#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mOrientation == VERTICAL) &#123;</span><br><span class="line">            measureVertical(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            measureHorizontal(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">measureVertical</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//blablabla......</span></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> count = getVirtualChildCount();</span><br><span class="line">      </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; ++i) &#123;</span><br><span class="line">            <span class="comment">//blablabla......</span></span><br><span class="line">            <span class="keyword">if</span> (heightMode == MeasureSpec.EXACTLY &amp;&amp; lp.height == <span class="number">0</span> &amp;&amp; lp.weight &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="comment">//blablabla......</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">//blablabla......</span></span><br><span class="line">              </span><br><span class="line">                <span class="comment">// Determine how big this child would like to be. If this or</span></span><br><span class="line">                <span class="comment">// previous children have given a weight, then we allow it to</span></span><br><span class="line">                <span class="comment">// use all available space (and we will shrink things later</span></span><br><span class="line">                <span class="comment">// if needed).</span></span><br><span class="line">                measureChildBeforeLayout(</span><br><span class="line">                       child, i, widthMeasureSpec, <span class="number">0</span>, heightMeasureSpec,</span><br><span class="line">                       totalWeight == <span class="number">0</span> ? mTotalLength : <span class="number">0</span>);</span><br><span class="line">                <span class="comment">//blablabla......</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//blablabla......</span></span><br><span class="line">        <span class="keyword">if</span> (skippedMeasure || delta != <span class="number">0</span> &amp;&amp; totalWeight &gt; <span class="number">0.0f</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; ++i) &#123;</span><br><span class="line">                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) child.getLayoutParams();</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">float</span> childExtra = lp.weight;</span><br><span class="line">                <span class="keyword">if</span> (childExtra &gt; <span class="number">0</span>) &#123;</span><br><span class="line"><span class="keyword">int</span> share = (<span class="keyword">int</span>) (childExtra * delta / weightSum);</span><br><span class="line">                    weightSum -= childExtra;</span><br><span class="line">                    delta -= share;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">final</span> <span class="keyword">int</span> childWidthMeasureSpec = getChildMeasureSpec(widthMeasureSpec,</span><br><span class="line">                            mPaddingLeft + mPaddingRight +</span><br><span class="line">                                    lp.leftMargin + lp.rightMargin, lp.width);</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> ((lp.height != <span class="number">0</span>) || (heightMode != MeasureSpec.EXACTLY)) &#123;</span><br><span class="line">                        <span class="comment">// child was measured once already above...</span></span><br><span class="line">                        <span class="comment">// base new measurement on stored values</span></span><br><span class="line">                        <span class="keyword">int</span> childHeight = child.getMeasuredHeight() + share;</span><br><span class="line">                        <span class="keyword">if</span> (childHeight &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                            childHeight = <span class="number">0</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                        </span><br><span class="line">                        child.measure(childWidthMeasureSpec,</span><br><span class="line">                                MeasureSpec.makeMeasureSpec(childHeight, MeasureSpec.EXACTLY));</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="comment">// child was skipped in the loop above.</span></span><br><span class="line">                        <span class="comment">// Measure for this first time here      </span></span><br><span class="line">                        child.measure(childWidthMeasureSpec,</span><br><span class="line">                                MeasureSpec.makeMeasureSpec(share &gt; <span class="number">0</span> ? share : <span class="number">0</span>,</span><br><span class="line">                                        MeasureSpec.EXACTLY));</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            alternativeMaxWidth = Math.max(alternativeMaxWidth,</span><br><span class="line">                                           weightedMaxWidth);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">// We have no limit, so make all weighted views as tall as the largest child.</span></span><br><span class="line">            <span class="comment">// Children will have already been measured once.</span></span><br><span class="line">            <span class="keyword">if</span> (useLargestChild &amp;&amp; heightMode != MeasureSpec.EXACTLY) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">                    <span class="keyword">final</span> View child = getVirtualChildAt(i);</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (child == <span class="keyword">null</span> || child.getVisibility() == View.GONE) &#123;</span><br><span class="line">                        <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">final</span> LinearLayout.LayoutParams lp =</span><br><span class="line">                            (LinearLayout.LayoutParams) child.getLayoutParams();</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">float</span> childExtra = lp.weight;</span><br><span class="line">                    <span class="keyword">if</span> (childExtra &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                        child.measure(</span><br><span class="line">                                MeasureSpec.makeMeasureSpec(child.getMeasuredWidth(),</span><br><span class="line">                                        MeasureSpec.EXACTLY),</span><br><span class="line">                                MeasureSpec.makeMeasureSpec(largestChildHeight,</span><br><span class="line">                                        MeasureSpec.EXACTLY));</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//blablabla......</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="RelativeLayout"><a href="#RelativeLayout" class="headerlink" title="RelativeLayout"></a>RelativeLayout</h4><p>RelativeLayout 在 measure 的时候会在横向和纵向各测量一次。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RelativeLayout</span> <span class="keyword">extends</span> <span class="title">ViewGroup</span> </span>&#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//blablabla......</span></span><br><span class="line">      </span><br><span class="line">        View[] views = mSortedHorizontalChildren;</span><br><span class="line">        <span class="keyword">int</span> count = views.length;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">            View child = views[i];</span><br><span class="line">            <span class="keyword">if</span> (child.getVisibility() != GONE) &#123;</span><br><span class="line">                LayoutParams params = (LayoutParams) child.getLayoutParams();</span><br><span class="line">                <span class="keyword">int</span>[] rules = params.getRules(layoutDirection);</span><br><span class="line"></span><br><span class="line">                applyHorizontalSizeRules(params, myWidth, rules);</span><br><span class="line">                measureChildHorizontal(child, params, myWidth, myHeight);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (positionChildHorizontal(child, params, myWidth, isWrapContentWidth)) &#123;</span><br><span class="line">                    offsetHorizontalAxis = <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//blablabla......</span></span><br><span class="line">      </span><br><span class="line">        views = mSortedVerticalChildren;</span><br><span class="line">        count = views.length;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">            <span class="keyword">final</span> View child = views[i];</span><br><span class="line">            <span class="keyword">if</span> (child.getVisibility() != GONE) &#123;</span><br><span class="line">                <span class="keyword">final</span> LayoutParams params = (LayoutParams) child.getLayoutParams();</span><br><span class="line"></span><br><span class="line">                applyVerticalSizeRules(params, myHeight, child.getBaseline());</span><br><span class="line">                measureChild(child, params, myWidth, myHeight);</span><br><span class="line">                <span class="keyword">if</span> (positionChildVertical(child, params, myHeight, isWrapContentHeight)) &#123;</span><br><span class="line">                    offsetVerticalAxis = <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (isWrapContentWidth) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (isLayoutRtl()) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (targetSdkVersion &lt; Build.VERSION_CODES.KITKAT) &#123;</span><br><span class="line">                            width = Math.max(width, myWidth - params.mLeft);</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            width = Math.max(width, myWidth - params.mLeft - params.leftMargin);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="keyword">if</span> (targetSdkVersion &lt; Build.VERSION_CODES.KITKAT) &#123;</span><br><span class="line">                            width = Math.max(width, params.mRight);</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            width = Math.max(width, params.mRight + params.rightMargin);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (isWrapContentHeight) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (targetSdkVersion &lt; Build.VERSION_CODES.KITKAT) &#123;</span><br><span class="line">                        height = Math.max(height, params.mBottom);</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        height = Math.max(height, params.mBottom + params.bottomMargin);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (child != ignore || verticalGravity) &#123;</span><br><span class="line">                    left = Math.min(left, params.mLeft - params.leftMargin);</span><br><span class="line">                    top = Math.min(top, params.mTop - params.topMargin);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (child != ignore || horizontalGravity) &#123;</span><br><span class="line">                    right = Math.max(right, params.mRight + params.rightMargin);</span><br><span class="line">                    bottom = Math.max(bottom, params.mBottom + params.bottomMargin);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//blablabla......</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="简析"><a href="#简析" class="headerlink" title="简析"></a>简析</h4><p>如果带有 weight 属性的 LinearLayout 或者 RelativeLayout 被套嵌使用，measure 所费时间可能会呈指数级增长（两个套嵌的叶子 view 会有四次 measure，三个套嵌的叶子 view 会有8次的 measure）。为了缩短这个时间，保持树形结构尽量扁平（深度低），而且尽量要移除所有不需要渲染的 view。</p>
+<h4 id="Hierarchy-Viewer"><a href="#Hierarchy-Viewer" class="headerlink" title="Hierarchy Viewer"></a>Hierarchy Viewer</h4><p>Hierarchy Viewer 可以很方便可视化的查看屏幕上套嵌 view 结构，这个工具在 sdk 的 tools 文件里面。</p>
+<h4 id="栗子"><a href="#栗子" class="headerlink" title="栗子"></a>栗子</h4><p><img src="http://yydcdut.qiniudn.com/MsgNumberView_before0.png" alt="http://yydcdut.qiniudn.com/MsgNumberView_before0.png"></p>
+<p><img src="http://yydcdut.qiniudn.com/MsgNumberView_before1.png" alt="http://yydcdut.qiniudn.com/MsgNumberView_before1.png"></p>
+<p>MsgNumberView 是一个自定义控件，其 measure、layout 和 draw 共花费 3ms 的时间，可以发现布局中多了一层 LinearLayout，而该 LinearLayout 而进行了测量等操作，共花费 1.4ms 时间。当我们去除中间的 LinearLayout 后再分析看：</p>
+<p><img src="http://yydcdut.qiniudn.com/MsgNumberView_after.png" alt="http://yydcdut.qiniudn.com/MsgNumberView_after.png"></p>
+<p>去除之后发现，总体在渲染上下降了很多时间，变为了 0.25ms。</p>
+<p>你可能已经注意到了每个 view 里黄色、绿色等圆圈。它们表示该 view 在那一层树形结构里 measure，layout 和 draw 所花费的相对时间。绿色表示最快的前 50%，黄色表示最慢的前 50%，红色表示那一层里面最慢的 view 。</p>
+<p>再来看一个栗子：</p>
+<p><img src="http://yydcdut.qiniudn.com/JobPostDetail_CompanyScale_before.png" alt="http://yydcdut.qiniudn.com/JobPostDetail_CompanyScale_before.png"></p>
+<p>该 LinearLayout 里面有三个子 View，其中两个也是 LinearLayout ，并且子 LinearLayout 中是两个 TextView，对于最外层的 LinearLayout 来说，渲染共花费了 3.6ms 左右。那么处理一下，减少深度：</p>
+<p><img src="http://yydcdut.qiniudn.com/JobPostDetail_CompanyScale_after.png" alt="http://yydcdut.qiniudn.com/JobPostDetail_CompanyScale_after.png"></p>
+<p>发现渲染减到了 1ms 左右。当然这里的修改不仅仅是布局上的修改，在 java 代码上也有一些改动，之前上边的 TextView 是作为 Label 控件，那么现在 Label 和 真正显示数据的 TextView 合并成一个，在 Java 代码中也进行了处理，包括 Label 的字体颜色与显示控件的字体颜色不一样，通过 Html 或者 Spannable 进行修饰等等。</p>
+<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><ul>
+<li>避免复杂的 View 层级</li>
+<li>避免 layout 顶层使用 RelativeLayout</li>
+<li>布局层次相同的情况下，使用 LinearLayout</li>
+<li>复杂布局建议采用 RelativeLayout 而不是多层次的 LinearLayout</li>
+<li><code>&lt;include/&gt;</code>  标签复用</li>
+<li><code>&lt;merge/&gt;</code> 标签减少嵌套</li>
+<li>尽量避免 <code>layout_weight</code> </li>
+<li>视图按需加载或者使用 ViewStub</li>
+</ul>
+<h3 id="层叠太多，过度绘制"><a href="#层叠太多，过度绘制" class="headerlink" title="层叠太多，过度绘制"></a>层叠太多，过度绘制</h3><p>跟 measure 一样， View 的绘制也是从树根开始一层一层往叶子绘制，就难免导致叶子的绘制挡住了其父节点的一些绘制的内容。过渡绘制是一个术语，表示某些组件在屏幕上的一个像素点的绘制次数超过 1 次。过度绘制导致的问题是花了太多的时间去绘制那些堆叠在下面的、用户看不到的东西，浪费了 CPU 周期和渲染时间。</p>
+<h4 id="调试-GPU-过度绘制"><a href="#调试-GPU-过度绘制" class="headerlink" title="调试 GPU 过度绘制"></a>调试 GPU 过度绘制</h4><p><img src="http://yydcdut.qiniudn.com/overdraw.png" alt="http://yydcdut.qiniudn.com/overdraw.png"></p>
+<p>蓝色，淡绿，淡红，深红代表了4种不同程度的 Overdraw 情况，我们的目标就是尽量减少红色 Overdraw，看到更多的蓝色甚至白色区域。</p>
+<p><img src="http://yydcdut.qiniudn.com/overdraw_options_view.png" alt="http://yydcdut.qiniudn.com/overdraw_options_view.png"></p>
+<h4 id="栗子-1"><a href="#栗子-1" class="headerlink" title="栗子"></a>栗子</h4><p><img src="http://yydcdut.qiniudn.com/overdraw_bad.png" alt="http://yydcdut.qiniudn.com/overdraw_bad.png"><img src="http://yydcdut.qiniudn.com/overdraw_good.png" alt="http://yydcdut.qiniudn.com/overdraw_good.png"></p>
+<p>这里展示的是帖子的详情页 Activity，在做这里的过度绘制的优化的时候，我从 xml 文件和 Java 代码两个层面去进行优化，在 xml 中去除无用的 background 等，点击态的 normal 状态统一用 transparent，在 Java 代码中，当 loading 结束后，修改 loading 的背景由灰色变为白色颜色等。</p>
+<h4 id="优化-1"><a href="#优化-1" class="headerlink" title="优化"></a>优化</h4><ul>
+<li>去除重复或者不必要的 background</li>
+<li>点击态中的 normal 尽量设置成 transparent</li>
+<li>去除 window 中的 background（这个可以通过处理 decorView 或者设置 Theme 的方式）</li>
+<li>若是自定义控件的话，通过 <code>canvas.clipRect()</code> 帮助系统识别那些可见的区域</li>
+</ul>
+<p><img src="http://yydcdut.qiniudn.com/android_perf_course_clip_1.png" alt="http://yydcdut.qiniudn.com/android_perf_course_clip_1.png"></p>
+<p>上面的示例图中显示了一个自定义的 View，主要效果是呈现多张重叠的卡片。这个 View 的 onDraw 方法如下图所示：</p>
+<p><img src="http://yydcdut.qiniudn.com/android_perf_course_clip_3.png" alt="http://yydcdut.qiniudn.com/android_perf_course_clip_3.png"></p>
+<p>打开开发者选项中的显示过度渲染，可以看到我们这个自定义的 View 部分区域存在着过度绘制。下面的代码显示了如何通过 clipRect 来解决自定义 View 的过度绘制，提高自定义 View 的绘制性能：</p>
+<p><img src="http://yydcdut.qiniudn.com/android_perf_course_clip_code_compare.png" alt="http://yydcdut.qiniudn.com/android_perf_course_clip_code_compare.png"></p>
+<p>下面是优化过后的效果：</p>
+<p><img src="http://yydcdut.qiniudn.com/android_perf_course_clip_result.png" alt="http://yydcdut.qiniudn.com/android_perf_course_clip_result.png"></p>
+<h3 id="负载过重"><a href="#负载过重" class="headerlink" title="负载过重"></a>负载过重</h3><p>UI 线程是应用的主线程，很多的性能和卡顿问题是由于在主线程中做了大量的工作。除了主线程外，子线程占用过多 CPU 资源也会导致渲染性能问题。</p>
+<p>在 UI 渲染的过程中，是 CPU 和 GPU 共同合作完成的，其中 CPU 负责把 UI 组件计算成 Polygons，Texture 纹理，然后交给 GPU 进行栅格化渲染。</p>
+<p><img src="http://yydcdut.qiniudn.com/gpu_cpu_rasterization.png" alt="http://yydcdut.qiniudn.com/gpu_cpu_rasterization.png"></p>
+<h4 id="GPU-呈现模式分析"><a href="#GPU-呈现模式分析" class="headerlink" title="GPU 呈现模式分析"></a>GPU 呈现模式分析</h4><p><img src="http://yydcdut.qiniudn.com/tools_gpu_profile.png" alt="http://yydcdut.qiniudn.com/tools_gpu_profile.png"></p>
+<p>通过在 Android 设备的开发者选项里启动 “ GPU 呈现模式分析 ” ，可以得到最近 128 帧 每一帧渲染的时间。在 Android 6.0 之前，界面上显示的柱状图主要是三个颜色，分别是黄、红和蓝色。</p>
+<p>通俗点来讲，黄色代表 CPU 通知 GPU，当 CPU 有太多事情做的时候，黄色的线就会长一些；红色代表渲染时间，比如层次深的情况下，渲染时间就会长一点，红色的线也会长一些；蓝色代表执行 <code>onDraw()</code> 时间。而横着的绿色的那条线代表 16ms 分割线。</p>
+<h4 id="栗子-2"><a href="#栗子-2" class="headerlink" title="栗子"></a>栗子</h4><p><img src="http://yydcdut.qiniudn.com/cpu_gpu_good.jpg" alt="http://yydcdut.qiniudn.com/cpu_gpu_good.jpg"><img src="http://yydcdut.qiniudn.com/cpu_gpu_bad.jpg" alt="http://yydcdut.qiniudn.com/cpu_gpu_bad.jpg"></p>
+<p>这是一个选择照片的功能的一个页面，用的 RecyclerView，两张图的唯一区别在于 Adapter 中加入了一段异步耗时操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MediaPhotoAdapter</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">Adapter</span>&lt;<span class="title">MediaPhotoViewHolder</span>&gt; </span>&#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(MediaPhotoViewHolder holder, <span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="annotation">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;</span><br><span class="line">                    YLog.i(<span class="string">"tag"</span>, <span class="string">"i--&gt;"</span> + i);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">        <span class="comment">//blablabla.....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每次更新 View 的时候都会开启新线程做一些耗时的操作，这个线程就用了大部分 CPU 资源，这个过程就跟在 ListView 滑动的时候异步加载图片类似。</p>
+<h4 id="Android-System-Trace"><a href="#Android-System-Trace" class="headerlink" title="Android System Trace"></a>Android System Trace</h4><p>VSYNC-app 是均匀分布的宽条，每个宽条表示 16 ms。当发出 VSYNC 信号时， surfaceflinger 会去绘制刷新，在理想情况下 surfaceflinger 之间相距也是 16ms，因此如果出现长条空缺则表示 surfaceflinger 丢掉了一次 VSYNC 更新信号，屏幕就没有及时的刷新。</p>
+<p><img src="http://yydcdut.qiniudn.com/trace_0.png" alt="http://yydcdut.qiniudn.com/trace_0.png"></p>
+<p>从图片上来看，在加载页面的时候发生过好几次丢帧的情况，可以通过方法开查看具体什么原因导致的丢帧。Frames 是提供的判断绘制该帧的情况，分别有绿、黄和红色，当为空色的时候表示该帧耗时很严重，我们就可以从这些红色的 F 为出发点去分析。</p>
+<p><img src="http://yydcdut.qiniudn.com/trace_1.png" alt="http://yydcdut.qiniudn.com/trace_1.png"></p>
+<p>我们可以查从图片上可以看出，先进行了 dorceView-inflate 操作（UI Thread 绿色那部分），这个操作在 UI 线程，且速度很快，在 1ms 内就完成了，接下来就是两个蓝色的 inflate 操作了。</p>
+<p><img src="http://yydcdut.qiniudn.com/trace_2.png" alt="http://yydcdut.qiniudn.com/trace_2.png"></p>
+<p><img src="http://yydcdut.qiniudn.com/trace_3.png" alt="http://yydcdut.qiniudn.com/trace_3.png"></p>
+<p>第一次 inflate 是在 Activity 的 <code>setContent()</code> 中完成，其中看到了之前所说的 <code>MsgNumberView</code>，第二次 inflate 是发生在 Fragment 中，界面中除了  Titlebar，其他的都是在这个 Fragment 中展示的，所以这个界面的 inflate 比 Activity 的更加耗时。</p>
+<p>第一次 inflate 和 第二次 inflate 之间还有一段时间的白色间隙，这是因为初始化 View （比如 <code>findViewById</code> 等）、网络请求封装、业务逻辑等操作。在完成第二次 inflate 之后发现后面还有一小段的白色间隙，这是因为等待一下个 VSYNC 信号。</p>
+<p><img src="http://yydcdut.qiniudn.com/trace_4.png" alt="http://yydcdut.qiniudn.com/trace_4.png"></p>
+<p>这里的 F 是黄色的，我的猜测这里应该是网络请求的数据返回回来了，因为这个页面的数据量巨大，接近百个字段吧，同时数据解析是放在 UI 线程进行的，包括 InputStream 转 String，String 转 Json 再解析。同时在下面建议中也说明了建议放在后台线程中以免阻塞 UI 线程。</p>
+<p><img src="http://yydcdut.qiniudn.com/trace_5.png" alt="http://yydcdut.qiniudn.com/trace_5.png"></p>
+<p>这里又发生了在 UI 线程的耗时的 inflate 事情，这是因为对于不同的帖子，这些数据可能会展示可能会不展示，而在需求开发中明确了这些数据不展示的情况大于真是的情况，所以采用了动态的 inflate 操作，也可以采用 ViewStub 哈。</p>
+<p><img src="http://yydcdut.qiniudn.com/trace_6.png" alt="http://yydcdut.qiniudn.com/trace_6.png"></p>
+<p>这里又发生了超级耗时的操作， F 都为红色了，根据描述来分析是因为 Measure 和 Layout 以及 <code>draw()</code> 花费了太多的时间。</p>
+<p>（Android System Trace 用的还不是很熟练，有不对的地方轻喷）</p>
+<h3 id="内存抖动"><a href="#内存抖动" class="headerlink" title="内存抖动"></a>内存抖动</h3><p><img src="http://yydcdut.qiniudn.com/memory_monitor_gc.png" alt="http://yydcdut.qiniudn.com/memory_monitor_gc.png"></p>
+<p>在我接触过的内存抖动中，主要导致原因是频繁创建大对象或者频繁创建大量对象，并且这些对象属于用完就废弃的，比如 byte[] 。我接触到的内存抖动是在 Camera 获取帧数据，在回调函数中 <code>onPreviewFrame(byte[] data, Camera camera)</code> 使用到了 byte[] ，等到下一帧数据回调回来的时候又是一个新的 byte[] 。而 GC 操作或多或少都会 “ stop-the-world “，<strong>比如 GC 操作花费了 5ms 的时间，那么该帧的绘制就会从原来的 16ms 变为 11ms</strong>。</p>
+<h4 id="优化-2"><a href="#优化-2" class="headerlink" title="优化"></a>优化</h4><ul>
+<li>大对象可以使用对象池复用，比如 byte[]</li>
+<li>尽量在 16ms 内少创建对象，比如在 <code>onDraw</code> 中创建 <code>Paint</code> 对象，decode Bitmap 之类的</li>
+</ul>
+<h3 id="硬件加速"><a href="#硬件加速" class="headerlink" title="硬件加速"></a>硬件加速</h3><p>并非所有的都支持硬件加速，其中包括 <code>clipPath()</code> 等；同时也有一些方法在开启硬件加速之后与不开启硬件加速效果不一样，比如 <code>drawBitmapMesh()</code> 等。</p>
+<h4 id="Application-级别"><a href="#Application-级别" class="headerlink" title="Application 级别"></a>Application 级别</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">applicationandroid:hardwareAccelerated</span> = "<span class="attribute">true</span>" <span class="attribute">...</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="Activity-级别"><a href="#Activity-级别" class="headerlink" title="Activity 级别"></a>Activity 级别</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">activity</span> <span class="attribute">android:hardwareAccelerated</span> = "<span class="attribute">true</span>" <span class="attribute">...</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="Window-级别"><a href="#Window-级别" class="headerlink" title="Window 级别"></a>Window 级别</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">getWindow().setFlags(</span><br><span class="line">    WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,</span><br><span class="line">    WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);</span><br></pre></td></tr></table></figure>
+<h4 id="View-级别"><a href="#View-级别" class="headerlink" title="View 级别"></a>View 级别</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">View.setLayerType(View.LAYER_TYPE_HARDWARE, <span class="keyword">null</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://hukai.me/android-performance-patterns/" target="_blank" rel="external">Android性能优化典范 - 第1季</a></li>
+<li><a href="http://hukai.me/android-performance-render/" target="_blank" rel="external">Android性能优化之渲染篇</a></li>
+<li><a href="https://testerhome.com/topics/4304" target="_blank" rel="external">Android界面性能调优手册</a></li>
+<li><a href="http://mrpeak.cn/android/2016/01/11/android-performance-ui" target="_blank" rel="external">Android UI性能优化详解</a></li>
+</ul>
+
+        
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/03/10/ui-optimize/">Android UI优化</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 yydcdut 的个人博客">yydcdut</a></p>
+        <p><span>发布时间:</span>2017年03月10日 - 15时36分</p>
+        <p><span>最后更新:</span>2017年03月10日 - 15时55分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/03/10/ui-optimize/" title="Android UI优化">http://yydcdut.com/2017/03/10/ui-optimize/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yydcdut.com/2017/03/10/ui-optimize/　　作者: yydcdut" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/03/01/the-flow-of-animation-and-animator-analyse/">
+                    Animation和Animator流程分析
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#16ms"><span class="toc-number">1.</span> <span class="toc-text">16ms</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#丢帧原因"><span class="toc-number">2.</span> <span class="toc-text">丢帧原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分析"><span class="toc-number">3.</span> <span class="toc-text">分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#布局太过复杂，层次过多"><span class="toc-number">3.1.</span> <span class="toc-text">布局太过复杂，层次过多</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#LinearLayout"><span class="toc-number">3.1.1.</span> <span class="toc-text">LinearLayout</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RelativeLayout"><span class="toc-number">3.1.2.</span> <span class="toc-text">RelativeLayout</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#简析"><span class="toc-number">3.1.3.</span> <span class="toc-text">简析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Hierarchy-Viewer"><span class="toc-number">3.1.4.</span> <span class="toc-text">Hierarchy Viewer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#栗子"><span class="toc-number">3.1.5.</span> <span class="toc-text">栗子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#优化"><span class="toc-number">3.1.6.</span> <span class="toc-text">优化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#层叠太多，过度绘制"><span class="toc-number">3.2.</span> <span class="toc-text">层叠太多，过度绘制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#调试-GPU-过度绘制"><span class="toc-number">3.2.1.</span> <span class="toc-text">调试 GPU 过度绘制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#栗子-1"><span class="toc-number">3.2.2.</span> <span class="toc-text">栗子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#优化-1"><span class="toc-number">3.2.3.</span> <span class="toc-text">优化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#负载过重"><span class="toc-number">3.3.</span> <span class="toc-text">负载过重</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GPU-呈现模式分析"><span class="toc-number">3.3.1.</span> <span class="toc-text">GPU 呈现模式分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#栗子-2"><span class="toc-number">3.3.2.</span> <span class="toc-text">栗子</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Android-System-Trace"><span class="toc-number">3.3.3.</span> <span class="toc-text">Android System Trace</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#内存抖动"><span class="toc-number">3.4.</span> <span class="toc-text">内存抖动</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#优化-2"><span class="toc-number">3.4.1.</span> <span class="toc-text">优化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#硬件加速"><span class="toc-number">3.5.</span> <span class="toc-text">硬件加速</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Application-级别"><span class="toc-number">3.5.1.</span> <span class="toc-text">Application 级别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Activity-级别"><span class="toc-number">3.5.2.</span> <span class="toc-text">Activity 级别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Window-级别"><span class="toc-number">3.5.3.</span> <span class="toc-text">Window 级别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#View-级别"><span class="toc-number">3.5.4.</span> <span class="toc-text">View 级别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn {
+        display: none;
+    }
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+            $(".switch-btn, .switch-area").fadeOut(300);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+            $(".switch-btn, .switch-area").fadeIn(500);
+        }
+    })
+
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+        $(".switch-btn, .switch-area").show();
+    }
+</script>
+
+
+
+
+    <div class="share">
+    <div class="bdsharebuttonbox">
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+    <a href="#" class="bds_copy" data-cmd="copy" title="复制网址"></a>
+    <a href="#" class="bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+    </div>
+    <script>
+        window._bd_share_config={
+            "common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+</div>
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2017/03/10/ui-optimize/" data-title="Android UI优化" data-url="http://yydcdut.com/2017/03/10/ui-optimize/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yydcdut"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/03/01/the-flow-of-animation-and-animator-analyse/" title="下一篇: Animation和Animator流程分析">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/03/10/ui-optimize/">Android UI优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/the-flow-of-animation-and-animator-analyse/">Animation和Animator流程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/06/hashmap-analyse/">HashMap源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/25/dexknifeplugin-analyse/">DexKnifePlugin源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/30/parallax-layer-layout-analyse/">Parallax-Layer-Layout源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/logger-analyse/">Logger源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/rxmarkdown/">RxMarkdown介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/viewdraghelper-analyse/">ViewDragHelper源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/05/arraymap-analyse/">ArrayMap源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/29/android-grag-square-analyse/">android-drag-square源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/22/swipemenulistview-analyse/">SwipeMenuListview源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/15/drawee-text-view-analyse/">Bilibili-drawee-text-view源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/08/swipebacklayout-analyse/">SwipeBackLayout源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/asynctask-analyse/">AsyncTask源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/24/easypermissions-analyse/">Google-EasyPermissions源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/android-crop-analyse/">android-crop源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/10/explosionfield-analyse/">ExplosionField源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/27/elasticscrollview-analyse/">ElasticScrollView源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/20/split-dex/">Android Dex分包之旅</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/13/volley-code-analyse/">Volley源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/eventbus3-code-analyse/">EventBus3.0源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/28/listview-optimize/">ListView优化总结</a></li></ul>
+    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#toc, .switch-btn, .switch-area").toggle();
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+                $(".switch-btn, .switch-area").fadeToggle(300);
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2017 yydcdut
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的静态博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减双栏 Hexo 博客主题">Yelee</a> by MOxFIVE
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >本站到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+    <style>
+        body {
+          background: lightgray;
+        }
+        #container .left-col {
+          background: white;
+        }
+        .article-inner {
+          background: white;
+          margin-bottom: 1em;
+        }
+        .post-nav-button {
+          background: #ececec;
+        }
+        #header .header-nav .social #GitHub {
+          background-color: #bfd3ec;
+        }
+        #post-nav-button a {
+          background: rgba(215, 216, 215, .2);
+        }
+        .post-list {
+          background: white;
+        }
+    </style>
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
