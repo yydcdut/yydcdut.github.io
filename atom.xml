@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Android杂文 - yydcdut</title>
+  <subtitle>坚持每周一篇好文章 (ง •̀_•́)ง</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yydcdut.com/"/>
+  <updated>2017-04-19T14:48:56.000Z</updated>
+  <id>http://yydcdut.com/</id>
+  
+  <author>
+    <name>yydcdut</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ButterKnife源码简析</title>
+    <link href="http://yydcdut.com/2017/04/19/butterknife-analyse/"/>
+    <id>http://yydcdut.com/2017/04/19/butterknife-analyse/</id>
+    <published>2017-04-19T14:38:45.000Z</published>
+    <updated>2017-04-19T14:48:56.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Github: &lt;a href=&quot;https://github.com/JakeWharton/butterknife&quot;&gt;butterknife&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/JakeWharton/butterknife/tree/fc10f1674a08162ad7cf8c762c11a748c20c25d8&quot;&gt;fc10f16&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;ButterKnife 是一个 Android 视图快速注入库，它通过给 View 字段添加注解，可以让我们丢掉 findViewById() 来获取 View 的方法，从而简化了代码。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android UI优化</title>
+    <link href="http://yydcdut.com/2017/03/10/ui-optimize/"/>
+    <id>http://yydcdut.com/2017/03/10/ui-optimize/</id>
+    <published>2017-03-10T07:36:27.000Z</published>
+    <updated>2017-03-10T08:00:34.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Android 的 UI 优化学习笔记和总结，包括一些导致卡顿的原因和一些解决方案，欢迎大家一起学习交流！&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="UI" scheme="http://yydcdut.com/tags/UI/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Animation和Animator流程分析</title>
+    <link href="http://yydcdut.com/2017/03/01/the-flow-of-animation-and-animator-analyse/"/>
+    <id>http://yydcdut.com/2017/03/01/the-flow-of-animation-and-animator-analyse/</id>
+    <published>2017-03-01T08:12:28.000Z</published>
+    <updated>2017-03-01T08:18:26.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt; 分析版本：android-23&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Animation 和 Animator 是 Android 上实现动画的两种不同方式，本文是对这两种动画进行流程上的解析，其分析方向主要是 Listener 是怎么回调的，是怎么不断的调用自己的，是间隔多少时间调用自己的。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="动画" scheme="http://yydcdut.com/tags/%E5%8A%A8%E7%94%BB/"/>
+    
+      <category term="流程" scheme="http://yydcdut.com/tags/%E6%B5%81%E7%A8%8B/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>HashMap源码解析</title>
+    <link href="http://yydcdut.com/2016/12/06/hashmap-analyse/"/>
+    <id>http://yydcdut.com/2016/12/06/hashmap-analyse/</id>
+    <published>2016-12-06T09:54:09.000Z</published>
+    <updated>2017-03-01T08:32:41.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt; 分析版本： JDK1.8&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在 Java8 之前， HashMap 是链表散列的数据结构，即数组和链表的结合体；从 Java8 开始，引入红黑树的数据结构和扩容的优化。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Java" scheme="http://yydcdut.com/categories/Java/"/>
+    
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DexKnifePlugin源码解析</title>
+    <link href="http://yydcdut.com/2016/09/25/dexknifeplugin-analyse/"/>
+    <id>http://yydcdut.com/2016/09/25/dexknifeplugin-analyse/</id>
+    <published>2016-09-25T10:40:34.000Z</published>
+    <updated>2016-09-25T10:46:19.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Github: &lt;a href=&quot;https://github.com/ceabie/DexKnifePlugin&quot;&gt;DexKnifePlugin&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/ceabie/DexKnifePlugin/tree/9d33ba952d295ae3e4d23b1c905d17f74031d1e0&quot;&gt;9d33ba9&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;DexKnifePlugin 是一个简单的将指定使用通配符包名分包到第二个dex中gradle插件。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Gradle" scheme="http://yydcdut.com/categories/Gradle/"/>
+    
+    
+      <category term="Dex" scheme="http://yydcdut.com/tags/Dex/"/>
+    
+      <category term="Gradle" scheme="http://yydcdut.com/tags/Gradle/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Parallax-Layer-Layout源码解析</title>
+    <link href="http://yydcdut.com/2016/08/30/parallax-layer-layout-analyse/"/>
+    <id>http://yydcdut.com/2016/08/30/parallax-layer-layout-analyse/</id>
+    <published>2016-08-30T07:31:52.000Z</published>
+    <updated>2016-08-30T07:42:14.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Github: &lt;a href=&quot;https://github.com/SchibstedSpain/Parallax-Layer-Layout&quot;&gt;Parallax-Layer-Layout&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/SchibstedSpain/Parallax-Layer-Layout/tree/5375a3a4db4aff1831aa7aabea2fb0b1e002abf9&quot;&gt;5375a3a&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在 Android 上的分层视差效果的开源库。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="传感器" scheme="http://yydcdut.com/tags/%E4%BC%A0%E6%84%9F%E5%99%A8/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+      <category term="自定义控件" scheme="http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Logger源码解析</title>
+    <link href="http://yydcdut.com/2016/08/21/logger-analyse/"/>
+    <id>http://yydcdut.com/2016/08/21/logger-analyse/</id>
+    <published>2016-08-21T08:07:58.000Z</published>
+    <updated>2016-08-21T08:16:40.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Github: &lt;a href=&quot;https://github.com/orhanobut/logger&quot;&gt;logger&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/orhanobut/logger/tree/fcbb21b30230cdb1c17247d10c395d4e7bfb21ad&quot;&gt;fcbb21&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Logger — Simple, pretty and powerful logger for android.&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>RxMarkdown介绍</title>
+    <link href="http://yydcdut.com/2016/07/27/rxmarkdown/"/>
+    <id>http://yydcdut.com/2016/07/27/rxmarkdown/</id>
+    <published>2016-07-27T06:39:36.000Z</published>
+    <updated>2016-07-27T06:49:49.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;RxMarkdown 是一个运用 RxJava API 在 &lt;code&gt;android.widget.TextView&lt;/code&gt; 或 &lt;code&gt;android.widget.EditText&lt;/code&gt; 中编辑和（实时）预览基本 markdown 语法的 Android 库。 &lt;/p&gt;
+    
+    </summary>
+    
+      <category term="扯蛋" scheme="http://yydcdut.com/categories/%E6%89%AF%E8%9B%8B/"/>
+    
+    
+      <category term="扯蛋" scheme="http://yydcdut.com/tags/%E6%89%AF%E8%9B%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ViewDragHelper源码解析</title>
+    <link href="http://yydcdut.com/2016/06/19/viewdraghelper-analyse/"/>
+    <id>http://yydcdut.com/2016/06/19/viewdraghelper-analyse/</id>
+    <published>2016-06-19T11:10:31.000Z</published>
+    <updated>2016-10-08T09:08:38.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt; 分析版本：support-v4-23.3.0&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;ViewDragHelper 封装了许多手势拖动操作，在某些条件下使用 ViewDragHelper 开发可提高效率。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="support-v4" scheme="http://yydcdut.com/tags/support-v4/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ArrayMap源码解析</title>
+    <link href="http://yydcdut.com/2016/06/05/arraymap-analyse/"/>
+    <id>http://yydcdut.com/2016/06/05/arraymap-analyse/</id>
+    <published>2016-06-05T11:36:09.000Z</published>
+    <updated>2017-03-01T09:47:23.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt; 分析版本：support-v4-22.2.1&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;ArrayMap 继承于 SimpleArrayMap ，实现了 Map 接口中的所有方法。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="support-v4" scheme="http://yydcdut.com/tags/support-v4/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>android-drag-square源码解析</title>
+    <link href="http://yydcdut.com/2016/05/29/android-grag-square-analyse/"/>
+    <id>http://yydcdut.com/2016/05/29/android-grag-square-analyse/</id>
+    <published>2016-05-29T15:10:42.000Z</published>
+    <updated>2016-05-29T15:19:54.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Github: &lt;a href=&quot;https://github.com/xmuSistone/android-drag-square&quot;&gt;android-drag-square&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/xmuSistone/android-drag-square/tree/88b6738cf4201b1f3645cbbba55cf8664bb78672&quot;&gt;886b738&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;android-drag-square 是一个仿探探的『个人编辑资料页』的头像拖动排序的开源库。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="drag" scheme="http://yydcdut.com/tags/drag/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+      <category term="自定义控件" scheme="http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SwipeMenuListview源码解析</title>
+    <link href="http://yydcdut.com/2016/05/22/swipemenulistview-analyse/"/>
+    <id>http://yydcdut.com/2016/05/22/swipemenulistview-analyse/</id>
+    <published>2016-05-22T15:42:18.000Z</published>
+    <updated>2016-05-22T15:49:05.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Github: &lt;a href=&quot;https://github.com/baoyongzhang/SwipeMenuListView&quot;&gt;SwipeMenuListView&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/baoyongzhang/SwipeMenuListView/tree/d1cb86251e4aa9d21171930f08cd5b7a38d0e067&quot;&gt;d1cb862&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;SwipeMenuListView 是一个像 Android QQ 那样在 ListView 中拉出菜单的开源库。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="ListView" scheme="http://yydcdut.com/tags/ListView/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+      <category term="自定义控件" scheme="http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Bilibili-drawee-text-view源码解析</title>
+    <link href="http://yydcdut.com/2016/05/15/drawee-text-view-analyse/"/>
+    <id>http://yydcdut.com/2016/05/15/drawee-text-view-analyse/</id>
+    <published>2016-05-15T14:32:09.000Z</published>
+    <updated>2016-05-21T07:13:22.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Github: &lt;a href=&quot;https://github.com/Bilibili/drawee-text-view&quot;&gt;drawee-text-view&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/Bilibili/drawee-text-view/tree/37c372cb508573e3637c5b2dd0cc47e9492031d6&quot;&gt;37c372&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;drawee-text-view 是一个基于 Fresco 的简易的 spannable TextView。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="TextView" scheme="http://yydcdut.com/tags/TextView/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+      <category term="自定义控件" scheme="http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SwipeBackLayout源码解析</title>
+    <link href="http://yydcdut.com/2016/05/08/swipebacklayout-analyse/"/>
+    <id>http://yydcdut.com/2016/05/08/swipebacklayout-analyse/</id>
+    <published>2016-05-08T12:38:50.000Z</published>
+    <updated>2016-05-08T13:05:33.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Github: &lt;a href=&quot;https://github.com/ikew0ng/SwipeBackLayout&quot;&gt;SwipeBackLayout&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/ikew0ng/SwipeBackLayout/tree/e4ddae6d2b8af9b606493cba36faef8beba94be2&quot;&gt;e4ddae6&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;SwipeBackLayout 是一个仿 IOS 通过手势退出界面的开源库。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="SwipeBack" scheme="http://yydcdut.com/tags/SwipeBack/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>AsyncTask源码解析</title>
+    <link href="http://yydcdut.com/2016/05/02/asynctask-analyse/"/>
+    <id>http://yydcdut.com/2016/05/02/asynctask-analyse/</id>
+    <published>2016-05-02T15:08:42.000Z</published>
+    <updated>2016-05-02T15:11:19.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本文以 API 23 代码为例讲解 AsyncTask 的使用和源码以及注意事项。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="AsyncTask" scheme="http://yydcdut.com/tags/AsyncTask/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Google-EasyPermissions源码解析</title>
+    <link href="http://yydcdut.com/2016/04/24/easypermissions-analyse/"/>
+    <id>http://yydcdut.com/2016/04/24/easypermissions-analyse/</id>
+    <published>2016-04-24T09:26:26.000Z</published>
+    <updated>2016-04-24T09:39:14.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Github: &lt;a href=&quot;https://github.com/googlesamples/easypermissions&quot;&gt;easypermissions&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/googlesamples/easypermissions/tree/962b99da0a08c27fc0d6f78252a948b36d64f60c&quot;&gt;962b99d&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;EasyPermissions 是一个在 Android M 或者更高版本的上使用去简化系统权限逻辑的开源库。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="权限" scheme="http://yydcdut.com/tags/%E6%9D%83%E9%99%90/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>android-crop源码解析</title>
+    <link href="http://yydcdut.com/2016/04/17/android-crop-analyse/"/>
+    <id>http://yydcdut.com/2016/04/17/android-crop-analyse/</id>
+    <published>2016-04-17T14:57:05.000Z</published>
+    <updated>2016-05-21T07:30:47.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Github: &lt;a href=&quot;https://github.com/jdamcd/android-crop&quot;&gt;android-crop&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/jdamcd/android-crop/tree/2db9b6eeaea5990947a2bf07288b0852a272945a&quot;&gt;adb9b6e&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;android-crop 是一个基于 AOSP 的图片裁剪库。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="Android图像处理" scheme="http://yydcdut.com/tags/Android%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ExplosionField源码解析</title>
+    <link href="http://yydcdut.com/2016/04/10/explosionfield-analyse/"/>
+    <id>http://yydcdut.com/2016/04/10/explosionfield-analyse/</id>
+    <published>2016-04-10T05:30:40.000Z</published>
+    <updated>2016-04-10T05:49:40.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Github: &lt;a href=&quot;https://github.com/tyrantgit/ExplosionField&quot;&gt;ExplosionField&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/tyrantgit/ExplosionField/tree/3122cb6c5783218f1a08787e6a6241e6e745695f&quot;&gt;3122cb6&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;一个粒子爆炸效果的 UI 开源控件。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="ExplosionField" scheme="http://yydcdut.com/tags/ExplosionField/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+      <category term="粒子爆炸" scheme="http://yydcdut.com/tags/%E7%B2%92%E5%AD%90%E7%88%86%E7%82%B8/"/>
+    
+      <category term="自定义控件" scheme="http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ElasticScrollView源码解析</title>
+    <link href="http://yydcdut.com/2016/03/27/elasticscrollview-analyse/"/>
+    <id>http://yydcdut.com/2016/03/27/elasticscrollview-analyse/</id>
+    <published>2016-03-27T14:33:59.000Z</published>
+    <updated>2016-04-10T06:01:41.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Github: &lt;a href=&quot;https://github.com/Kitdroid/ElasticScrollView&quot;&gt;ElasticScrollView&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/Kitdroid/ElasticScrollView/tree/c673507527a2220f04dd74cca48b607113398d03&quot;&gt;c673507&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;网上有很多下拉放大 &lt;code&gt;HeaderView&lt;/code&gt; 的 &lt;code&gt;ListView&lt;/code&gt; 或者 &lt;code&gt;ScrollView&lt;/code&gt; ，这里将分析一下下拉放大的 &lt;code&gt;ScrollView&lt;/code&gt; –  &lt;strong&gt;ElasticScrollView&lt;/strong&gt; 。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="ElasticScrollView" scheme="http://yydcdut.com/tags/ElasticScrollView/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+      <category term="自定义控件" scheme="http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android Dex分包之旅</title>
+    <link href="http://yydcdut.com/2016/03/20/split-dex/"/>
+    <id>http://yydcdut.com/2016/03/20/split-dex/</id>
+    <published>2016-03-20T02:47:14.000Z</published>
+    <updated>2016-03-21T03:08:12.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;当程序越来越大之后，出现了一个 dex 包装不下的情况，通过 &lt;code&gt;MultiDex&lt;/code&gt; 的方法解决了这个问题，但是在底端机器上又出现了 &lt;code&gt;INSTALL_FAILED_DEXOPT&lt;/code&gt; 的情况，那再解决这个问题吧。等解决完这个问题之后，发现需要填的坑越来越多了，文章讲的是我在分包处理中填的坑，比如 65536、LinearAlloc、NoClassDefFoundError等等。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="Dex" scheme="http://yydcdut.com/tags/Dex/"/>
+    
+  </entry>
+  
+</feed>

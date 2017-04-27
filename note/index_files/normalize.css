@@ -107,10 +107,8 @@ audio,
 /**
  * Address differences between Firefox and other browsers.
  */
- hr { 
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
+ hr {
+    box-sizing: border-box;
     height: 0;
 }
 /**
@@ -266,9 +264,7 @@ sub {
  * 2. Remove excess padding in IE 8/9.
  */
  input[type="checkbox"], input[type="radio"] {
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
+    box-sizing: border-box;
     /* 1 */
     padding: 0;
     /* 2 */
@@ -378,8 +374,6 @@ input[type="color"]:focus,
 input[type="search"]:focus, 
 input[type="search"]:active {
     box-shadow: 0;
-    -webkit-box-shadow: 0;
-    -moz-box-shadow: 0;
     box-shadow: 0;
     outline: 0 none;
 }
@@ -424,7 +418,5 @@ table {
     border-collapse: collapse;
 }
 div {
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
+    box-sizing: border-box;
 }

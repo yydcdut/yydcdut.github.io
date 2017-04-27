@@ -2,8 +2,15 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
   <title>SwipeBackLayout源码解析 | Android杂文 - yydcdut</title>
+  <meta name="description" content="Android技术杂文,yydcdut" />
+  <meta name="keywords" content="blog,博客,Android,开源,源码,Android源码,yydcdut" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="shortcut icon" href="/favicon.png">
+  <link rel="alternative" href="/atom.xml" title="Android杂文 - yydcdut" type="application/atom+xml">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Github: SwipeBackLayout      分析版本：e4ddae6
 
@@ -22,240 +29,141 @@ SwipeBackLayout 是一个仿 IOS 通过手势退出界面的开源库。">
 <meta name="twitter:description" content="Github: SwipeBackLayout      分析版本：e4ddae6
 
 SwipeBackLayout 是一个仿 IOS 通过手势退出界面的开源库。">
-  
-    <link rel="alternative" href="/atom.xml" title="Android杂文 - yydcdut" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css" type="text/css">
-  
-  
-  <link rel="stylesheet" href="/css/style.css" type="text/css">
-  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  
-  
-      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  
+    
+  <link href="https://fonts.googleapis.com/css?family=Inconsolata|Titillium+Web" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+  <link href='//cdn.bootcss.com/node-waves/0.7.5/waves.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="/style.css" type="text/css">
   <script>
-      var yiliaConfig = {
-          fancybox: true,
-          animate: true,
-          isHome: false,
-          isPost: true,
-          isArchive: false,
-          isTag: false,
-          isCategory: false,
-          open_in_new: true
-      }
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
   </script>
-  
-      <script>
-          var _hmt = _hmt || [];
-          (function() {
-              var hm = document.createElement("script");
-              hm.src = "//hm.baidu.com/hm.js?ca0d2d2e8c8246e6ac0e8f9cb04e5833";
-              var s = document.getElementsByTagName("script")[0]; 
-              s.parentNode.insertBefore(hm, s);
-          })();
-      </script>
-  
 </head>
+
 <body>
-  <div id="container">
-    <div class="left-col">
-    <div class="overlay"></div>
-<div class="intrude-less">
-    <header id="header" class="inner">
-        <a href="/" class="profilepic">
-            
-            <img lazy-src="/img/avatar.png" class="js-avatar">
-            
-        </a>
-
-        <hgroup>
-          <h1 class="header-author"><a href="/">yydcdut</a></h1>
-        </hgroup>
-
-        
-        <p class="header-subtitle">每周一篇好文章</p>
-        
-                
-
-
-        
-            <div id="switch-btn" class="switch-btn">
-                <div class="icon">
-                    <div class="icon-ctn">
-                        <div class="icon-wrap icon-house" data-idx="0">
-                            <div class="birdhouse"></div>
-                            <div class="birdhouse_holes"></div>
-                        </div>
-                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
-                            <div class="ribbon"></div>
-                        </div>
-                        
-                        
-                    </div>
-                    
-                </div>
-                <div class="tips-box hide">
-                    <div class="tips-arrow"></div>
-                    <ul class="tips-inner">
-                        <li>菜单</li>
-                        <li>标签</li>
-                        
-                        
-                    </ul>
-                </div>
-            </div>
-        
-
-        <div id="switch-area" class="switch-area">
-            <div class="switch-wrap">
-                <section class="switch-part switch-part1">
-                    <nav class="header-menu">
-                        <ul>
-                        
-                            <li><a href="/">主页</a></li>
-                        
-                            <li><a href="/archives/">所有文章</a></li>
-                        
-                            <li><a href="/tags/">标签云</a></li>
-                        
-                            <li><a href="/me/">关于我</a></li>
-                        
-                            <li><a href="/note/">开源App</a></li>
-                        
-                        </ul>
-                    </nav>
-                    <nav class="header-nav">
-                        <ul class="social">
-                            
-                                <li id="Email"><a class="Email" target="_blank" href="mailto:yydcdut@qq.com" title="Email"></a></li>
-                            
-                                <li id="新浪微博"><a class="新浪微博" target="_blank" href="http://weibo.com/yydcdut" title="新浪微博"></a></li>
-                            
-                                <li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/yydcdut" title="GitHub"></a></li>
-                            
-                                <li id="StackOverflow"><a class="StackOverflow" target="_blank" href="http://stackoverflow.com/users/4364595/yydcdut" title="StackOverflow"></a></li>
-                            
-                        </ul>
-                    </nav>
-                </section>
-                
-                
-                <section class="switch-part switch-part2">
-                    <div class="widget tagcloud" id="js-tagcloud">
-                        <a href="/tags/Android图像处理/" style="font-size: 10px;">Android图像处理</a> <a href="/tags/AsyncTask/" style="font-size: 10px;">AsyncTask</a> <a href="/tags/Dex/" style="font-size: 13.33px;">Dex</a> <a href="/tags/ElasticScrollView/" style="font-size: 10px;">ElasticScrollView</a> <a href="/tags/EventBus/" style="font-size: 10px;">EventBus</a> <a href="/tags/ExplosionField/" style="font-size: 10px;">ExplosionField</a> <a href="/tags/Gradle/" style="font-size: 10px;">Gradle</a> <a href="/tags/ListView/" style="font-size: 13.33px;">ListView</a> <a href="/tags/SwipeBack/" style="font-size: 10px;">SwipeBack</a> <a href="/tags/TextView/" style="font-size: 10px;">TextView</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/Volley/" style="font-size: 10px;">Volley</a> <a href="/tags/drag/" style="font-size: 10px;">drag</a> <a href="/tags/support-v4/" style="font-size: 13.33px;">support-v4</a> <a href="/tags/传感器/" style="font-size: 10px;">传感器</a> <a href="/tags/动画/" style="font-size: 10px;">动画</a> <a href="/tags/扯蛋/" style="font-size: 10px;">扯蛋</a> <a href="/tags/权限/" style="font-size: 10px;">权限</a> <a href="/tags/流程/" style="font-size: 10px;">流程</a> <a href="/tags/源码/" style="font-size: 20px;">源码</a> <a href="/tags/粒子爆炸/" style="font-size: 10px;">粒子爆炸</a> <a href="/tags/自定义控件/" style="font-size: 16.67px;">自定义控件</a>
-                    </div>
-                </section>
-                
-                
-                
-
-                
-            </div>
-        </div>
-    </header>                
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
 </div>
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-      <div class="overlay">
-          <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">yydcdut</a></h1>
-      </div>
-    <div class="intrude-less">
-        <header id="header" class="inner">
-            <a href="/" class="profilepic">
-                
-                    <img lazy-src="/img/avatar.png" class="js-avatar">
-                
-            </a>
-            <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">yydcdut</a></h1>
-            </hgroup>
-            
-            <p class="header-subtitle">每周一篇好文章</p>
-            
-            <nav class="header-menu">
-                <ul>
-                
-                    <li><a href="/">主页</a></li>
-                
-                    <li><a href="/archives/">所有文章</a></li>
-                
-                    <li><a href="/tags/">标签云</a></li>
-                
-                    <li><a href="/me/">关于我</a></li>
-                
-                    <li><a href="/note/">开源App</a></li>
-                
-                <div class="clearfix"></div>
-                </ul>
-            </nav>
-            <nav class="header-nav">
-                        <ul class="social">
-                            
-                                <li id="Email"><a class="Email" target="_blank" href="mailto:yydcdut@qq.com" title="Email"></a></li>
-                            
-                                <li id="新浪微博"><a class="新浪微博" target="_blank" href="http://weibo.com/yydcdut" title="新浪微博"></a></li>
-                            
-                                <li id="GitHub"><a class="GitHub" target="_blank" href="https://github.com/yydcdut" title="GitHub"></a></li>
-                            
-                                <li id="StackOverflow"><a class="StackOverflow" target="_blank" href="http://stackoverflow.com/users/4364595/yydcdut" title="StackOverflow"></a></li>
-                            
-                        </ul>
-            </nav>
-        </header>                
-    </div>
-</nav>
-      <div class="body-wrap"><article id="post-swipebacklayout-analyse" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/05/08/swipebacklayout-analyse/" class="article-date">
-      <time datetime="2016-05-08T12:38:50.000Z" itemprop="datePublished">2016-05-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      SwipeBackLayout源码解析
-    </h1>
-  
-
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-    </div>
 
 
-        
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SwipeBack/">SwipeBack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/源码/">源码</a></li></ul>
+  <script>setLoadingBarProgress(20)</script> 
+  <header class="l_header">
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+			<a class="logo flat-box" href='/' >
+				Android杂文 - yydcdut
+			</a>
+			<div class='menu'>
+				<ul class='h-list'>
+					
+						<li>
+							<a class='flat-box nav-home' href='/'>
+								Home
+							</a>
+						</li>
+					
+						<li>
+							<a class='flat-box nav-archives' href='/archives'>
+								Archives
+							</a>
+						</li>
+					
+						<li>
+							<a class='flat-box nav-about' href='/me'>
+								About
+							</a>
+						</li>
+					
+						<li>
+							<a class='flat-box nav-note' href='/note'>
+								开源App
+							</a>
+						</li>
+					
+				</ul>
+				<div class='underline'></div>
+			</div>
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="Search" />
+						<span class="icon icon-search"></span>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a href='javascript:void(0)'><span class="icon icon-search flat-box"></span></a></li>
+				
+				<li class='s-menu'><a href='javascript:void(0)'><span class="icon icon-menu flat-box"></span></a></li>
+			</ul>
+		</div>
+		
+		<div class='nav-sub container container--flex'>
+			<a class="logo" class="flat-box" href='javascript:void(0)'>
+				Word of Forks
+			</a>
+
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a href='javascript:void(0)'><span class="icon icon-chat_bubble_outline flat-box"></span></a></li>
+				<li class='s-top'><a href='javascript:void(0)'><span class="icon icon-arrow_upward flat-box"></span></a></li>
+				<li class='s-toc'><a href='javascript:void(0)'><span class="icon icon-format_list_numbered flat-box"></span></a></li>
+			</ul>
+		</div>
+	</div>
+</header>
+<aside class="menu-phone">
+	<nav>
+		
+			<a href="/" class="nav-home nav">
+				Home
+			</a>
+		
+			<a href="/archives" class="nav-archives nav">
+				Archives
+			</a>
+		
+			<a href="/me" class="nav-about nav">
+				About
+			</a>
+		
+			<a href="/note" class="nav-note nav">
+				开源App
+			</a>
+		
+	</nav>
+</aside>
+
+    <script>setLoadingBarProgress(40);</script>
+  <div class="l_body">
+    <div class='container clearfix'>
+      <div class='l_main'>
+        <article id="post-swipebacklayout-analyse"
+  class="post white-box article-type-post"
+  itemscope itemprop="blogPost">
+	<section class='meta'>
+	<h2 class="title">
+  	<a href="/2016/05/08/swipebacklayout-analyse/">
+    	SwipeBackLayout源码解析
+    </a>
+  </h2>
+	<time>
+	  5月 8, 2016
+	</time>
+	
+    
+    <div class='cats'>
+        <a href="/categories/Android/">Android</a>
     </div>
 
-        <div class="clearfix"></div>
-      </div>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <blockquote>
+	</section>
+	
+		<section class="toc-wrapper"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SwipeBackLayout"><span class="toc-number">1.</span> <span class="toc-text">SwipeBackLayout</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-number">2.</span> <span class="toc-text">使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#注意"><span class="toc-number">2.1.</span> <span class="toc-text">注意</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#demo"><span class="toc-number">2.2.</span> <span class="toc-text">demo</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码"><span class="toc-number">3.</span> <span class="toc-text">源码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SwipeBackActivity"><span class="toc-number">3.1.</span> <span class="toc-text">SwipeBackActivity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SwipeBackActivityHelper"><span class="toc-number">3.2.</span> <span class="toc-text">SwipeBackActivityHelper</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SwipeBackLayout-1"><span class="toc-number">3.3.</span> <span class="toc-text">SwipeBackLayout</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Utils"><span class="toc-number">3.4.</span> <span class="toc-text">Utils</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol></section>
+	
+	<section class="article typo">
+  	<div class="article-entry" itemprop="articleBody">
+    	<blockquote>
 <p>Github: <a href="https://github.com/ikew0ng/SwipeBackLayout" target="_blank" rel="external">SwipeBackLayout</a>      分析版本：<a href="https://github.com/ikew0ng/SwipeBackLayout/tree/e4ddae6d2b8af9b606493cba36faef8beba94be2" target="_blank" rel="external">e4ddae6</a></p>
 </blockquote>
 <p>SwipeBackLayout 是一个仿 IOS 通过手势退出界面的开源库。</p>
@@ -306,267 +214,173 @@ SwipeBackLayout 是一个仿 IOS 通过手势退出界面的开源库。">
 <li>正是因为 <code>windowIsTranslucent</code> 参数，可能在某些机器上直接显示桌面了，我以前遇到过的就有 sony 的 ROM 。</li>
 </ul>
 
-        
+  	</div>
+	  
+	  <div class="article-tags tags">
       
-    </div>
+        <a href="/tags/SwipeBack/">SwipeBack</a>
+      
+        <a href="/tags/源码/">源码</a>
+      
+	  </div>
     
-  </div>
-  
-    
-    <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/05/08/swipebacklayout-analyse/">SwipeBackLayout源码解析</a></p>
-        <p><span>文章作者:</span><a href="/" title="访问 yydcdut 的个人博客">yydcdut</a></p>
-        <p><span>发布时间:</span>2016年05月08日 - 20时38分</p>
-        <p><span>最后更新:</span>2016年05月08日 - 21时05分</p>
-        <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/05/08/swipebacklayout-analyse/" title="SwipeBackLayout源码解析">http://yydcdut.com/2016/05/08/swipebacklayout-analyse/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://yydcdut.com/2016/05/08/swipebacklayout-analyse/　　作者: yydcdut" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
-            <script src="/js/clipboard.min.js"></script>
-            <script> var clipboard = new Clipboard('.copy-path'); </script>
-        </p>
-        <p>
-            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target = "_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
-        </p>
-    </div>
-
-
-
-    <nav id="article-nav">
-        
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2016/05/15/drawee-text-view-analyse/">
-                    Bilibili-drawee-text-view源码解析
-                </a>
-            </div>
-        
-        
-            <div id="article-nav-older" class="article-nav-title">
-                <a href="/2016/05/02/asynctask-analyse/">
-                    AsyncTask源码解析
-                </a>
-            </div>
-        
-    </nav>
-
-  
+	</section>
+	
 </article>
-
-    <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SwipeBackLayout"><span class="toc-number">1.</span> <span class="toc-text">SwipeBackLayout</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-number">2.</span> <span class="toc-text">使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#注意"><span class="toc-number">2.1.</span> <span class="toc-text">注意</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#demo"><span class="toc-number">2.2.</span> <span class="toc-text">demo</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码"><span class="toc-number">3.</span> <span class="toc-text">源码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SwipeBackActivity"><span class="toc-number">3.1.</span> <span class="toc-text">SwipeBackActivity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SwipeBackActivityHelper"><span class="toc-number">3.2.</span> <span class="toc-text">SwipeBackActivityHelper</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SwipeBackLayout-1"><span class="toc-number">3.3.</span> <span class="toc-text">SwipeBackLayout</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Utils"><span class="toc-number">3.4.</span> <span class="toc-text">Utils</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
-</div>
-<style>
-    .left-col .switch-btn {
-        display: none;
-    }
-    .left-col .switch-area {
-        display: none;
-    }
-</style>
-
-<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
-
-<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
 <script>
-    var valueHide = "隐藏目录";
-    var valueShow = "显示目录";
-
-    if ($(".left-col").is(":hidden")) {
-        $("#tocButton").attr("value", valueShow);
-    }
-
-    $("#tocButton").click(function() {
-        if ($("#toc").is(":hidden")) {
-            $("#tocButton").attr("value", valueHide);
-            $("#toc").slideDown(320);
-            $(".switch-btn, .switch-area").fadeOut(300);
-        }
-        else {
-            $("#tocButton").attr("value", valueShow);
-            $("#toc").slideUp(350);
-            $(".switch-btn, .switch-area").fadeIn(500);
-        }
-    })
-
-    if ($(".toc").length < 1) {
-        $("#toc, #tocButton").hide();
-        $(".switch-btn, .switch-area").show();
-    }
+	window.subData = {
+		title: 'SwipeBackLayout源码解析',
+		tools: true
+	}
 </script>
-
-
-
-
-    <div class="share">
-    <div class="bdsharebuttonbox">
-    <a href="#" class="bds_more" data-cmd="more"></a>
-    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
-    <a href="#" class="bds_copy" data-cmd="copy" title="复制网址"></a>
-    <a href="#" class="bds_mail" data-cmd="mail" title="通过邮件分享"></a>
-    <a href="#" class="bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
-    </div>
-    <script>
-        window._bd_share_config={
-            "common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-    </script>
-</div>
-
 
 
     
       <div class="duoshuo" id="comments">
-    <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="2016/05/08/swipebacklayout-analyse/" data-title="SwipeBackLayout源码解析" data-url="http://yydcdut.com/2016/05/08/swipebacklayout-analyse/"></div>
-    <!-- 多说评论框 end -->
-    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-    <script type="text/javascript">
-    var duoshuoQuery = {short_name:"yydcdut"};
-    (function() {
-        var ds = document.createElement('script');
-        ds.type = 'text/javascript';ds.async = true;
-        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-        ds.charset = 'UTF-8';
-        (document.getElementsByTagName('head')[0] 
-         || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-    </script>
-    <!-- 多说公共JS代码 end -->
+    <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+        <script>
+            var cloudTieConfig = {
+                 url: "http://yydcdut.com/2016/05/08/swipebacklayout-analyse/", 
+                 productKey: "568eef41356f4523928a7b63cf2a593d",
+                 target: "cloud-tie-wrapper"
+            };
+        </script>
+    <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
 </div>
 
     
 
 
-
-
-    <div class="scroll" id="post-nav-button">
+      </div>
+      <aside class='l_side'>
         
-            <a href="/2016/05/15/drawee-text-view-analyse/" title="上一篇: Bilibili-drawee-text-view源码解析">
-                <i class="fa fa-angle-left"></i>
-            </a>
-        
+  <section class='m_widget about'>
 
-        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+<img class='avatar waves-image' src='/avatar.png' />
 
-        
-            <a href="/2016/05/02/asynctask-analyse/" title="下一篇: AsyncTask源码解析">
-                <i class="fa fa-angle-right"></i>
-            </a>
-        
-    </div>
-
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/04/19/butterknife-analyse/">ButterKnife源码简析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/10/ui-optimize/">Android UI优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/01/the-flow-of-animation-and-animator-analyse/">Animation和Animator流程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/06/hashmap-analyse/">HashMap源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/25/dexknifeplugin-analyse/">DexKnifePlugin源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/30/parallax-layer-layout-analyse/">Parallax-Layer-Layout源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/21/logger-analyse/">Logger源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/rxmarkdown/">RxMarkdown介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/19/viewdraghelper-analyse/">ViewDragHelper源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/06/05/arraymap-analyse/">ArrayMap源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/29/android-grag-square-analyse/">android-drag-square源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/22/swipemenulistview-analyse/">SwipeMenuListview源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/15/drawee-text-view-analyse/">Bilibili-drawee-text-view源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/08/swipebacklayout-analyse/">SwipeBackLayout源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/05/02/asynctask-analyse/">AsyncTask源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/24/easypermissions-analyse/">Google-EasyPermissions源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/17/android-crop-analyse/">android-crop源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/04/10/explosionfield-analyse/">ExplosionField源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/27/elasticscrollview-analyse/">ElasticScrollView源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/20/split-dex/">Android Dex分包之旅</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/13/volley-code-analyse/">Volley源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/07/eventbus3-code-analyse/">EventBus3.0源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/28/listview-optimize/">ListView优化总结</a></li></ul>
-    <script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
-    <script>
-        $(".post-list").addClass("toc-article");
-        $(".post-list-item a").attr("target","_blank");
-        $("#post-nav-button > a:nth-child(2)").click(function() {
-            $(".fa-bars, .fa-times").toggle();
-            $(".post-list").toggle(300);
-            if ($(".toc").length > 0) {
-                $("#toc, #tocButton").toggle(200, function() {
-                    if ($(".switch-area").is(":visible")) {
-                        $("#toc, .switch-btn, .switch-area").toggle();
-                        $("#tocButton").attr("value", valueHide);
-                        }
-                    })
-            }
-            else {
-                $(".switch-btn, .switch-area").fadeToggle(300);
-            }
-        })
-    </script>
-
-
-
-
-    <script>
-        
-    </script>
+<div class='header'>yydcdut</div>
+<div class='content'>
+<div class='desc'>坚持每周一篇好文章 (ง •̀_•́)ง </div>
 </div>
-      <footer id="footer">
-    <div class="outer">
-        <div id="footer-info">
-            <div class="footer-left">
-                &copy; 2017 yydcdut
-            </div>
-            <div class="footer-right">
-                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的静态博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减双栏 Hexo 博客主题">Yelee</a> by MOxFIVE
-            </div>
-        </div>
-        
-            <div class="visit">
-                
-                    <span id="busuanzi_container_site_pv" style='display:none'>
-                        <span id="site-visit" >本站到访数: 
-                            <span id="busuanzi_value_site_uv"></span>
-                        </span>
-                    </span>
-                
-                
-                    <span>, </span>
-                
-                
-                    <span id="busuanzi_container_page_pv" style='display:none'>
-                        <span id="page-visit">本页阅读量: 
-                            <span id="busuanzi_value_page_pv"></span>
-                        </span>
-                    </span>
-                
-            </div>
-        
-    </div>
-</footer>
-    </div>
+</section>
+
+
+  <section class='m_widget links'>
+<div class='header'>Links</div>
+<div class='content'>
+    <ul class="entry">
     
-<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/js/main.js" type="text/javascript"></script>
+        <li><a class="flat-box" target="_blank" href="https://github.com/yydcdut">
+            <div class='name'>Github</div>
+        </a></li>
+    
+        <li><a class="flat-box" target="_blank" href="http://weibo.com/yydcdut">
+            <div class='name'>Weibo</div>
+        </a></li>
+    
+        <li><a class="flat-box" target="_blank" href="mailto:yydcdut@qq.com">
+            <div class='name'>Email</div>
+        </a></li>
+    
+        <li><a class="flat-box" target="_blank" href="http://stackoverflow.com/users/4364595/yydcdut">
+            <div class='name'>StackOverflow</div>
+        </a></li>
+    
+    </ul>
+</div>
+</section>
 
-    <style>
-        body {
-          background: lightgray;
-        }
-        #container .left-col {
-          background: white;
-        }
-        .article-inner {
-          background: white;
-          margin-bottom: 1em;
-        }
-        .post-nav-button {
-          background: #ececec;
-        }
-        #header .header-nav .social #GitHub {
-          background-color: #bfd3ec;
-        }
-        #post-nav-button a {
-          background: rgba(215, 216, 215, .2);
-        }
-        .post-list {
-          background: white;
-        }
-    </style>
+  <section class='m_widget categories'>
+<div class='header'>Categories</div>
+<div class='content'>
+    
+    <ul class="entry">
+    
+        <li><a class="flat-box" href="/categories/Android/"><div class='name'>Android</div><div class='badget'>20</div></a></li>
+    
+        <li><a class="flat-box" href="/categories/Gradle/"><div class='name'>Gradle</div><div class='badget'>1</div></a></li>
+    
+        <li><a class="flat-box" href="/categories/Java/"><div class='name'>Java</div><div class='badget'>1</div></a></li>
+    
+        <li><a class="flat-box" href="/categories/扯蛋/"><div class='name'>扯蛋</div><div class='badget'>1</div></a></li>
+    
+    </ul>
+    
+</div>
+</section>
 
-
-
-
-<div class="scroll" id="scroll">
-    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
-    <a href="#comments" title="查看评论"><i class="fa fa-comments-o"></i></a>
-    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+  
+<div class="m_widget tagcloud">
+    <div class="header">Tags</div>
+    <div class='content'>
+        <a href="/tags/Android图像处理/" style="font-size: 14px; color: #808080">Android图像处理</a> <a href="/tags/AsyncTask/" style="font-size: 14px; color: #808080">AsyncTask</a> <a href="/tags/Dex/" style="font-size: 16px; color: #555">Dex</a> <a href="/tags/ElasticScrollView/" style="font-size: 14px; color: #808080">ElasticScrollView</a> <a href="/tags/EventBus/" style="font-size: 14px; color: #808080">EventBus</a> <a href="/tags/ExplosionField/" style="font-size: 14px; color: #808080">ExplosionField</a> <a href="/tags/Gradle/" style="font-size: 14px; color: #808080">Gradle</a> <a href="/tags/ListView/" style="font-size: 16px; color: #555">ListView</a> <a href="/tags/SwipeBack/" style="font-size: 14px; color: #808080">SwipeBack</a> <a href="/tags/TextView/" style="font-size: 14px; color: #808080">TextView</a> <a href="/tags/UI/" style="font-size: 14px; color: #808080">UI</a> <a href="/tags/Volley/" style="font-size: 14px; color: #808080">Volley</a> <a href="/tags/drag/" style="font-size: 14px; color: #808080">drag</a> <a href="/tags/support-v4/" style="font-size: 16px; color: #555">support-v4</a> <a href="/tags/传感器/" style="font-size: 14px; color: #808080">传感器</a> <a href="/tags/动画/" style="font-size: 14px; color: #808080">动画</a> <a href="/tags/扯蛋/" style="font-size: 14px; color: #808080">扯蛋</a> <a href="/tags/权限/" style="font-size: 14px; color: #808080">权限</a> <a href="/tags/流程/" style="font-size: 14px; color: #808080">流程</a> <a href="/tags/源码/" style="font-size: 20px; color: #000">源码</a> <a href="/tags/粒子爆炸/" style="font-size: 14px; color: #808080">粒子爆炸</a> <a href="/tags/自定义控件/" style="font-size: 18px; color: #2b2b2b">自定义控件</a>
+    </div>
 </div>
 
-<script>
-    $(document).ready(function() {
-        if ($("#comments").length < 1) {
-            $("#scroll > a:nth-child(2)").hide();
-        };
-    })
-</script>
 
 
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
+      </aside>
+      <script>setLoadingBarProgress(60);</script>
+    </div>
   </div>
+  <footer id="footer" class="clearfix">
+
+	<div class="social-wrapper">
+  	
+      
+        <a href="https://github.com/yydcdut" class="social github"
+          target="_blank" rel="external">
+          <span class="icon icon-github"></span>
+        </a>
+      
+        <a href="http://weibo.com/yydcdut" class="social sina-weibo"
+          target="_blank" rel="external">
+          <span class="icon icon-sina-weibo"></span>
+        </a>
+      
+        <a href="mailto:yydcdut@qq.com" class="social mail"
+          target="_blank" rel="external">
+          <span class="icon icon-mail"></span>
+        </a>
+      
+        <a href="/atom.xml" class="social rss"
+          target="_blank" rel="external">
+          <span class="icon icon-rss"></span>
+        </a>
+      
+    
+  </div>
+  
+  <div>Theme <a href='https://github.com/stkevintan/hexo-theme-material-flow' class="codename">MaterialFlow</a> designed by <a href="http://keyin.me/" target="_blank">Kevin Tan</a>.</div>
+  
+</footer>
+
+
+  <script>setLoadingBarProgress(80);</script>
+  
+
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src='//cdn.bootcss.com/node-waves/0.7.5/waves.min.js'></script>
+<script src="//cdn.bootcss.com/scrollReveal.js/3.3.2/scrollreveal.min.js"></script>
+<script src="/js/jquery.fitvids.js" type="text/javascript"></script>
+<script>
+	var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+	var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+	var ALGOLIA_API_KEY = "";
+	var ALGOLIA_APP_ID = "";
+	var ALGOLIA_INDEX_NAME = "";
+  var AZURE_SERVICE_NAME = "";
+  var AZURE_INDEX_NAME = "";
+  var AZURE_QUERY_KEY = "";
+  var BAIDU_API_ID = "";
+  var SEARCH_SERVICE = "hexo";
+  var ROOT = "/"||"/";
+  if(!ROOT.endsWith('/'))ROOT += '/';
+</script>
+<script src="/js/search.js" type="text/javascript"></script>
+<script src="/js/app.js" type="text/javascript"></script>
+
+
+  <script>setLoadingBarProgress(100);</script>
 </body>
 </html>
