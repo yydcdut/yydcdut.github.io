@@ -114,13 +114,6 @@
     </url>
 
     <url>
-        <loc>http://yydcdut.com/tags/Gradle/</loc>
-        <lastmod>2016-09-25T10:46:19.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>http://yydcdut.com/tags/%E5%8A%A8%E7%94%BB/</loc>
         <lastmod>2017-03-01T08:18:26.000Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -151,6 +144,20 @@
     <url>
         <loc>http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/</loc>
         <lastmod>2017-04-19T14:48:56.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yydcdut.com/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
+        <lastmod>2017-04-28T08:15:41.000Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://yydcdut.com/tags/Gradle/</loc>
+        <lastmod>2017-04-28T08:15:41.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

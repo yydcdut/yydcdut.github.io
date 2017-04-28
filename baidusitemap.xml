@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     
+  <url>
+    <loc>http://yydcdut.com/2017/04/28/gradle-recipes-for-android/</loc>
+    <lastmod>2017-04-28T08:15:41.000Z</lastmod>
+    <data>
+        <display>
+        <title>《巧用Gradle构建Android应用》读书笔记</title>
+        <pubTime>2017-04-28T08:03:31.000Z</pubTime>
+        
+        <tag>Gradle </tag>
+         
+        <tag>读书笔记 </tag>
+         
+         
+           
+             
+              <breadCrumb title="读书笔记" url="http://yydcdut.com/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
     
   <url>
     <loc>http://yydcdut.com/2017/04/19/butterknife-analyse/</loc>

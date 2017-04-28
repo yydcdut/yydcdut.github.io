@@ -3,6 +3,97 @@
   
     
     <entry>
+      <title><![CDATA[《巧用Gradle构建Android应用》读书笔记]]></title>
+      <url>/2017/04/28/gradle-recipes-for-android/</url>
+      <content type="html"><![CDATA[<p>《巧用Gradle构建Android应用》读书笔记，适合入门以及查漏补缺。</p>
+<a id="more"></a>
+<h2 id="查漏补缺"><a href="#查漏补缺" class="headerlink" title="查漏补缺"></a>查漏补缺</h2><h3 id="第一章：Android-开发-Gradle-基础"><a href="#第一章：Android-开发-Gradle-基础" class="headerlink" title="第一章：Android 开发 Gradle 基础"></a>第一章：Android 开发 Gradle 基础</h3><h4 id="1-5-添加-Java-库的依赖"><a href="#1-5-添加-Java-库的依赖" class="headerlink" title="1.5 添加 Java 库的依赖"></a>1.5 添加 Java 库的依赖</h4><p>通过 -x 标志来不执行某一任务：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./gradlew assembleDebug -x lintDebug</span><br></pre></td></tr></table></figure>
+<hr>
+<p>依赖的完整语法：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">testCompile <span class="string">group:</span> <span class="string">'junit'</span>, <span class="string">name:</span> <span class="string">'junit'</span>, <span class="string">version:</span> <span class="string">'4.12'</span></span><br></pre></td></tr></table></figure>
+<p>依赖的快捷语法：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">testCompile <span class="string">'junit:junit:4.12'</span></span><br></pre></td></tr></table></figure>
+<p>版本号以变量的形式（不推荐）：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">testCompile <span class="string">'junit:juint:4.+'</span></span><br></pre></td></tr></table></figure>
+<p>这告诉 Gradle 任何高于 4.0 版本的 JUnit 在编译项目的测试时是必须的。</p>
+<hr>
+<p>禁用传递依赖</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile <span class="string">group:</span> <span class="string">'com.android.support'</span>, <span class="string">name:</span> <span class="string">'appcompat-v7'</span>, <span class="string">version:</span> <span class="string">'24.2.0'</span>, <span class="string">transitive:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<hr>
+<p>只引入模块 jar 的快捷语法</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile <span class="string">'com.nineoldandroids:library:2.4.0@jar'</span></span><br></pre></td></tr></table></figure>
+<h3 id="从项目导入到发布"><a href="#从项目导入到发布" class="headerlink" title="从项目导入到发布"></a>从项目导入到发布</h3><h4 id="2-1-设置项目属性"><a href="#2-1-设置项目属性" class="headerlink" title="2.1 设置项目属性"></a>2.1 设置项目属性</h4><p>“extra” 属性</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ext &#123;</span><br><span class="line">    dagger2Version = <span class="string">'2.0'</span></span><br><span class="line">&#125;</span><br><span class="line">dependencies &#123;</span><br><span class="line">    compile <span class="string">"com.google.dagger:dagger:$&#123;dagger2Version&#125;"</span></span><br><span class="line">    apt <span class="string">"com.google.dagger:dagger-compiler:$&#123;dagger2Version&#125;"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>如果不想将实际的用户名和密码放到构建文件中，可以放到项目根目录下的 gradle.properties 文件：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">login = <span class="string">'user'</span></span><br><span class="line">pass = <span class="string">'123'</span></span><br></pre></td></tr></table></figure>
+<p>然后替换成变量</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">repositories &#123;</span><br><span class="line">    maven &#123;</span><br><span class="line">        url <span class="string">'http://xxx'</span></span><br><span class="line">        credentials &#123;</span><br><span class="line">            username login</span><br><span class="line">            password pass</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>gradle.properties 或命令行提供变量，可以使用 -P 传参给 gradle</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./gradlew -P login=me -P passowrd=123 assembleDebug</span><br></pre></td></tr></table></figure>
+<p><strong>当某个变量同时在 ext 和 gradle.properties 设置了，最终是以 gradle.properties 中设置的值为准，如果通过命令行 -P 的方式传参的话，最后是以命令行的方式的值为准。</strong>  </p>
+<h4 id="2-5-在项目之间分享设置"><a href="#2-5-在项目之间分享设置" class="headerlink" title="2.5 在项目之间分享设置"></a>2.5 在项目之间分享设置</h4><p>在顶层 gradle 构建文件中使用 <code>allprojects</code> 或者 <code>subprojects</code> 块</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">subprojects &#123;</span><br><span class="line">	apply <span class="string">plugin:</span> <span class="string">'com.android.library'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>subprojects 属性返回所有子项的集合，subprojects 方法将提供的闭包应用到其中的每一个项目</p>
+<h3 id="构建类型和定制"><a href="#构建类型和定制" class="headerlink" title="构建类型和定制"></a>构建类型和定制</h3><h4 id="3-1-处理构建类型"><a href="#3-1-处理构建类型" class="headerlink" title="3.1 处理构建类型"></a>3.1 处理构建类型</h4><p>给应用程序 ID 和版本添加后缀</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    buildTypes &#123;</span><br><span class="line">        debug &#123;</span><br><span class="line">            applicationIdSuffix <span class="string">".debug"</span></span><br><span class="line">            versionNameSuffix <span class="string">"-debug"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-2-产品定制和变种"><a href="#3-2-产品定制和变种" class="headerlink" title="3.2 产品定制和变种"></a>3.2 产品定制和变种</h4><p>使用 Android 闭包的 productFlavors 块来申明一个产品的定制</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    productFlavors &#123;</span><br><span class="line">        dev &#123;</span><br><span class="line">            applicationId <span class="string">'com.yydcdut.note.dev'</span></span><br><span class="line">        &#125;</span><br><span class="line">        store360 &#123;</span><br><span class="line">            applicationId <span class="string">'com.yydcdut.note.s360'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每个产品定制可以拥有其自己的值，如下面的属性，还有一下其他的基于默认的 <code>defaultConfig</code> 的相同属性：</p>
+<ol>
+<li>applicationId</li>
+<li>minSdkVersion</li>
+<li>targetSdkVersion</li>
+<li>versionCode</li>
+<li>versionName</li>
+<li>signingConfig</li>
+</ol>
+<p>每个定制定义了自己的源代码集和资源，其与主带吗集是兄弟关系。除了 app/src/main/java 以外，你还可以添加源文件在如下目录：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">app/src/dev/java</span><br><span class="line">app/src/store360/java</span><br></pre></td></tr></table></figure>
+<p>还可以添加额外的资源文件到如下目录：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">app<span class="regexp">/src/</span>dev/res</span><br><span class="line">app<span class="regexp">/src/</span>store360<span class="regexp">/res/</span>layout</span><br></pre></td></tr></table></figure>
+<p><img src="http://yydcdut.qiniudn.com/3_2.png" alt="3_2"></p>
+<h4 id="3-3-合并资源"><a href="#3-3-合并资源" class="headerlink" title="3.3 合并资源"></a>3.3 合并资源</h4><p>通过合并项目定制和构建类型的 res 文件夹以及主要的目录树来合并资源。优先级是：构建类型覆盖产品定制，其覆盖 main 代码集。</p>
+<p>非 Java 的资源会互相覆盖，构建类型拥有最高优先级，其次是构建定制，然后是 main 目录。</p>
+<h4 id="3-4-定制维度"><a href="#3-4-定制维度" class="headerlink" title="3.4 定制维度"></a>3.4 定制维度</h4><p>当一个产品定制还不够，还需要另外一个标准类区分应用程序的不同版本，可以在产品定制中添加 <code>flavorDimensions</code> 属性</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    flavorDimensions <span class="string">'product'</span>, <span class="string">'client'</span></span><br><span class="line"></span><br><span class="line">    productFlavors &#123;</span><br><span class="line">        dev &#123;</span><br><span class="line">            dimension <span class="string">'product'</span></span><br><span class="line">            applicationId <span class="string">'com.yydcdut.note.dev'</span></span><br><span class="line">        &#125;</span><br><span class="line">        store360 &#123;</span><br><span class="line">            dimension <span class="string">'product'</span></span><br><span class="line">            applicationId <span class="string">'com.yydcdut.note.s360'</span></span><br><span class="line">        &#125;</span><br><span class="line">        zhangsan &#123;</span><br><span class="line">            dimension <span class="string">'client'</span></span><br><span class="line">        &#125;</span><br><span class="line">        lisi &#123;</span><br><span class="line">            dimension <span class="string">'client'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://yydcdut.qiniudn.com/3_4.png" alt="3_4"></p>
+<p>两种构建类型（ debug 和 release ），两种产品（product）定制（ dev 和 store360 ），两种客户（client）定制（ zhangsan 和 lisi ）。</p>
+<p>同样 client 定制也可以定义自己的源代码集和资源。</p>
+<p>flavorDimensions 标签在 gradle 构建的时候将 <code>product</code> 列在了 <code>client</code> 之前，意味着产品维度中的值相对于客户维度拥有更高的优先级。</p>
+<h4 id="3-5-合并不同定制间的-Java-源代码"><a href="#3-5-合并不同定制间的-Java-源代码" class="headerlink" title="3.5 合并不同定制间的 Java 源代码"></a>3.5 合并不同定制间的 Java 源代码</h4><h3 id="自定义任务"><a href="#自定义任务" class="headerlink" title="自定义任务"></a>自定义任务</h3><h4 id="4-1-编写自定义任务"><a href="#4-1-编写自定义任务" class="headerlink" title="4.1 编写自定义任务"></a>4.1 编写自定义任务</h4><p>在 configuration 阶段， Gradle 根据其依赖配置构建一个 DAG，然后执行目标任务，随着其依赖一起。所有任务在执行前先被配置。</p>
+<p>如果你需要执行命令，添加一个 doLast 块到你的 Gradle 任务中：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">task myTask &#123;</span><br><span class="line">	doLast &#123;</span><br><span class="line">      	android.applicationVariants.all &#123; variant -&gt;</span><br><span class="line">          	println variant.name</span><br><span class="line">      	&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个任务中无论在 doLast 之前还是之后的所有事情都在配置阶段执行。在 doLast 块中的代码在运行阶段执行。</p>
+<p>applicationVariants 属性只针对 com.android.application 插件有效。 libraryVariants 属性针对 Android 库项目可用，两者都可以使用 testVariants 属性。</p>
+<h4 id="4-3-排除任务"><a href="#4-3-排除任务" class="headerlink" title="4.3 排除任务"></a>4.3 排除任务</h4><p> 使用 -x 标志排除一个单独的任务，通过修改任务图来排除多个任务。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./gradlew build -x lint</span><br></pre></td></tr></table></figure>
+<p>这样做排除了 lint 任务以及其所有的依赖。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gradle.taskGraph.whenReady &#123; graph -&gt; </span><br><span class="line">	graph.allTasks.findAll &#123; it.name == <span class="regexp">~/lint.*/</span> &#125;*.enable = <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>任务图的 allTasks 属性调用的是 getAllTasks 方法，结果就是所有的名字以 lint 开头的任务的 enable 属性都被设置成 false，这些任务都不会运行。</p>
+<h4 id="4-4-自定义代码集"><a href="#4-4-自定义代码集" class="headerlink" title="4.4 自定义代码集"></a>4.4 自定义代码集</h4><p>在 Gradle 构建中使用 sourceSets 来达到使用非标准目录为源代码目录，下面的是 API 23 的 samples 中的栗子，在 input/BasicGestureDetect 目录中：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// The sample build uses multiple directories to</span></span><br><span class="line"><span class="comment">// keep boilerplate and common code separate from</span></span><br><span class="line"><span class="comment">// the main sample code.</span></span><br><span class="line">List&lt;String&gt; dirs = [</span><br><span class="line">    <span class="string">'main'</span>,     <span class="comment">// main sample code; look here for the interesting stuff.</span></span><br><span class="line">    <span class="string">'common'</span>,   <span class="comment">// components that are reused by multiple samples</span></span><br><span class="line">    <span class="string">'template'</span>] <span class="comment">// boilerplate code that is generated by the sample template process</span></span><br><span class="line"></span><br><span class="line">android &#123;</span><br><span class="line">    sourceSets &#123;</span><br><span class="line">        main &#123;</span><br><span class="line">            dirs.each &#123; dir -&gt;</span><br><span class="line">                java.srcDirs <span class="string">"src/$&#123;dir&#125;/java"</span></span><br><span class="line">                res.srcDirs <span class="string">"src/$&#123;dir&#125;/res"</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        androidTest.setRoot(<span class="string">'tests'</span>)</span><br><span class="line">        androidTest.java.srcDirs = [<span class="string">'tests/src'</span>]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><h3 id="性能和文档"><a href="#性能和文档" class="headerlink" title="性能和文档"></a>性能和文档</h3>]]></content>
+      
+        <categories>
+            
+            <category> 读书笔记 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Gradle </tag>
+            
+            <tag> 读书笔记 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[ButterKnife源码简析]]></title>
       <url>/2017/04/19/butterknife-analyse/</url>
       <content type="html"><![CDATA[<blockquote>
