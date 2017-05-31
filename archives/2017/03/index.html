@@ -294,6 +294,19 @@
       <script>setLoadingBarProgress(60);</script>
     </div>
   </div>
+  
+    <script type="text/javascript" src="/live2d/script.js"></script>
+    <canvas id="live2dcanvas" width="150" height="300" class="live2d"></canvas>
+    <style>
+      #live2dcanvas {
+        position: fixed;
+        z-index: 999;
+        pointer-events: none;
+        bottom: -40px;
+      }
+    </style>
+    <script>loadlive2d("live2dcanvas" ,"/live2d/assets/shizuku/shizuku.model.json")</script>
+  
   <footer id="footer" class="clearfix">
 
 	<div class="social-wrapper">
