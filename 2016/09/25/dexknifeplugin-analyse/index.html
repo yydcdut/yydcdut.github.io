@@ -224,10 +224,21 @@ DexKnifePlugin 是一个简单的将指定使用通配符包名分包到第二�
 
     
       <div class="duoshuo" id="comments">
-    <!-- UY BEGIN -->
-	<div id="uyan_frame"></div>
-	<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2141459"></script>
-	<!-- UY END -->
+    <div id="container"></div>
+	<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+	<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+	<script>
+		var gitment = new Gitment({
+		  id: 'location.href', // 可选。默认为 location.href
+		  owner: 'yydcdut',
+		  repo: 'https://github.com/yydcdut/yydcdut.github.io',
+		  oauth: {
+		    client_id: '7d4abafc7b38309d4fd1',
+		    client_secret: 'be5f0be53b45a0de3440ebfde91bb0eb37cc430f',
+		  },
+		})
+		gitment.render('container')
+	</script>
 </div>
 
     
