@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2017-04-28T08:15:41.000Z</updated>
+  <updated>2018-09-02T09:11:13.407Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>learn-java8</title>
+    <link href="http://yydcdut.com/2018/09/02/learn-java8/"/>
+    <id>http://yydcdut.com/2018/09/02/learn-java8/</id>
+    <published>2018-09-02T09:10:13.000Z</published>
+    <updated>2018-09-02T09:11:13.407Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Java8 学习笔记，PPT 备忘录~&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Java" scheme="http://yydcdut.com/categories/Java/"/>
+    
+    
+      <category term="Java" scheme="http://yydcdut.com/tags/Java/"/>
+    
+  </entry>
   
   <entry>
     <title>《巧用Gradle构建Android应用》读书笔记</title>
@@ -478,33 +498,6 @@
       <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
     
       <category term="粒子爆炸" scheme="http://yydcdut.com/tags/%E7%B2%92%E5%AD%90%E7%88%86%E7%82%B8/"/>
-    
-      <category term="自定义控件" scheme="http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ElasticScrollView源码解析</title>
-    <link href="http://yydcdut.com/2016/03/27/elasticscrollview-analyse/"/>
-    <id>http://yydcdut.com/2016/03/27/elasticscrollview-analyse/</id>
-    <published>2016-03-27T14:33:59.000Z</published>
-    <updated>2016-04-10T06:01:41.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;Github: &lt;a href=&quot;https://github.com/Kitdroid/ElasticScrollView&quot;&gt;ElasticScrollView&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/Kitdroid/ElasticScrollView/tree/c673507527a2220f04dd74cca48b607113398d03&quot;&gt;c673507&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;网上有很多下拉放大 &lt;code&gt;HeaderView&lt;/code&gt; 的 &lt;code&gt;ListView&lt;/code&gt; 或者 &lt;code&gt;ScrollView&lt;/code&gt; ，这里将分析一下下拉放大的 &lt;code&gt;ScrollView&lt;/code&gt; –  &lt;strong&gt;ElasticScrollView&lt;/strong&gt; 。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
-    
-    
-      <category term="ElasticScrollView" scheme="http://yydcdut.com/tags/ElasticScrollView/"/>
-    
-      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
     
       <category term="自定义控件" scheme="http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/"/>
     
