@@ -4,7 +4,7 @@
     
   <url>
     <loc>http://yydcdut.com/2018/09/02/learn-java8/</loc>
-    <lastmod>2018-09-02T09:13:50.702Z</lastmod>
+    <lastmod>2019-01-23T09:44:23.986Z</lastmod>
     <data>
         <display>
         <title>Learn Java8</title>
@@ -16,6 +16,29 @@
            
              
               <breadCrumb title="Java" url="http://yydcdut.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
+    <loc>http://yydcdut.com/2016/03/13/volley-code-analyse/</loc>
+    <lastmod>2019-01-01T09:36:35.935Z</lastmod>
+    <data>
+        <display>
+        <title>Volley源码解析</title>
+        <pubTime>2016-03-13T14:48:16.000Z</pubTime>
+        
+        <tag>Volley </tag>
+         
+        <tag>源码 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://yydcdut.com/categories/Android/"/>
           
         </display>
     </data>
@@ -511,28 +534,6 @@
 
     
   <url>
-    <loc>http://yydcdut.com/2016/03/13/volley-code-analyse/</loc>
-    <lastmod>2016-03-18T03:05:25.000Z</lastmod>
-    <data>
-        <display>
-        <title>Volley源码解析</title>
-        <pubTime>2016-03-13T14:48:16.000Z</pubTime>
-        
-        <tag>Volley </tag>
-         
-        <tag>源码 </tag>
-         
-         
-           
-             
-              <breadCrumb title="Android" url="http://yydcdut.com/categories/Android/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://yydcdut.com/2016/02/28/listview-optimize/</loc>
     <lastmod>2016-02-28T12:38:44.000Z</lastmod>
     <data>
@@ -551,5 +552,4 @@
     </data>
     </url>
 
-    
 </urlset>
