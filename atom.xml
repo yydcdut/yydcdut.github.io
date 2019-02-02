@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2019-01-31T08:40:35.413Z</updated>
+  <updated>2019-02-02T03:11:56.898Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ijkplayer框架简析 — FFmpeg中重要结构体</title>
+    <link href="http://yydcdut.com/2019/02/02/ijkplayer-ffmpeg-relation/"/>
+    <id>http://yydcdut.com/2019/02/02/ijkplayer-ffmpeg-relation/</id>
+    <published>2019-02-02T03:09:32.000Z</published>
+    <updated>2019-02-02T03:11:56.898Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;code&gt;A complete, cross-platform solution to record, convert and stream audio and video.&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;FFmpeg 是一个多媒体框架，能够处理解编码、转码、mux、dem
+      
+    
+    </summary>
+    
+      <category term="c" scheme="http://yydcdut.com/categories/c/"/>
+    
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
   
   <entry>
     <title>Learn Java8</title>
@@ -471,35 +495,6 @@
       <category term="Android图像处理" scheme="http://yydcdut.com/tags/Android%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
     
       <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ExplosionField源码解析</title>
-    <link href="http://yydcdut.com/2016/04/10/explosionfield-analyse/"/>
-    <id>http://yydcdut.com/2016/04/10/explosionfield-analyse/</id>
-    <published>2016-04-10T05:30:40.000Z</published>
-    <updated>2019-01-31T08:44:51.821Z</updated>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;Github: &lt;a href=&quot;https://github.com/tyrantgit/ExplosionField&quot;&gt;ExplosionField&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/tyrantgit/ExplosionField/tree/3122cb6c5783218f1a08787e6a6241e6e745695f&quot;&gt;3122cb6&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;一个粒子爆炸效果的 UI 开源控件。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
-    
-    
-      <category term="ExplosionField" scheme="http://yydcdut.com/tags/ExplosionField/"/>
-    
-      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
-    
-      <category term="粒子爆炸" scheme="http://yydcdut.com/tags/%E7%B2%92%E5%AD%90%E7%88%86%E7%82%B8/"/>
-    
-      <category term="自定义控件" scheme="http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/"/>
     
   </entry>
   
