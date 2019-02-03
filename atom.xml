@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2019-02-02T03:15:34.647Z</updated>
+  <updated>2019-02-03T03:34:00.550Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -17,11 +17,31 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>ijkplayer框架简析 -- FFmpeg流程</title>
+    <link href="http://yydcdut.com/2019/02/03/ijkplayer-ffmpeg-flow/"/>
+    <id>http://yydcdut.com/2019/02/03/ijkplayer-ffmpeg-flow/</id>
+    <published>2019-02-03T03:30:40.000Z</published>
+    <updated>2019-02-03T03:34:00.550Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;读取媒体文件中音视频数据的基本功能&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="c" scheme="http://yydcdut.com/categories/c/"/>
+    
+    
+      <category term="ijkplayer" scheme="http://yydcdut.com/tags/ijkplayer/"/>
+    
+  </entry>
+  
+  <entry>
     <title>ijkplayer框架简析 — FFmpeg中重要结构体</title>
     <link href="http://yydcdut.com/2019/02/02/ijkplayer-ffmpeg-relation/"/>
     <id>http://yydcdut.com/2019/02/02/ijkplayer-ffmpeg-relation/</id>
     <published>2019-02-02T03:09:32.000Z</published>
-    <updated>2019-02-02T03:15:34.647Z</updated>
+    <updated>2019-02-03T03:31:30.375Z</updated>
     
     <summary type="html">
     
@@ -32,7 +52,7 @@
       <category term="c" scheme="http://yydcdut.com/categories/c/"/>
     
     
-      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+      <category term="ijkplayer" scheme="http://yydcdut.com/tags/ijkplayer/"/>
     
   </entry>
   
@@ -464,31 +484,6 @@
     
     
       <category term="权限" scheme="http://yydcdut.com/tags/%E6%9D%83%E9%99%90/"/>
-    
-      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>android-crop源码解析</title>
-    <link href="http://yydcdut.com/2016/04/17/android-crop-analyse/"/>
-    <id>http://yydcdut.com/2016/04/17/android-crop-analyse/</id>
-    <published>2016-04-17T14:57:05.000Z</published>
-    <updated>2019-01-31T08:41:07.630Z</updated>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;Github: &lt;a href=&quot;https://github.com/jdamcd/android-crop&quot;&gt;android-crop&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/jdamcd/android-crop/tree/2db9b6eeaea5990947a2bf07288b0852a272945a&quot;&gt;adb9b6e&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;android-crop 是一个基于 AOSP 的图片裁剪库。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
-    
-    
-      <category term="Android图像处理" scheme="http://yydcdut.com/tags/Android%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
     
       <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
     

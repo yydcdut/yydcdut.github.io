@@ -3,14 +3,34 @@
 
     
   <url>
+    <loc>http://yydcdut.com/2019/02/03/ijkplayer-ffmpeg-flow/</loc>
+    <lastmod>2019-02-03T03:34:00.550Z</lastmod>
+    <data>
+        <display>
+        <title>ijkplayer框架简析 -- FFmpeg流程</title>
+        <pubTime>2019-02-03T03:30:40.000Z</pubTime>
+        
+        <tag>ijkplayer </tag>
+         
+         
+           
+             
+              <breadCrumb title="c" url="http://yydcdut.com/categories/c/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yydcdut.com/2019/02/02/ijkplayer-ffmpeg-relation/</loc>
-    <lastmod>2019-02-02T03:15:34.647Z</lastmod>
+    <lastmod>2019-02-03T03:31:30.375Z</lastmod>
     <data>
         <display>
         <title>ijkplayer框架简析 — FFmpeg中重要结构体</title>
         <pubTime>2019-02-02T03:09:32.000Z</pubTime>
         
-        <tag>源码 </tag>
+        <tag>ijkplayer </tag>
          
          
            
