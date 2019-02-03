@@ -12,6 +12,7 @@
 <p><code>ffurl_get_protocols()</code> 可以得到当前编译的 FFmpeg 支持的所有流媒体协议，通过 url 的 scheme 和 protocol-&gt;name 相比较，得到正确的 protocol</p>
 <p><code>av_probe_input_buffer2()</code> 最终调用到 <code>av_probe_input_format3()</code> , 该方法遍历所有的解复用器，即 first_iformat 链表中的所有节点，调用它们的 <code>read_probe()</code> 函数计算匹配得分，函数最终返回计算找到的最匹配的解复用器</p>
 <h2 id="av-read-frame"><a href="#av-read-frame" class="headerlink" title="av_read_frame"></a>av_read_frame</h2><p>读取媒体数据中的每个音视频帧，该方法中最关键的地方就是调用了 AVInputFormat 的 <code>read_packet()</code> 方法。AVInputFormat 的 <code>read_packet()</code> 是一个函数指针，指向当前的 AVInputFormat 的读取数据的函数</p>
+<p><img src="http://yydcdut.com/img/ijkplayer_ffmpeg_flow.jpeg" alt="https://img-blog.csdn.net/20141109152923350?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGVpeGlhb2h1YTEwMjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://me.csdn.net/leixiaohua1020" target="_blank" rel="external">雷霄骅 - FFMPEG</a></li>
 </ul>
