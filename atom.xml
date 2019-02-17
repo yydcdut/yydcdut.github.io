@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2019-02-03T03:36:45.064Z</updated>
+  <updated>2019-02-17T06:13:07.811Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ijkplayer框架简析 -- av_register_all</title>
+    <link href="http://yydcdut.com/2019/02/17/ijkplayer-ffmpeg-av-register-all/"/>
+    <id>http://yydcdut.com/2019/02/17/ijkplayer-ffmpeg-av-register-all/</id>
+    <published>2019-02-17T05:38:34.000Z</published>
+    <updated>2019-02-17T06:13:07.811Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;code&gt;av_register_all()&lt;/code&gt; 是所有使用 FFmpeg 编程中调用的第一个函数。其主要功能是注册所有的 formats 和 protocols&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="c" scheme="http://yydcdut.com/categories/c/"/>
+    
+    
+      <category term="ijkplayer" scheme="http://yydcdut.com/tags/ijkplayer/"/>
+    
+  </entry>
   
   <entry>
     <title>ijkplayer框架简析 -- FFmpeg流程</title>
@@ -459,31 +479,6 @@
     
     
       <category term="AsyncTask" scheme="http://yydcdut.com/tags/AsyncTask/"/>
-    
-      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Google-EasyPermissions源码解析</title>
-    <link href="http://yydcdut.com/2016/04/24/easypermissions-analyse/"/>
-    <id>http://yydcdut.com/2016/04/24/easypermissions-analyse/</id>
-    <published>2016-04-24T09:26:26.000Z</published>
-    <updated>2016-04-24T09:39:14.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;Github: &lt;a href=&quot;https://github.com/googlesamples/easypermissions&quot;&gt;easypermissions&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/googlesamples/easypermissions/tree/962b99da0a08c27fc0d6f78252a948b36d64f60c&quot;&gt;962b99d&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;EasyPermissions 是一个在 Android M 或者更高版本的上使用去简化系统权限逻辑的开源库。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
-    
-    
-      <category term="权限" scheme="http://yydcdut.com/tags/%E6%9D%83%E9%99%90/"/>
     
       <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
     
