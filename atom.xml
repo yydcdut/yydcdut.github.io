@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2019-02-17T06:13:07.811Z</updated>
+  <updated>2019-02-23T05:14:55.289Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ijkplayer框架简析 -- avformat_open_input</title>
+    <link href="http://yydcdut.com/2019/02/23/ijkplayer-ffmpeg-avformat-open-input/"/>
+    <id>http://yydcdut.com/2019/02/23/ijkplayer-ffmpeg-avformat-open-input/</id>
+    <published>2019-02-23T05:13:53.000Z</published>
+    <updated>2019-02-23T05:14:55.289Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt; &lt;code&gt;avformat_open_input()&lt;/code&gt; 方法完成了媒体文件的打开和格式探测的功能&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="c" scheme="http://yydcdut.com/categories/c/"/>
+    
+    
+      <category term="ijkplayer" scheme="http://yydcdut.com/tags/ijkplayer/"/>
+    
+  </entry>
   
   <entry>
     <title>ijkplayer框架简析 -- av_register_all</title>
@@ -457,28 +477,6 @@
     
     
       <category term="SwipeBack" scheme="http://yydcdut.com/tags/SwipeBack/"/>
-    
-      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>AsyncTask源码解析</title>
-    <link href="http://yydcdut.com/2016/05/02/asynctask-analyse/"/>
-    <id>http://yydcdut.com/2016/05/02/asynctask-analyse/</id>
-    <published>2016-05-02T15:08:42.000Z</published>
-    <updated>2016-05-02T15:11:19.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;本文以 API 23 代码为例讲解 AsyncTask 的使用和源码以及注意事项。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
-    
-    
-      <category term="AsyncTask" scheme="http://yydcdut.com/tags/AsyncTask/"/>
     
       <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
     
