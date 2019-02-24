@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2019-02-23T05:14:55.289Z</updated>
+  <updated>2019-02-24T06:04:43.848Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ijkplayer框架简析 -- avformat_find_stream_info</title>
+    <link href="http://yydcdut.com/2019/02/24/ijkplayer-ffmpeg-avformat-find-stream-info/"/>
+    <id>http://yydcdut.com/2019/02/24/ijkplayer-ffmpeg-avformat-find-stream-info/</id>
+    <published>2019-02-24T06:03:07.000Z</published>
+    <updated>2019-02-24T06:04:43.848Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;code&gt;avformat_find_stream_info()&lt;/code&gt; 主要是读媒体文件的 packet ，然后从中提取出流的信息&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="c" scheme="http://yydcdut.com/categories/c/"/>
+    
+    
+      <category term="ijkplayer" scheme="http://yydcdut.com/tags/ijkplayer/"/>
+    
+  </entry>
   
   <entry>
     <title>ijkplayer框架简析 -- avformat_open_input</title>
@@ -454,31 +474,6 @@
       <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
     
       <category term="自定义控件" scheme="http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SwipeBackLayout源码解析</title>
-    <link href="http://yydcdut.com/2016/05/08/swipebacklayout-analyse/"/>
-    <id>http://yydcdut.com/2016/05/08/swipebacklayout-analyse/</id>
-    <published>2016-05-08T12:38:50.000Z</published>
-    <updated>2019-01-31T08:47:17.327Z</updated>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;Github: &lt;a href=&quot;https://github.com/ikew0ng/SwipeBackLayout&quot;&gt;SwipeBackLayout&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/ikew0ng/SwipeBackLayout/tree/e4ddae6d2b8af9b606493cba36faef8beba94be2&quot;&gt;e4ddae6&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;SwipeBackLayout 是一个仿 IOS 通过手势退出界面的开源库。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
-    
-    
-      <category term="SwipeBack" scheme="http://yydcdut.com/tags/SwipeBack/"/>
-    
-      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
     
   </entry>
   
