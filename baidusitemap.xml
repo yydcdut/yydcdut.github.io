@@ -3,6 +3,46 @@
 
     
   <url>
+    <loc>http://yydcdut.com/2019/02/17/ijkplayer-ffmpeg-av-register-all/</loc>
+    <lastmod>2019-03-03T04:04:40.284Z</lastmod>
+    <data>
+        <display>
+        <title>ijkplayer框架简析 -- av_register_all</title>
+        <pubTime>2019-02-17T05:38:34.000Z</pubTime>
+        
+        <tag>ijkplayer </tag>
+         
+         
+           
+             
+              <breadCrumb title="c" url="http://yydcdut.com/categories/c/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yydcdut.com/2019/03/03/ijkplayer-ffmpeg-avcodec-open2/</loc>
+    <lastmod>2019-03-03T04:04:35.385Z</lastmod>
+    <data>
+        <display>
+        <title>ijkplayer框架简析 -- avcodec_open2</title>
+        <pubTime>2019-03-03T04:03:25.000Z</pubTime>
+        
+        <tag>ijkplayer </tag>
+         
+         
+           
+             
+              <breadCrumb title="c" url="http://yydcdut.com/categories/c/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yydcdut.com/2019/02/24/ijkplayer-ffmpeg-avformat-find-stream-info/</loc>
     <lastmod>2019-02-24T06:04:43.848Z</lastmod>
     <data>
@@ -29,26 +69,6 @@
         <display>
         <title>ijkplayer框架简析 -- avformat_open_input</title>
         <pubTime>2019-02-23T05:13:53.000Z</pubTime>
-        
-        <tag>ijkplayer </tag>
-         
-         
-           
-             
-              <breadCrumb title="c" url="http://yydcdut.com/categories/c/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yydcdut.com/2019/02/17/ijkplayer-ffmpeg-av-register-all/</loc>
-    <lastmod>2019-02-17T06:13:07.811Z</lastmod>
-    <data>
-        <display>
-        <title>ijkplayer框架简析 -- av_register_all</title>
-        <pubTime>2019-02-17T05:38:34.000Z</pubTime>
         
         <tag>ijkplayer </tag>
          

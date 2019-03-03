@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2019-02-24T06:04:43.848Z</updated>
+  <updated>2019-03-03T04:04:35.385Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ijkplayer框架简析 -- avcodec_open2</title>
+    <link href="http://yydcdut.com/2019/03/03/ijkplayer-ffmpeg-avcodec-open2/"/>
+    <id>http://yydcdut.com/2019/03/03/ijkplayer-ffmpeg-avcodec-open2/</id>
+    <published>2019-03-03T04:03:25.000Z</published>
+    <updated>2019-03-03T04:04:35.385Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;code&gt;avcodec_open2()&lt;/code&gt; 主要作用是初始化一个视音频编解码器的 AVCodecContext&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="c" scheme="http://yydcdut.com/categories/c/"/>
+    
+    
+      <category term="ijkplayer" scheme="http://yydcdut.com/tags/ijkplayer/"/>
+    
+  </entry>
   
   <entry>
     <title>ijkplayer框架简析 -- avformat_find_stream_info</title>
@@ -61,7 +81,7 @@
     <link href="http://yydcdut.com/2019/02/17/ijkplayer-ffmpeg-av-register-all/"/>
     <id>http://yydcdut.com/2019/02/17/ijkplayer-ffmpeg-av-register-all/</id>
     <published>2019-02-17T05:38:34.000Z</published>
-    <updated>2019-02-17T06:13:07.811Z</updated>
+    <updated>2019-03-03T04:04:40.284Z</updated>
     
     <summary type="html">
     
@@ -443,33 +463,6 @@
     
     
       <category term="ListView" scheme="http://yydcdut.com/tags/ListView/"/>
-    
-      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
-    
-      <category term="自定义控件" scheme="http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Bilibili-drawee-text-view源码解析</title>
-    <link href="http://yydcdut.com/2016/05/15/drawee-text-view-analyse/"/>
-    <id>http://yydcdut.com/2016/05/15/drawee-text-view-analyse/</id>
-    <published>2016-05-15T14:32:09.000Z</published>
-    <updated>2019-01-31T08:43:30.277Z</updated>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;Github: &lt;a href=&quot;https://github.com/Bilibili/drawee-text-view&quot;&gt;drawee-text-view&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/Bilibili/drawee-text-view/tree/37c372cb508573e3637c5b2dd0cc47e9492031d6&quot;&gt;37c372&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;drawee-text-view 是一个基于 Fresco 的简易的 spannable TextView。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
-    
-    
-      <category term="TextView" scheme="http://yydcdut.com/tags/TextView/"/>
     
       <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
     

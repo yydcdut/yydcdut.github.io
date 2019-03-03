@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yydcdut.com/2019/02/17/ijkplayer-ffmpeg-av-register-all/</loc>
+    
+    <lastmod>2019-03-03T04:04:40.284Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yydcdut.com/2019/03/03/ijkplayer-ffmpeg-avcodec-open2/</loc>
+    
+    <lastmod>2019-03-03T04:04:35.385Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yydcdut.com/2019/02/24/ijkplayer-ffmpeg-avformat-find-stream-info/</loc>
     
     <lastmod>2019-02-24T06:04:43.848Z</lastmod>
@@ -12,13 +26,6 @@
     <loc>http://yydcdut.com/2019/02/23/ijkplayer-ffmpeg-avformat-open-input/</loc>
     
     <lastmod>2019-02-23T05:14:55.289Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yydcdut.com/2019/02/17/ijkplayer-ffmpeg-av-register-all/</loc>
-    
-    <lastmod>2019-02-17T06:13:07.811Z</lastmod>
     
   </url>
   
