@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2019-03-03T04:04:35.385Z</updated>
+  <updated>2019-03-09T05:27:11.842Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ijkplayer框架简析 -- av_read_frame</title>
+    <link href="http://yydcdut.com/2019/03/09/ijkplayer-ffmpeg-av-read-frame/"/>
+    <id>http://yydcdut.com/2019/03/09/ijkplayer-ffmpeg-av-read-frame/</id>
+    <published>2019-03-09T05:25:40.000Z</published>
+    <updated>2019-03-09T05:27:11.842Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;code&gt;av_read_frame()&lt;/code&gt; 的作用是读取码流中的音频若干帧或者视频一帧&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="c" scheme="http://yydcdut.com/categories/c/"/>
+    
+    
+      <category term="ijkplayer" scheme="http://yydcdut.com/tags/ijkplayer/"/>
+    
+  </entry>
   
   <entry>
     <title>ijkplayer框架简析 -- avcodec_open2</title>
@@ -436,33 +456,6 @@
     
     
       <category term="drag" scheme="http://yydcdut.com/tags/drag/"/>
-    
-      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
-    
-      <category term="自定义控件" scheme="http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SwipeMenuListview源码解析</title>
-    <link href="http://yydcdut.com/2016/05/22/swipemenulistview-analyse/"/>
-    <id>http://yydcdut.com/2016/05/22/swipemenulistview-analyse/</id>
-    <published>2016-05-22T15:42:18.000Z</published>
-    <updated>2019-01-31T08:47:31.576Z</updated>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;Github: &lt;a href=&quot;https://github.com/baoyongzhang/SwipeMenuListView&quot;&gt;SwipeMenuListView&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/baoyongzhang/SwipeMenuListView/tree/d1cb86251e4aa9d21171930f08cd5b7a38d0e067&quot;&gt;d1cb862&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;SwipeMenuListView 是一个像 Android QQ 那样在 ListView 中拉出菜单的开源库。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
-    
-    
-      <category term="ListView" scheme="http://yydcdut.com/tags/ListView/"/>
     
       <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
     
