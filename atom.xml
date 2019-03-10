@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2019-03-09T05:27:11.842Z</updated>
+  <updated>2019-03-10T06:12:31.401Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -17,11 +17,31 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>ijkplayer框架简析 -- avcodec_decode_video2</title>
+    <link href="http://yydcdut.com/2019/03/10/ijkplayer-ffmpeg-avcodec-decode-video2/"/>
+    <id>http://yydcdut.com/2019/03/10/ijkplayer-ffmpeg-avcodec-decode-video2/</id>
+    <published>2019-03-10T06:11:20.000Z</published>
+    <updated>2019-03-10T06:12:31.401Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt; &lt;code&gt;avcodec_decode_video2()&lt;/code&gt; 的作用是解码一帧视频数据，输入一个压缩编码的结构体 AVPacket，输出一个解码后的结构体 AVFrame&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="c" scheme="http://yydcdut.com/categories/c/"/>
+    
+    
+      <category term="ijkplayer" scheme="http://yydcdut.com/tags/ijkplayer/"/>
+    
+  </entry>
+  
+  <entry>
     <title>ijkplayer框架简析 -- av_read_frame</title>
     <link href="http://yydcdut.com/2019/03/09/ijkplayer-ffmpeg-av-read-frame/"/>
     <id>http://yydcdut.com/2019/03/09/ijkplayer-ffmpeg-av-read-frame/</id>
     <published>2019-03-09T05:25:40.000Z</published>
-    <updated>2019-03-09T05:27:11.842Z</updated>
+    <updated>2019-03-10T06:10:32.866Z</updated>
     
     <summary type="html">
     
@@ -433,33 +453,6 @@
       <category term="support-v4" scheme="http://yydcdut.com/tags/support-v4/"/>
     
       <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>android-drag-square源码解析</title>
-    <link href="http://yydcdut.com/2016/05/29/android-grag-square-analyse/"/>
-    <id>http://yydcdut.com/2016/05/29/android-grag-square-analyse/</id>
-    <published>2016-05-29T15:10:42.000Z</published>
-    <updated>2019-01-31T08:41:20.926Z</updated>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;Github: &lt;a href=&quot;https://github.com/xmuSistone/android-drag-square&quot;&gt;android-drag-square&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/xmuSistone/android-drag-square/tree/88b6738cf4201b1f3645cbbba55cf8664bb78672&quot;&gt;886b738&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;android-drag-square 是一个仿探探的『个人编辑资料页』的头像拖动排序的开源库。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
-    
-    
-      <category term="drag" scheme="http://yydcdut.com/tags/drag/"/>
-    
-      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
-    
-      <category term="自定义控件" scheme="http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/"/>
     
   </entry>
   
