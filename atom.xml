@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2019-03-10T06:12:31.401Z</updated>
+  <updated>2019-03-16T04:25:32.995Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ijkplayer框架简析 -- 从构造到 onPrepared</title>
+    <link href="http://yydcdut.com/2019/03/16/ijkplayer-from-constructor-to-prepare/"/>
+    <id>http://yydcdut.com/2019/03/16/ijkplayer-from-constructor-to-prepare/</id>
+    <published>2019-03-16T04:22:29.000Z</published>
+    <updated>2019-03-16T04:25:32.995Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;从本文开始讲解 ijkplayer 相关的，本篇主要将播放器从初始化到 &lt;code&gt;onPrepared&lt;/code&gt; 回调回来之间的操作&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="c" scheme="http://yydcdut.com/categories/c/"/>
+    
+    
+      <category term="ijkplayer" scheme="http://yydcdut.com/tags/ijkplayer/"/>
+    
+  </entry>
   
   <entry>
     <title>ijkplayer框架简析 -- avcodec_decode_video2</title>
@@ -419,31 +439,6 @@
 &lt;p&gt; 分析版本：support-v4-23.3.0&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;ViewDragHelper 封装了许多手势拖动操作，在某些条件下使用 ViewDragHelper 开发可提高效率。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
-    
-    
-      <category term="support-v4" scheme="http://yydcdut.com/tags/support-v4/"/>
-    
-      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ArrayMap源码解析</title>
-    <link href="http://yydcdut.com/2016/06/05/arraymap-analyse/"/>
-    <id>http://yydcdut.com/2016/06/05/arraymap-analyse/</id>
-    <published>2016-06-05T11:36:09.000Z</published>
-    <updated>2019-01-31T08:42:09.350Z</updated>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt; 分析版本：support-v4-22.2.1&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;ArrayMap 继承于 SimpleArrayMap ，实现了 Map 接口中的所有方法。&lt;/p&gt;
     
     </summary>
     
