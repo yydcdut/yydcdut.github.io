@@ -3,8 +3,28 @@
 
     
   <url>
+    <loc>http://yydcdut.com/2019/03/30/ijkplayer-stream-open/</loc>
+    <lastmod>2019-03-30T06:46:47.210Z</lastmod>
+    <data>
+        <display>
+        <title>ijkplayer框架简析 -- 读取数据</title>
+        <pubTime>2019-03-30T06:45:52.000Z</pubTime>
+        
+        <tag>ijkplayer </tag>
+         
+         
+           
+             
+              <breadCrumb title="c" url="http://yydcdut.com/categories/c/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yydcdut.com/2019/03/16/ijkplayer-from-constructor-to-prepare/</loc>
-    <lastmod>2019-03-16T04:25:32.995Z</lastmod>
+    <lastmod>2019-03-16T04:26:44.238Z</lastmod>
     <data>
         <display>
         <title>ijkplayer框架简析 -- 从构造到 onPrepared</title>

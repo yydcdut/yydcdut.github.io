@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2019-03-16T04:25:32.995Z</updated>
+  <updated>2019-03-30T06:46:47.210Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -17,11 +17,31 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>ijkplayer框架简析 -- 读取数据</title>
+    <link href="http://yydcdut.com/2019/03/30/ijkplayer-stream-open/"/>
+    <id>http://yydcdut.com/2019/03/30/ijkplayer-stream-open/</id>
+    <published>2019-03-30T06:45:52.000Z</published>
+    <updated>2019-03-30T06:46:47.210Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;IjkMediaPlayer 通过 &lt;code&gt;prepareAsync()&lt;/code&gt; 之后去加载数据、解码数据，调用 &lt;code&gt;start()&lt;/code&gt; 之后去渲染&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="c" scheme="http://yydcdut.com/categories/c/"/>
+    
+    
+      <category term="ijkplayer" scheme="http://yydcdut.com/tags/ijkplayer/"/>
+    
+  </entry>
+  
+  <entry>
     <title>ijkplayer框架简析 -- 从构造到 onPrepared</title>
     <link href="http://yydcdut.com/2019/03/16/ijkplayer-from-constructor-to-prepare/"/>
     <id>http://yydcdut.com/2019/03/16/ijkplayer-from-constructor-to-prepare/</id>
     <published>2019-03-16T04:22:29.000Z</published>
-    <updated>2019-03-16T04:25:32.995Z</updated>
+    <updated>2019-03-16T04:26:44.238Z</updated>
     
     <summary type="html">
     
@@ -423,31 +443,6 @@
     
     
       <category term="扯蛋" scheme="http://yydcdut.com/tags/%E6%89%AF%E8%9B%8B/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ViewDragHelper源码解析</title>
-    <link href="http://yydcdut.com/2016/06/19/viewdraghelper-analyse/"/>
-    <id>http://yydcdut.com/2016/06/19/viewdraghelper-analyse/</id>
-    <published>2016-06-19T11:10:31.000Z</published>
-    <updated>2016-10-08T09:08:38.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt; 分析版本：support-v4-23.3.0&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;ViewDragHelper 封装了许多手势拖动操作，在某些条件下使用 ViewDragHelper 开发可提高效率。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
-    
-    
-      <category term="support-v4" scheme="http://yydcdut.com/tags/support-v4/"/>
-    
-      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
     
   </entry>
   
