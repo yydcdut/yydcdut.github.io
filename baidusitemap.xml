@@ -3,12 +3,12 @@
 
     
   <url>
-    <loc>http://yydcdut.com/2019/03/30/ijkplayer-stream-open/</loc>
-    <lastmod>2019-03-30T06:46:47.210Z</lastmod>
+    <loc>http://yydcdut.com/2019/07/06/ijkplayer-video-audio-sync/</loc>
+    <lastmod>2019-07-06T08:27:32.147Z</lastmod>
     <data>
         <display>
-        <title>ijkplayer框架简析 -- 读取数据</title>
-        <pubTime>2019-03-30T06:45:52.000Z</pubTime>
+        <title>ijkplayer框架简析 -- 音视频同步</title>
+        <pubTime>2019-07-06T08:21:55.000Z</pubTime>
         
         <tag>ijkplayer </tag>
          
@@ -24,11 +24,31 @@
     
   <url>
     <loc>http://yydcdut.com/2019/03/16/ijkplayer-from-constructor-to-prepare/</loc>
-    <lastmod>2019-03-16T04:26:44.238Z</lastmod>
+    <lastmod>2019-07-06T08:20:57.347Z</lastmod>
     <data>
         <display>
         <title>ijkplayer框架简析 -- 从构造到 onPrepared</title>
         <pubTime>2019-03-16T04:22:29.000Z</pubTime>
+        
+        <tag>ijkplayer </tag>
+         
+         
+           
+             
+              <breadCrumb title="c" url="http://yydcdut.com/categories/c/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yydcdut.com/2019/03/30/ijkplayer-stream-open/</loc>
+    <lastmod>2019-03-30T06:46:47.210Z</lastmod>
+    <data>
+        <display>
+        <title>ijkplayer框架简析 -- 读取数据</title>
+        <pubTime>2019-03-30T06:45:52.000Z</pubTime>
         
         <tag>ijkplayer </tag>
          

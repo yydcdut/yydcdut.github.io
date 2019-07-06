@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2019-03-30T06:46:47.210Z</updated>
+  <updated>2019-07-06T08:27:32.147Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ijkplayer框架简析 -- 音视频同步</title>
+    <link href="http://yydcdut.com/2019/07/06/ijkplayer-video-audio-sync/"/>
+    <id>http://yydcdut.com/2019/07/06/ijkplayer-video-audio-sync/</id>
+    <published>2019-07-06T08:21:55.000Z</published>
+    <updated>2019-07-06T08:27:32.147Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;音频和视频是在独自线程中进行解码播放的，需要一个同步的操作来保证时间节点的一致性&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="c" scheme="http://yydcdut.com/categories/c/"/>
+    
+    
+      <category term="ijkplayer" scheme="http://yydcdut.com/tags/ijkplayer/"/>
+    
+  </entry>
   
   <entry>
     <title>ijkplayer框架简析 -- 读取数据</title>
@@ -41,7 +61,7 @@
     <link href="http://yydcdut.com/2019/03/16/ijkplayer-from-constructor-to-prepare/"/>
     <id>http://yydcdut.com/2019/03/16/ijkplayer-from-constructor-to-prepare/</id>
     <published>2019-03-16T04:22:29.000Z</published>
-    <updated>2019-03-16T04:26:44.238Z</updated>
+    <updated>2019-07-06T08:20:57.347Z</updated>
     
     <summary type="html">
     
@@ -423,26 +443,6 @@
     
     
       <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>RxMarkdown介绍</title>
-    <link href="http://yydcdut.com/2016/07/27/rxmarkdown/"/>
-    <id>http://yydcdut.com/2016/07/27/rxmarkdown/</id>
-    <published>2016-07-27T06:39:36.000Z</published>
-    <updated>2019-01-31T08:46:36.608Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;RxMarkdown 是一个运用 RxJava API 在 &lt;code&gt;android.widget.TextView&lt;/code&gt; 或 &lt;code&gt;android.widget.EditText&lt;/code&gt; 中编辑和（实时）预览基本 markdown 语法的 Android 库。 &lt;/p&gt;
-    
-    </summary>
-    
-      <category term="扯蛋" scheme="http://yydcdut.com/categories/%E6%89%AF%E8%9B%8B/"/>
-    
-    
-      <category term="扯蛋" scheme="http://yydcdut.com/tags/%E6%89%AF%E8%9B%8B/"/>
     
   </entry>
   
