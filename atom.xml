@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2019-07-06T08:27:32.147Z</updated>
+  <updated>2019-07-07T07:08:29.533Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>OkHttp源码解析</title>
+    <link href="http://yydcdut.com/2019/07/07/okhttp-analyse/"/>
+    <id>http://yydcdut.com/2019/07/07/okhttp-analyse/</id>
+    <published>2019-07-07T07:04:37.000Z</published>
+    <updated>2019-07-07T07:08:29.533Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Github: &lt;a href=&quot;https://github.com/square/okhttp&quot;&gt;okhttp&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/square/okhttp/tree/930d4d07d836aef3c2681867d6ab9e73c23aacfb&quot;&gt;930d4d0&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;An HTTP client for Android, Kotlin, and Java.&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="OkHttp" scheme="http://yydcdut.com/tags/OkHttp/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
   
   <entry>
     <title>ijkplayer框架简析 -- 音视频同步</title>
@@ -420,29 +445,6 @@
       <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
     
       <category term="自定义控件" scheme="http://yydcdut.com/tags/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E4%BB%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Logger源码解析</title>
-    <link href="http://yydcdut.com/2016/08/21/logger-analyse/"/>
-    <id>http://yydcdut.com/2016/08/21/logger-analyse/</id>
-    <published>2016-08-21T08:07:58.000Z</published>
-    <updated>2019-01-31T08:46:04.119Z</updated>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;Github: &lt;a href=&quot;https://github.com/orhanobut/logger&quot;&gt;logger&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/orhanobut/logger/tree/fcbb21b30230cdb1c17247d10c395d4e7bfb21ad&quot;&gt;fcbb21&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Logger — Simple, pretty and powerful logger for android.&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
-    
-    
-      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
     
   </entry>
   
