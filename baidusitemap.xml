@@ -3,6 +3,28 @@
 
     
   <url>
+    <loc>http://yydcdut.com/2019/07/08/okhttp-retry-and-follow-up-interceptor-analyse/</loc>
+    <lastmod>2019-07-08T02:49:33.967Z</lastmod>
+    <data>
+        <display>
+        <title>OkHttp - RetryAndFollowUpInterceptor 源码简析</title>
+        <pubTime>2019-07-08T02:47:16.000Z</pubTime>
+        
+        <tag>OkHttp </tag>
+         
+        <tag>源码 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://yydcdut.com/categories/Android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yydcdut.com/2019/07/07/okhttp-analyse/</loc>
     <lastmod>2019-07-07T07:08:29.533Z</lastmod>
     <data>
