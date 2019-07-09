@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2019-07-08T02:49:33.967Z</updated>
+  <updated>2019-07-09T07:28:06.863Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>OkHttp - RetryAndFollowUpInterceptor 源码简析</title>
+    <title>OkHttp - BridgeInterceptor源码简析</title>
+    <link href="http://yydcdut.com/2019/07/09/okhttp-bridge-interceptor-analyse/"/>
+    <id>http://yydcdut.com/2019/07/09/okhttp-bridge-interceptor-analyse/</id>
+    <published>2019-07-09T07:27:07.000Z</published>
+    <updated>2019-07-09T07:28:06.863Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Github: &lt;a href=&quot;https://github.com/square/okhttp&quot;&gt;okhttp&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/square/okhttp/tree/930d4d07d836aef3c2681867d6ab9e73c23aacfb&quot;&gt;930d4d0&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Bridges from application code to network code&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="OkHttp" scheme="http://yydcdut.com/tags/OkHttp/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OkHttp - RetryAndFollowUpInterceptor源码简析</title>
     <link href="http://yydcdut.com/2019/07/08/okhttp-retry-and-follow-up-interceptor-analyse/"/>
     <id>http://yydcdut.com/2019/07/08/okhttp-retry-and-follow-up-interceptor-analyse/</id>
     <published>2019-07-08T02:47:16.000Z</published>
-    <updated>2019-07-08T02:49:33.967Z</updated>
+    <updated>2019-07-09T07:27:34.334Z</updated>
     
     <summary type="html">
     
@@ -418,31 +443,6 @@
     
     
       <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>DexKnifePlugin源码解析</title>
-    <link href="http://yydcdut.com/2016/09/25/dexknifeplugin-analyse/"/>
-    <id>http://yydcdut.com/2016/09/25/dexknifeplugin-analyse/</id>
-    <published>2016-09-25T10:40:34.000Z</published>
-    <updated>2016-09-25T10:46:19.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;Github: &lt;a href=&quot;https://github.com/ceabie/DexKnifePlugin&quot;&gt;DexKnifePlugin&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/ceabie/DexKnifePlugin/tree/9d33ba952d295ae3e4d23b1c905d17f74031d1e0&quot;&gt;9d33ba9&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;DexKnifePlugin 是一个简单的将指定使用通配符包名分包到第二个dex中gradle插件。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Gradle" scheme="http://yydcdut.com/categories/Gradle/"/>
-    
-    
-      <category term="Dex" scheme="http://yydcdut.com/tags/Dex/"/>
-    
-      <category term="Gradle" scheme="http://yydcdut.com/tags/Gradle/"/>
     
   </entry>
   
