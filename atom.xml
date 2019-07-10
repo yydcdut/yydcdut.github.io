@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2019-07-09T07:28:06.863Z</updated>
+  <updated>2019-07-10T09:32:39.841Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>OkHttp - CacheInterceptor源码简析</title>
+    <link href="http://yydcdut.com/2019/07/10/okhttp-cache-interceptor-analyse/"/>
+    <id>http://yydcdut.com/2019/07/10/okhttp-cache-interceptor-analyse/</id>
+    <published>2019-07-10T09:29:19.000Z</published>
+    <updated>2019-07-10T09:32:39.841Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Github: &lt;a href=&quot;https://github.com/square/okhttp&quot;&gt;okhttp&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/square/okhttp/tree/930d4d07d836aef3c2681867d6ab9e73c23aacfb&quot;&gt;930d4d0&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Serves requests from the cache and writes responses to the cache&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="OkHttp" scheme="http://yydcdut.com/tags/OkHttp/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
   
   <entry>
     <title>OkHttp - BridgeInterceptor源码简析</title>
@@ -418,29 +443,6 @@
       <category term="动画" scheme="http://yydcdut.com/tags/%E5%8A%A8%E7%94%BB/"/>
     
       <category term="流程" scheme="http://yydcdut.com/tags/%E6%B5%81%E7%A8%8B/"/>
-    
-      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>HashMap源码解析</title>
-    <link href="http://yydcdut.com/2016/12/06/hashmap-analyse/"/>
-    <id>http://yydcdut.com/2016/12/06/hashmap-analyse/</id>
-    <published>2016-12-06T09:54:09.000Z</published>
-    <updated>2019-01-31T08:45:39.768Z</updated>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt; 分析版本： JDK1.8&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;在 Java8 之前， HashMap 是链表散列的数据结构，即数组和链表的结合体；从 Java8 开始，引入红黑树的数据结构和扩容的优化。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Java" scheme="http://yydcdut.com/categories/Java/"/>
-    
     
       <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
     
