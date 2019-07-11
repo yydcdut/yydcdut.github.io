@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2019-07-10T09:32:39.841Z</updated>
+  <updated>2019-07-11T10:58:13.993Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>OkHttp - ConnectInterceptor源码简析</title>
+    <link href="http://yydcdut.com/2019/07/11/okhttp-connect-interceptor-analyse/"/>
+    <id>http://yydcdut.com/2019/07/11/okhttp-connect-interceptor-analyse/</id>
+    <published>2019-07-11T10:57:16.000Z</published>
+    <updated>2019-07-11T10:58:13.993Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Github: &lt;a href=&quot;https://github.com/square/okhttp&quot;&gt;okhttp&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/square/okhttp/tree/930d4d07d836aef3c2681867d6ab9e73c23aacfb&quot;&gt;930d4d0&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Opens a connection to the target server and proceeds to the next interceptor&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="OkHttp" scheme="http://yydcdut.com/tags/OkHttp/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
   
   <entry>
     <title>OkHttp - CacheInterceptor源码简析</title>
@@ -418,33 +443,6 @@
     
     
       <category term="UI" scheme="http://yydcdut.com/tags/UI/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Animation和Animator流程分析</title>
-    <link href="http://yydcdut.com/2017/03/01/the-flow-of-animation-and-animator-analyse/"/>
-    <id>http://yydcdut.com/2017/03/01/the-flow-of-animation-and-animator-analyse/</id>
-    <published>2017-03-01T08:12:28.000Z</published>
-    <updated>2017-03-01T08:18:26.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt; 分析版本：android-23&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Animation 和 Animator 是 Android 上实现动画的两种不同方式，本文是对这两种动画进行流程上的解析，其分析方向主要是 Listener 是怎么回调的，是怎么不断的调用自己的，是间隔多少时间调用自己的。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
-    
-    
-      <category term="动画" scheme="http://yydcdut.com/tags/%E5%8A%A8%E7%94%BB/"/>
-    
-      <category term="流程" scheme="http://yydcdut.com/tags/%E6%B5%81%E7%A8%8B/"/>
-    
-      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
     
   </entry>
   
