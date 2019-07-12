@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2019-07-11T10:58:13.993Z</updated>
+  <updated>2019-07-12T15:01:15.499Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>OkHttp - CallServerInterceptor源码简析</title>
+    <link href="http://yydcdut.com/2019/07/12/okhttp-call-server-interceptor-analyse/"/>
+    <id>http://yydcdut.com/2019/07/12/okhttp-call-server-interceptor-analyse/</id>
+    <published>2019-07-12T15:00:27.000Z</published>
+    <updated>2019-07-12T15:01:15.499Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Github: &lt;a href=&quot;https://github.com/square/okhttp&quot;&gt;okhttp&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/square/okhttp/tree/930d4d07d836aef3c2681867d6ab9e73c23aacfb&quot;&gt;930d4d0&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;This is the last interceptor in the chain. It makes a network call to the server&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="OkHttp" scheme="http://yydcdut.com/tags/OkHttp/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
   
   <entry>
     <title>OkHttp - ConnectInterceptor源码简析</title>
@@ -423,26 +448,6 @@
     
     
       <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Android UI优化</title>
-    <link href="http://yydcdut.com/2017/03/10/ui-optimize/"/>
-    <id>http://yydcdut.com/2017/03/10/ui-optimize/</id>
-    <published>2017-03-10T07:36:27.000Z</published>
-    <updated>2019-01-31T08:48:19.418Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Android 的 UI 优化学习笔记和总结，包括一些导致卡顿的原因和一些解决方案，欢迎大家一起学习交流！&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
-    
-    
-      <category term="UI" scheme="http://yydcdut.com/tags/UI/"/>
     
   </entry>
   
