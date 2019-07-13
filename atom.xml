@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2019-07-12T15:01:15.499Z</updated>
+  <updated>2019-07-13T09:12:36.538Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>retrofit源码简析</title>
+    <link href="http://yydcdut.com/2019/07/13/retrofit-analyse/"/>
+    <id>http://yydcdut.com/2019/07/13/retrofit-analyse/</id>
+    <published>2019-07-13T09:08:22.000Z</published>
+    <updated>2019-07-13T09:12:36.538Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Github: &lt;a href=&quot;https://github.com/square/retrofit&quot;&gt;retrofit&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/square/retrofit/commit/2851c14578a7722da56fabbee8d71e1c8e50c145&quot;&gt;2851c14&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Type-safe HTTP client for Android and Java&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="retrofit" scheme="http://yydcdut.com/tags/retrofit/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
   
   <entry>
     <title>OkHttp - CallServerInterceptor源码简析</title>
@@ -425,29 +450,6 @@
       <category term="Gradle" scheme="http://yydcdut.com/tags/Gradle/"/>
     
       <category term="读书笔记" scheme="http://yydcdut.com/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ButterKnife源码简析</title>
-    <link href="http://yydcdut.com/2017/04/19/butterknife-analyse/"/>
-    <id>http://yydcdut.com/2017/04/19/butterknife-analyse/</id>
-    <published>2017-04-19T14:38:45.000Z</published>
-    <updated>2019-01-31T08:42:55.225Z</updated>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;Github: &lt;a href=&quot;https://github.com/JakeWharton/butterknife&quot;&gt;butterknife&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/JakeWharton/butterknife/tree/fc10f1674a08162ad7cf8c762c11a748c20c25d8&quot;&gt;fc10f16&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;ButterKnife 是一个 Android 视图快速注入库，它通过给 View 字段添加注解，可以让我们丢掉 findViewById() 来获取 View 的方法，从而简化了代码。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
-    
-    
-      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
     
   </entry>
   
