@@ -5,7 +5,10 @@
     <entry>
       <title><![CDATA[Java 动态代理原理]]></title>
       <url>/2019/07/14/java-dynamic-proxy/</url>
-      <content type="html"><![CDATA[<p>代理类在程序运行时创建的代理方式被成为动态代理</p>
+      <content type="html"><![CDATA[<blockquote>
+<p>分析版本： JDK1.8</p>
+</blockquote>
+<p>代理类在程序运行时创建的代理方式被成为动态代理</p>
 <a id="more"></a>
 <h2 id="机制"><a href="#机制" class="headerlink" title="机制"></a>机制</h2><ul>
 <li><p>需要代理的接口</p>
@@ -73,6 +76,8 @@
         <tags>
             
             <tag> Java </tag>
+            
+            <tag> 源码 </tag>
             
         </tags>
         

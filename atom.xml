@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2019-07-14T06:50:04.041Z</updated>
+  <updated>2019-07-14T06:58:07.314Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -21,11 +21,14 @@
     <link href="http://yydcdut.com/2019/07/14/java-dynamic-proxy/"/>
     <id>http://yydcdut.com/2019/07/14/java-dynamic-proxy/</id>
     <published>2019-07-14T06:48:42.000Z</published>
-    <updated>2019-07-14T06:50:04.041Z</updated>
+    <updated>2019-07-14T06:58:07.314Z</updated>
     
     <summary type="html">
     
-      &lt;p&gt;代理类在程序运行时创建的代理方式被成为动态代理&lt;/p&gt;
+      &lt;blockquote&gt;
+&lt;p&gt;分析版本： JDK1.8&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;代理类在程序运行时创建的代理方式被成为动态代理&lt;/p&gt;
     
     </summary>
     
@@ -33,6 +36,8 @@
     
     
       <category term="Java" scheme="http://yydcdut.com/tags/Java/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
     
   </entry>
   
