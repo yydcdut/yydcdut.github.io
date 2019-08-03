@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yydcdut.com/"/>
-  <updated>2019-07-14T06:58:07.314Z</updated>
+  <updated>2019-08-03T12:43:43.982Z</updated>
   <id>http://yydcdut.com/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Java 动态代理原理</title>
+    <title>Glide源码解析</title>
+    <link href="http://yydcdut.com/2019/08/03/glide-analyse/"/>
+    <id>http://yydcdut.com/2019/08/03/glide-analyse/</id>
+    <published>2019-08-03T12:33:13.000Z</published>
+    <updated>2019-08-03T12:43:43.982Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Github: &lt;a href=&quot;https://github.com/bumptech/glide&quot;&gt;Glide&lt;/a&gt;      分析版本：&lt;a href=&quot;https://github.com/bumptech/glide/tree/85bf0c32f797c04c7d2be87589e075040c3bfb7e&quot;&gt;85bf0c3&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;An image loading and caching library for Android focused on smooth scrolling&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://yydcdut.com/categories/Android/"/>
+    
+    
+      <category term="Glide" scheme="http://yydcdut.com/tags/Glide/"/>
+    
+      <category term="源码" scheme="http://yydcdut.com/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java动态代理原理</title>
     <link href="http://yydcdut.com/2019/07/14/java-dynamic-proxy/"/>
     <id>http://yydcdut.com/2019/07/14/java-dynamic-proxy/</id>
     <published>2019-07-14T06:48:42.000Z</published>
-    <updated>2019-07-14T06:58:07.314Z</updated>
+    <updated>2019-08-03T12:44:28.169Z</updated>
     
     <summary type="html">
     
@@ -433,26 +458,6 @@
     
     
       <category term="ijkplayer" scheme="http://yydcdut.com/tags/ijkplayer/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Learn Java8</title>
-    <link href="http://yydcdut.com/2018/09/02/learn-java8/"/>
-    <id>http://yydcdut.com/2018/09/02/learn-java8/</id>
-    <published>2018-09-02T09:10:13.000Z</published>
-    <updated>2019-01-31T08:40:35.413Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Java8 学习笔记，PPT 备忘录~&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Java" scheme="http://yydcdut.com/categories/Java/"/>
-    
-    
-      <category term="Java" scheme="http://yydcdut.com/tags/Java/"/>
     
   </entry>
   

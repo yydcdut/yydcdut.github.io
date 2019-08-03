@@ -4,10 +4,10 @@
     
   <url>
     <loc>http://yydcdut.com/2019/07/14/java-dynamic-proxy/</loc>
-    <lastmod>2019-07-14T06:58:07.314Z</lastmod>
+    <lastmod>2019-08-03T12:44:28.169Z</lastmod>
     <data>
         <display>
-        <title>Java 动态代理原理</title>
+        <title>Java动态代理原理</title>
         <pubTime>2019-07-14T06:48:42.000Z</pubTime>
         
         <tag>Java </tag>
@@ -18,6 +18,28 @@
            
              
               <breadCrumb title="Java" url="http://yydcdut.com/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yydcdut.com/2019/08/03/glide-analyse/</loc>
+    <lastmod>2019-08-03T12:43:43.982Z</lastmod>
+    <data>
+        <display>
+        <title>Glide源码解析</title>
+        <pubTime>2019-08-03T12:33:13.000Z</pubTime>
+        
+        <tag>Glide </tag>
+         
+        <tag>源码 </tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://yydcdut.com/categories/Android/"/>
           
         </display>
     </data>
